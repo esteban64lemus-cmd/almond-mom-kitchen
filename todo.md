@@ -84,3 +84,55 @@
 - [x] Populate with realistic ingredients and instructions
 - [x] Add images and video URLs
 - [ ] Test filtering and search
+
+
+## Monetization Features
+- [x] Stripe integration for payments
+- [x] E-book/Cookbook sales with download system (Shop page)
+- [x] Meal plan subscription system (weekly/monthly tiers)
+- [x] Affiliate product recommendation system
+- [ ] Ad space management for partner products
+- [ ] Premium recipe tier system (free vs paid recipes)
+- [x] Video course platform with purchase gating
+- [ ] Sales dashboard and revenue tracking
+- [ ] Customer subscription management
+- [ ] Refund and payment dispute handling
+
+## Customization Dashboard
+- [ ] Brand settings (logo, colors, fonts)
+- [ ] Hero section layout builder
+- [ ] Content section toggles (newsletter, testimonials, etc.)
+- [ ] Pricing management interface
+- [ ] Custom page builder
+- [ ] Email template customization
+- [ ] Analytics dashboard
+- [ ] SEO settings management
+- [ ] Social media integration settings
+- [ ] Coming Soon: Full customization admin panel
+
+## About Page & Story
+- [x] Create About page with mom's story
+- [x] Add philosophy section
+- [x] Photo gallery component
+- [x] Customer testimonials section
+- [x] Mission statement
+- [x] Product recommendations
+- [ ] Social proof widgets
+
+## Customer & Email System
+- [ ] Customer account creation and login
+- [ ] Subscription management portal
+- [ ] Email newsletter system
+- [ ] Automated email workflows
+- [ ] Customer analytics
+- [ ] Purchase history tracking
+- [ ] Wishlist/saved recipes feature
+
+## Analytics & Reporting
+- [ ] Sales analytics dashboard
+- [ ] Recipe popularity tracking
+- [ ] Customer behavior analytics
+- [ ] Email open/click rates
+- [ ] Traffic source tracking
+- [ ] Conversion rate optimization
+- [ ] Revenue by product/subscription type

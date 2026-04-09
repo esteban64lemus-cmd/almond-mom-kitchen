@@ -8,6 +8,8 @@ import Home from "./pages/Home";
 import SubmitRecipe from "./pages/SubmitRecipe";
 import RecipeDetail from "./pages/RecipeDetail";
 import AdminDashboard from "./pages/AdminDashboard";
+import About from "./pages/About";
+import Shop from "./pages/Shop";
 import { NotificationToast } from "./components/NotificationToast";
 
 function Router() {
@@ -18,6 +20,8 @@ function Router() {
       <Route path="/recipe/:slug" component={RecipeDetail} />
       <Route path="/submit-recipe" component={SubmitRecipe} />
       <Route path="/admin" component={AdminDashboard} />
+      <Route path="/about" component={About} />
+      <Route path="/shop" component={Shop} />
       <Route path="/404" component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

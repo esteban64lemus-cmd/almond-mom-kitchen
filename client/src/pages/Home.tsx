@@ -53,6 +53,9 @@ export default function Home() {
             <Button variant="ghost" onClick={() => setLocation("/about")}>
               About
             </Button>
+            <Button variant="ghost" onClick={() => setLocation("/shop")}>
+              Shop
+            </Button>
             {user ? (
               <>
                 <Button variant="ghost" onClick={() => setLocation("/submit-recipe")}>
