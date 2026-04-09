@@ -83,3 +83,21 @@ export const recipeDrafts = mysqlTable("recipe_drafts", {
 
 export type RecipeDraft = typeof recipeDrafts.$inferSelect;
 export type InsertRecipeDraft = typeof recipeDrafts.$inferInsert;
+/**
+ * User notifications for in-app alerts
+ */
+export const notifications = mysqlTable("notifications", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  type: mysqlEnum("type", ["recipe_published", "draft_approved", "draft_rejected", "recipe_submitted", "error", "info"]).notNull(),
+  title: varchar("title", { length: 255 }).notNull(),
+  message: text("message"),
+  relatedRecipeId: int("relatedRecipeId"),
+  relatedDraftId: int("relatedDraftId"),
+  read: int("read").default(0).notNull(),
+  actionUrl: text("actionUrl"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type Notification = typeof notifications.$inferSelect;
+export type InsertNotification = typeof notifications.$inferInsert;

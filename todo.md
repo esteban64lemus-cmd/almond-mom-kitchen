@@ -60,3 +60,27 @@
 ## Wix Site Status
 - [ ] Monitor Wix site builder completion
 - [ ] Deliver both Wix and custom-built versions to user
+
+## Notification System
+- [x] Create notifications database table
+- [x] Build notification service with tRPC procedures
+- [x] Add in-app toast notifications for all user actions
+- [x] Add admin alerts when recipes submitted for review
+- [x] Add submitter notifications for draft approval/rejection
+- [x] Add error notifications for all failures
+- [ ] Create notification center/inbox UI
+- [x] Wire notifications to recipe submission flow
+- [x] Wire notifications to admin moderation flow
+
+## Admin Dashboard
+- [ ] Create admin dashboard layout
+- [ ] Build pending recipes moderation queue
+- [ ] Add approve/reject with reason UI
+- [ ] Add recipe analytics/stats
+- [ ] Add user management section
+
+## Sample Data
+- [ ] Create and publish 5-10 sample recipes
+- [ ] Populate with realistic ingredients and instructions
+- [ ] Add images and video URLs
+- [ ] Test filtering and search

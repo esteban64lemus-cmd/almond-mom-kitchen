@@ -1,6 +1,6 @@
 import { eq, and, desc } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users, recipes, recipeDrafts, Recipe, InsertRecipe, RecipeDraft, InsertRecipeDraft } from "../drizzle/schema";
+import { InsertUser, users, recipes, recipeDrafts, notifications, Recipe, InsertRecipe, RecipeDraft, InsertRecipeDraft, Notification, InsertNotification } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -212,6 +212,54 @@ export async function approveDraft(draftId: number): Promise<Recipe | null> {
     return recipe;
   } catch (error) {
     console.error("[Database] Failed to approve draft:", error);
+    throw error;
+  }
+}
+
+// Notification queries
+export async function createNotification(notification: InsertNotification): Promise<Notification | null> {
+  const db = await getDb();
+  if (!db) return null;
+
+  try {
+    await db.insert(notifications).values(notification);
+    const created = await db.select().from(notifications).where(eq(notifications.userId, notification.userId)).orderBy(desc(notifications.createdAt)).limit(1);
+    return created.length > 0 ? created[0] : null;
+  } catch (error) {
+    console.error("[Database] Failed to create notification:", error);
+    throw error;
+  }
+}
+
+export async function getUserNotifications(userId: number, limit: number = 20): Promise<Notification[]> {
+  const db = await getDb();
+  if (!db) return [];
+
+  return db.select().from(notifications).where(eq(notifications.userId, userId)).orderBy(desc(notifications.createdAt)).limit(limit);
+}
+
+export async function markNotificationAsRead(notificationId: number): Promise<Notification | null> {
+  const db = await getDb();
+  if (!db) return null;
+
+  try {
+    await db.update(notifications).set({ read: 1 }).where(eq(notifications.id, notificationId));
+    const updated = await db.select().from(notifications).where(eq(notifications.id, notificationId)).limit(1);
+    return updated.length > 0 ? updated[0] : null;
+  } catch (error) {
+    console.error("[Database] Failed to mark notification as read:", error);
+    throw error;
+  }
+}
+
+export async function deleteNotification(notificationId: number): Promise<void> {
+  const db = await getDb();
+  if (!db) return;
+
+  try {
+    await db.delete(notifications).where(eq(notifications.id, notificationId));
+  } catch (error) {
+    console.error("[Database] Failed to delete notification:", error);
     throw error;
   }
 }

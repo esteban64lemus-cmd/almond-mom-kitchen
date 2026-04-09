@@ -6,12 +6,15 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 import SubmitRecipe from "./pages/SubmitRecipe";
+import RecipeDetail from "./pages/RecipeDetail";
+import { NotificationToast } from "./components/NotificationToast";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
   return (
     <Switch>
       <Route path="" component={Home} />
+      <Route path="/recipe/:slug" component={RecipeDetail} />
       <Route path="/submit-recipe" component={SubmitRecipe} />
       <Route path="/404" component={NotFound} />
       {/* Final fallback route */}
@@ -34,6 +37,7 @@ function App() {
       >
         <TooltipProvider>
           <Toaster />
+          <NotificationToast />
           <Router />
         </TooltipProvider>
       </ThemeProvider>
