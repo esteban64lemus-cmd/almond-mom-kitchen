@@ -7,7 +7,7 @@
 - [x] Video embed section on recipe pages
 - [ ] Daily recipe update feed/blog section
 - [ ] Newsletter signup form
-- [ ] Search bar for recipes by ingredient or category
+- [x] Search bar for recipes by ingredient or category
 - [ ] About page with founder story
 - [ ] Shop/Book section for cookbook e-commerce
 - [ ] Video gallery page for recipe videos

@@ -20,6 +20,12 @@ export default function Home() {
     limit: 6,
   });
 
+  const filteredRecipes = recipes.filter((recipe: any) =>
+    recipe.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    recipe.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    recipe.tags?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   const categories = [
     { id: "gluten-free", label: "Gluten-Free", icon: Leaf },
     { id: "dairy-free", label: "Dairy-Free", icon: Sparkles },
@@ -107,8 +113,8 @@ export default function Home() {
           </div>
           <div className="flex flex-wrap gap-2">
             <Button
-              variant={selectedCategory === undefined ? "default" : "outline"}
               onClick={() => setSelectedCategory(undefined)}
+              variant={selectedCategory === undefined ? "default" : "outline"}
               size="sm"
             >
               All Recipes
@@ -116,8 +122,8 @@ export default function Home() {
             {categories.map((cat) => (
               <Button
                 key={cat.id}
+                onClick={() => setSelectedCategory(selectedCategory === cat.id ? undefined : cat.id)}
                 variant={selectedCategory === cat.id ? "default" : "outline"}
-                onClick={() => setSelectedCategory(cat.id)}
                 size="sm"
                 className="gap-2"
               >
@@ -139,6 +145,19 @@ export default function Home() {
             </p>
           </div>
 
+          <div className="mb-8">
+            <div className="relative">
+              <Search className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
+              <Input
+                type="text"
+                placeholder="Search recipes by name, ingredient, or tag..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10"
+              />
+            </div>
+          </div>
+
           {isLoading ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {[...Array(6)].map((_, i) => (
@@ -149,9 +168,9 @@ export default function Home() {
                 </div>
               ))}
             </div>
-          ) : recipes && recipes.length > 0 ? (
+          ) : filteredRecipes && filteredRecipes.length > 0 ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {recipes.map((recipe: any) => (
+              {filteredRecipes.map((recipe: any) => (
                 <Card
                   key={recipe.id}
                   className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group"
@@ -191,7 +210,9 @@ export default function Home() {
             </div>
           ) : (
             <div className="text-center py-12">
-              <p className="text-muted-foreground text-lg">No recipes found</p>
+              <p className="text-muted-foreground text-lg">
+                {searchQuery ? "No recipes match your search. Try different keywords!" : "No recipes found"}
+              </p>
             </div>
           )}
         </div>
