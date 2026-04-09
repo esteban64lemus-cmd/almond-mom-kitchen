@@ -7,6 +7,7 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 import SubmitRecipe from "./pages/SubmitRecipe";
 import RecipeDetail from "./pages/RecipeDetail";
+import AdminDashboard from "./pages/AdminDashboard";
 import { NotificationToast } from "./components/NotificationToast";
 
 function Router() {
@@ -16,6 +17,7 @@ function Router() {
       <Route path="" component={Home} />
       <Route path="/recipe/:slug" component={RecipeDetail} />
       <Route path="/submit-recipe" component={SubmitRecipe} />
+      <Route path="/admin" component={AdminDashboard} />
       <Route path="/404" component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
