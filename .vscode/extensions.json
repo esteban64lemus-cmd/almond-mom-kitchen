@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    "bradlc.vscode-tailwindcss",
+    "esbenp.prettier-vscode",
+    "usernamehw.errorlens",
+    "PKief.material-icon-theme",
+    "dsznajder.es7-react-js-snippets"
+  ]
+}
