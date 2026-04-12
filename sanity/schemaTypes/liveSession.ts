@@ -1,4 +1,4 @@
-import { defineType, defineField } from 'sanity';
+import { defineType, defineField, Rule } from 'sanity';
 
 export const liveSession = defineType({
   name: 'liveSession',
@@ -9,13 +9,13 @@ export const liveSession = defineType({
       name: 'title',
       title: 'Title',
       type: 'string',
-      validation: (Rule) => Rule.required(),
+      validation: (rule: Rule) => rule.required(),
     }),
     defineField({
       name: 'date',
       title: 'Session Date',
       type: 'datetime',
-      validation: (Rule) => Rule.required(),
+      validation: (rule: Rule) => rule.required(),
     }),
     defineField({
       name: 'isGated',

@@ -1,4 +1,4 @@
-import { defineType, defineField } from 'sanity';
+import { defineType, defineField, Rule } from 'sanity';
 
 export const recipe = defineType({
   name: 'recipe',
@@ -9,14 +9,14 @@ export const recipe = defineType({
       name: 'title',
       title: 'Title',
       type: 'string',
-      validation: (Rule) => Rule.required(),
+      validation: (rule: Rule) => rule.required(),
     }),
     defineField({
       name: 'slug',
       title: 'Slug',
       type: 'slug',
       options: { source: 'title', maxLength: 96 },
-      validation: (Rule) => Rule.required(),
+      validation: (rule: Rule) => rule.required(),
     }),
     defineField({
       name: 'mainImage',
