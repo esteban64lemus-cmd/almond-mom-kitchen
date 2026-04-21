@@ -6,17 +6,17 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const { action, value } = body;
 
+    // Only handle the action that actually has a working function
     if (action === "convertToAlmondMomSwap") {
-      // Assuming 'value' contains the recipe or weight to swap
-      if (value === undefined) {
-        return NextResponse.json({ error: "value is missing" }, { status: 400 });
+      if (typeof value !== "number") {
+        return NextResponse.json({ error: "value must be a number" }, { status: 400 });
       }
-      
-      const result = await convertToAlmondMomSwap(value);
-      return NextResponse.json({ result });
+      return NextResponse.json({ result: convertToAlmondMomSwap(value), unit: "g" });
     }
 
-    return NextResponse.json({ error: "Unknown action" }, { status: 400 });
+    // If you try to call gramsToOunces or checkCleanSwap, return an error instead of crashing the build
+    return NextResponse.json({ error: "This feature is currently unavailable" }, { status: 400 });
+    
   } catch (err) {
     return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
   }
