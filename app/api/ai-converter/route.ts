@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
       if (typeof value !== "number") {
         return NextResponse.json({ error: "value must be a number" }, { status: 400 });
       }
-      return NextResponse.json({ result: ouncesToGrams(value), unit: "g" });
+      return NextResponse.json({ result: convertToAlmondMomSwap(value), unit: "g" });
     }
 
     if (action === "checkCleanSwap") {
