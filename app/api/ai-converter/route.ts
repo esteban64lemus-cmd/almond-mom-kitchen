@@ -2,7 +2,7 @@
 // API route: gram-to-ounce conversion + clean-swap check
 
 import { NextRequest, NextResponse } from "next/server";
-import { gramsToOunces, ouncesToGrams, isVerifiedClean } from "@/lib/AI-Converter";
+import { gramsToOunces, convertToAlmondMomSwap, isVerifiedClean } from "@/lib/AI-Converter";
 
 export async function POST(req: NextRequest) {
   try {
@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ result: gramsToOunces(value), unit: "oz" });
     }
 
-    if (action === "ouncesToGrams") {
+    if (action === "convertToAlmondMomSwap") {
       if (typeof value !== "number") {
         return NextResponse.json({ error: "value must be a number" }, { status: 400 });
       }
