@@ -65,15 +65,15 @@ export default function HomePage() {
         <div className="flex gap-4 justify-center">
           <Link
             href="/blog"
-            className="bg-amber-500 hover:bg-amber-600 text-white font-semibold px-6 py-3 rounded-xl transition-colors"
+            className="bg-stone-900 hover:bg-stone-800 text-white font-semibold px-6 py-3 rounded-xl transition-colors shadow-lg shadow-stone-200"
           >
-            Browse Recipes →
+            Browse Recipes
           </Link>
           <Link
-            href="#goals"
-            className="border border-stone-300 text-stone-700 hover:bg-stone-100 font-semibold px-6 py-3 rounded-xl transition-colors"
+            href="/fridge-rescue"
+            className="bg-amber-500 hover:bg-amber-600 text-white font-semibold px-6 py-3 rounded-xl transition-colors shadow-lg shadow-amber-100"
           >
-            Find Your Goal
+            Fridge Rescue →
           </Link>
         </div>
       </section>
