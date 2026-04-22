@@ -134,8 +134,8 @@ export default function FridgeRescue() {
               description={recipe.description}
               category={recipe.category}
               isCleanSwap={recipe.is_clean_swap}
-              affiliateUrl={recipe.affiliate_url}
-              imageUrl={recipe.image_url}
+              affiliateUrl={recipe.affiliate_url || ""}
+              imageUrl={recipe.image_url || ""}
             />
           ))}
         </div>
