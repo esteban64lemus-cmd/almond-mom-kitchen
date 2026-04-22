@@ -4,6 +4,7 @@
     "esbenp.prettier-vscode",
     "usernamehw.errorlens",
     "PKief.material-icon-theme",
-    "dsznajder.es7-react-js-snippets"
+    "dsznajder.es7-react-js-snippets",
+    "google.geminicodeassist"
   ]
 }
