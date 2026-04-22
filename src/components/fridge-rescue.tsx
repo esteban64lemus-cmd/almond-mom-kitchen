@@ -10,11 +10,21 @@ interface Ingredient {
   category: string
 }
 
+interface Recipe {
+  id: string
+  title: string
+  description: string
+  category: string
+  is_clean_swap: boolean
+  affiliate_url?: string
+  image_url?: string
+}
+
 export default function FridgeRescue() {
   const [query, setQuery] = useState('')
   const [suggestions, setSuggestions] = useState<Ingredient[]>([])
   const [selectedIngredients, setSelectedIngredients] = useState<Ingredient[]>([])
-  const [recipes, setRecipes] = useState<any[]>([])
+  const [recipes, setRecipes] = useState<Recipe[]>([])
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
@@ -56,7 +66,7 @@ export default function FridgeRescue() {
     <div className="max-w-4xl mx-auto p-6">
       <div className="bg-white rounded-3xl shadow-xl border border-stone-100 p-8 mb-12">
         <h2 className="text-3xl font-bold text-stone-900 mb-2">Fridge Rescue Engine 🥦</h2>
-        <p className="text-stone-500 mb-8">Tell us what's in your fridge, and we'll find the cleanest recipes you can make right now.</p>
+        <p className="text-stone-500 mb-8">Tell us what&apos;s in your fridge, and we&apos;ll find the cleanest recipes you can make right now.</p>
 
         {/* Input & Suggestions */}
         <div className="relative mb-6">

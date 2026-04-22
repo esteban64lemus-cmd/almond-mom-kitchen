@@ -82,7 +82,7 @@ export default function HomePage() {
       <section id="goals" className="bg-white border-y border-stone-200 py-16">
         <div className="max-w-5xl mx-auto px-6">
           <h2 className="text-2xl font-bold text-stone-800 mb-2 text-center">Your Wellness Goal</h2>
-          <p className="text-stone-500 text-center mb-10">Pick a track. We'll show you the recipes that actually move the needle.</p>
+          <p className="text-stone-500 text-center mb-10">Pick a track. We&apos;ll show you the recipes that actually move the needle.</p>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
             {categories.map((cat) => (
               <Link

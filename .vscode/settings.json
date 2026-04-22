@@ -1,23 +1,26 @@
 {
-    "files.watcherExclude": {
-        "**/target": true
-    },
-    "css.validate": false,
-    "tailwindCSS.emmetCompletions": true,
-    "files.exclude": {
-        "**/.git": true,
-        "**/.svn": true,
-        "**/.hg": true,
-        "**/.DS_Store": true,
-        "**/Thumbs.db": true,
-        "**/CVS": true,
-        "**/.ruby-lsp": true
-    },
-    "python-envs.pythonProjects": [
-        {
-            "path": "src",
-            "envManager": "ms-python.python:venv",
-            "packageManager": "ms-python.python:pip"
-        }
-    ]
+  "files.watcherExclude": {
+    "**/target": true
+  },
+  "css.validate": false,
+  "tailwindCSS.emmetCompletions": true,
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/CVS": true,
+    "**/.ruby-lsp": true
+  },
+  "python-envs.pythonProjects": [
+    {
+      "path": "src",
+      "envManager": "ms-python.python:venv",
+      "packageManager": "ms-python.python:pip"
+    }
+  ],
+  "cmake.sourceDirectory": "C:/Users/esteb/.antigravity/almond-mom-kitchen/node_modules/bare-fs",
+  "terminal.explorerKind": "both",
+  "terminal.integrated.accessibleViewFocusOnCommandExecution": false
 }
