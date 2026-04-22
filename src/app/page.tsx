@@ -11,6 +11,17 @@ export default function Home() {
       <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-lime-light rounded-full blur-[120px] opacity-60" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-stone-100 rounded-full blur-[120px] opacity-60" />
 
+      {/* Nav */}
+      <nav className="fixed top-0 left-0 right-0 z-50 p-6 flex justify-between items-center max-w-7xl mx-auto w-full">
+        <Link href="/" className="text-xl font-serif italic text-stone-800">
+          Almond Mom
+        </Link>
+        <div className="flex items-center gap-8">
+          <Link href="/fridge-rescue" className="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-500 hover:text-stone-800 transition-colors">Fridge Rescue</Link>
+          <Link href="/login" className="bg-stone-900 text-white px-6 py-2 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-stone-800 transition-all shadow-lg">Sign In</Link>
+        </div>
+      </nav>
+
       <main className="relative z-10 max-w-2xl w-full space-y-12 text-center">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
