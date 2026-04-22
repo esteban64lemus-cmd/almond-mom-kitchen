@@ -9,13 +9,13 @@ export const liveSession = defineType({
       name: 'title',
       title: 'Title',
       type: 'string',
-      validation: (rule: Rule) => rule.required(),
+      validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'date',
       title: 'Session Date',
       type: 'datetime',
-      validation: (rule: Rule) => rule.required(),
+      validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'isGated',
