@@ -1,9 +1,11 @@
-// Individual recipe page — /blog/[slug]
+"use client";
+// Individual recipe page — /blog/[slug] (Premium Rebirth)
 import Link from "next/link";
-import type { Metadata } from "next";
-import { generateRecipeMetadata } from "@/components/seo-handler";
+import Image from "next/image";
+import { motion } from "framer-motion";
+import { ChevronLeft, ShoppingCart, CheckCircle2, Clock, Flame, Utensils } from "lucide-react";
 
-// Static recipe data (replace with Sanity fetch when CMS is configured)
+// Static recipe data
 const recipes: Record<string, {
   title: string;
   description: string;
@@ -11,14 +13,16 @@ const recipes: Record<string, {
   affiliateUrl: string;
   affiliateLabel: string;
   isCleanSwap: boolean;
+  imageUrl?: string;
   ingredients: string[];
   instructions: string[];
   nutrition: { label: string; value: string }[];
 }> = {
   "almond-flour-pancakes": {
     title: "Almond Flour Pancakes",
-    description: "Fluffy, gluten-free pancakes made with clean ingredients. High protein, zero guilt.",
+    description: "Fluffy, high-protein pancakes that redefine breakfast. Clean, simple, and satisfying.",
     category: "Breakfast",
+    imageUrl: "/images/pancakes.png",
     affiliateUrl: "https://amzn.to/almond-flour",
     affiliateLabel: "Shop Almond Flour",
     isCleanSwap: true,
@@ -49,8 +53,9 @@ const recipes: Record<string, {
   },
   "keto-avocado-bowl": {
     title: "Keto Avocado Power Bowl",
-    description: "Packed with healthy fats and fiber. The perfect clean energy lunch.",
-    category: "Keto",
+    description: "A nutrient-dense bowl designed for sustained energy without the crash.",
+    category: "Lunch",
+    imageUrl: "/images/avocado-bowl.png",
     affiliateUrl: "https://amzn.to/avocado-oil",
     affiliateLabel: "Shop Avocado Oil",
     isCleanSwap: true,
@@ -80,9 +85,10 @@ const recipes: Record<string, {
     ],
   },
   "vegan-chia-pudding": {
-    title: "Overnight Chia Pudding",
-    description: "Prep the night before. Wake up to a creamy, omega-3 rich breakfast.",
-    category: "Vegan",
+    title: "Gourmet Chia Pudding",
+    description: "A decadent, omega-3 rich breakfast that feels like a luxury dessert.",
+    category: "Dessert",
+    imageUrl: "/images/chia-pudding.png",
     affiliateUrl: "https://amzn.to/chia-seeds",
     affiliateLabel: "Shop Chia Seeds",
     isCleanSwap: false,
@@ -110,140 +116,193 @@ const recipes: Record<string, {
   },
 };
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const recipe = recipes[params.slug];
-  if (!recipe) return { title: "Recipe Not Found | Almond Mom Kitchen" };
-
-  return generateRecipeMetadata({
-    title: recipe.title,
-    description: recipe.description,
-    category: recipe.category,
-    slug: params.slug,
-  });
-}
-
 export default function RecipePage({ params }: { params: { slug: string } }) {
   const recipe = recipes[params.slug];
 
   if (!recipe) {
     return (
-      <div className="min-h-screen bg-stone-50 flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center p-6">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-stone-800 mb-2">Recipe not found</h1>
-          <Link href="/blog" className="text-amber-600 hover:underline">← Back to recipes</Link>
+          <h1 className="text-4xl font-black text-obsidian tracking-tighter mb-4">Recipe not found</h1>
+          <Link href="/blog" className="text-sage font-black uppercase tracking-widest text-xs border-b-2 border-sage/20 hover:border-sage transition-all">
+            ← Return to Collection
+          </Link>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-stone-50 font-sans">
+    <div className="min-h-screen bg-background selection:bg-copper/20 pb-32">
       {/* Nav */}
-      <nav className="border-b border-stone-200 bg-white sticky top-0 z-50">
-        <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link href="/" className="text-xl font-bold text-stone-800 tracking-tight">
-            🌿 Almond Mom Kitchen
+      <nav className="glass sticky top-0 z-50 py-4 px-6 border-b border-black/5">
+        <div className="max-w-6xl mx-auto flex items-center justify-between">
+          <Link href="/" className="text-2xl font-black text-obsidian tracking-tighter flex items-center gap-2">
+            <span className="text-sage">🌿</span> ALMOND MOM
           </Link>
-          <div className="flex gap-6 text-sm font-medium text-stone-600">
-            <Link href="/blog" className="hover:text-amber-600 transition-colors">Recipes</Link>
-            <Link href="/#goals" className="hover:text-amber-600 transition-colors">Goals</Link>
-            <Link href="/#tools" className="hover:text-amber-600 transition-colors">Tools</Link>
+          <div className="hidden md:flex gap-8 text-sm font-bold uppercase tracking-widest text-obsidian/60">
+            <Link href="/blog" className="hover:text-copper transition-colors">Recipes</Link>
+            <Link href="/#goals" className="hover:text-copper transition-colors">Goals</Link>
+            <Link href="/#tools" className="hover:text-copper transition-colors">AI Tools</Link>
           </div>
+          <Link 
+            href="/fridge-rescue" 
+            className="bg-obsidian text-white px-5 py-2 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-sage transition-all"
+          >
+            Rescue
+          </Link>
         </div>
       </nav>
 
-      <div className="max-w-3xl mx-auto px-6 py-16">
-        {/* Breadcrumb */}
-        <div className="flex items-center gap-2 text-sm text-stone-400 mb-8">
-          <Link href="/" className="hover:text-amber-600">Home</Link>
-          <span>/</span>
-          <Link href="/blog" className="hover:text-amber-600">Recipes</Link>
-          <span>/</span>
-          <span className="text-stone-600">{recipe.title}</span>
-        </div>
+      <div className="max-w-4xl mx-auto px-6 pt-12">
+        {/* Back Button */}
+        <Link href="/blog" className="inline-flex items-center gap-2 text-obsidian/30 hover:text-sage transition-colors font-black uppercase tracking-widest text-[10px] mb-8">
+          <ChevronLeft className="w-4 h-4" /> Back to Collection
+        </Link>
 
-        {/* Hero image placeholder */}
-        <div className="w-full h-64 bg-stone-200 rounded-2xl flex items-center justify-center text-6xl mb-8">
-          🥗
-        </div>
+        {/* Hero Section */}
+        <div className="grid md:grid-cols-2 gap-12 items-start mb-20">
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="relative h-[450px] md:h-[600px] w-full rounded-[48px] overflow-hidden shadow-3xl shadow-black/10"
+          >
+            {recipe.imageUrl ? (
+              <Image 
+                src={recipe.imageUrl} 
+                alt={recipe.title} 
+                fill 
+                className="object-cover"
+                priority
+              />
+            ) : (
+              <div className="w-full h-full bg-stone-100 flex items-center justify-center text-6xl">🥗</div>
+            )}
+          </motion.div>
 
-        {/* Header */}
-        <div className="mb-8">
-          <span className="text-xs font-semibold uppercase tracking-wide text-amber-600">
-            {recipe.category}
-          </span>
-          <h1 className="text-4xl font-bold text-stone-900 mt-1 mb-3">{recipe.title}</h1>
-          {recipe.isCleanSwap && (
-            <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-green-100 text-green-700 text-sm font-medium">
-              ✅ Verified Clean
-            </span>
-          )}
-          <p className="text-stone-500 mt-4 text-lg leading-relaxed">{recipe.description}</p>
-        </div>
+          <motion.div 
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="flex flex-col gap-6"
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-sage font-black text-[10px] uppercase tracking-[0.3em]">{recipe.category}</span>
+              {recipe.isCleanSwap && (
+                <span className="glass px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest text-sage flex items-center gap-1">
+                  <CheckCircle2 className="w-3 h-3" /> Verified Clean
+                </span>
+              )}
+            </div>
+            
+            <h1 className="text-5xl md:text-7xl font-black text-obsidian tracking-tighter leading-none italic uppercase">
+              {recipe.title}
+            </h1>
+            
+            <p className="text-obsidian/40 text-lg font-medium leading-relaxed">
+              {recipe.description}
+            </p>
 
-        {/* Affiliate CTA */}
-        <a
-          href={recipe.affiliateUrl}
-          target="_blank"
-          rel="noopener noreferrer sponsored"
-          className="flex items-center justify-center gap-2 w-full bg-amber-500 hover:bg-amber-600 text-white font-semibold py-4 rounded-2xl transition-colors mb-10 text-lg"
-        >
-          🛒 {recipe.affiliateLabel} →
-        </a>
-
-        {/* Nutrition */}
-        <div className="bg-white border border-stone-200 rounded-2xl p-6 mb-10">
-          <h2 className="text-lg font-bold text-stone-800 mb-4">Nutrition (per serving)</h2>
-          <div className="grid grid-cols-5 gap-4">
-            {recipe.nutrition.map((n) => (
-              <div key={n.label} className="text-center">
-                <div className="text-xl font-bold text-amber-600">{n.value}</div>
-                <div className="text-xs text-stone-400 mt-1">{n.label}</div>
+            <div className="flex gap-6 py-6 border-y border-black/5">
+              <div className="flex flex-col gap-1">
+                <span className="text-[10px] font-black uppercase tracking-widest text-obsidian/20">Time</span>
+                <span className="text-xs font-black text-obsidian flex items-center gap-1"><Clock className="w-3 h-3" /> 20 MIN</span>
               </div>
-            ))}
+              <div className="flex flex-col gap-1">
+                <span className="text-[10px] font-black uppercase tracking-widest text-obsidian/20">Calories</span>
+                <span className="text-xs font-black text-obsidian flex items-center gap-1"><Flame className="w-3 h-3" /> {recipe.nutrition[0].value}</span>
+              </div>
+              <div className="flex flex-col gap-1">
+                <span className="text-[10px] font-black uppercase tracking-widest text-obsidian/20">Level</span>
+                <span className="text-xs font-black text-obsidian flex items-center gap-1"><Utensils className="w-3 h-3" /> EASY</span>
+              </div>
+            </div>
+
+            <a
+              href={recipe.affiliateUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 flex items-center justify-center gap-3 bg-obsidian hover:bg-copper text-white font-black py-5 rounded-[24px] transition-all shadow-2xl shadow-black/20 uppercase tracking-widest text-xs"
+            >
+              {recipe.affiliateLabel} <ShoppingCart className="w-4 h-4" />
+            </a>
+          </motion.div>
+        </div>
+
+        {/* Content Grid */}
+        <div className="grid md:grid-cols-12 gap-16">
+          {/* Left Column: Ingredients & Nutrition */}
+          <div className="md:col-span-5 flex flex-col gap-12">
+            {/* Nutrition */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="glass rounded-[40px] p-8 border border-black/5 shadow-sm"
+            >
+              <h3 className="text-xs font-black uppercase tracking-[0.3em] text-obsidian/20 mb-6">Macro Density</h3>
+              <div className="grid grid-cols-2 gap-6">
+                {recipe.nutrition.map((n) => (
+                  <div key={n.label}>
+                    <div className="text-2xl font-black text-obsidian tracking-tighter">{n.value}</div>
+                    <div className="text-[10px] font-black text-obsidian/30 uppercase tracking-widest">{n.label}</div>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Ingredients */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <h3 className="text-xl font-black text-obsidian tracking-tight mb-6 uppercase italic underline decoration-sage/30 underline-offset-8">Ingredients</h3>
+              <ul className="space-y-4">
+                {recipe.ingredients.map((ing, i) => (
+                  <li key={i} className="flex items-center gap-4 text-sm font-bold text-obsidian/60 group">
+                    <span className="w-6 h-6 rounded-lg bg-sage/10 text-sage text-[10px] flex items-center justify-center font-black flex-shrink-0 group-hover:bg-sage group-hover:text-white transition-all">
+                      {i + 1}
+                    </span>
+                    {ing}
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+          </div>
+
+          {/* Right Column: Instructions */}
+          <div className="md:col-span-7">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <h3 className="text-xl font-black text-obsidian tracking-tight mb-8 uppercase italic underline decoration-sage/30 underline-offset-8">Method of Prep</h3>
+              <div className="space-y-12 relative">
+                 <div className="absolute left-4 top-4 bottom-4 w-px bg-black/5" />
+                 {recipe.instructions.map((step, i) => (
+                  <div key={i} className="relative pl-12 flex flex-col gap-2 group">
+                    <div className="absolute left-0 top-0 w-8 h-8 rounded-full bg-background border-2 border-black/5 flex items-center justify-center text-xs font-black text-obsidian/20 group-hover:border-sage group-hover:text-sage transition-all z-10">
+                      {i + 1}
+                    </div>
+                    <p className="text-obsidian font-medium leading-relaxed pt-1">
+                      {step}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
           </div>
         </div>
 
-        {/* Ingredients */}
-        <div className="mb-10">
-          <h2 className="text-2xl font-bold text-stone-800 mb-4">Ingredients</h2>
-          <ul className="space-y-3">
-            {recipe.ingredients.map((ing, i) => (
-              <li key={i} className="flex items-start gap-3 text-stone-600">
-                <span className="mt-1 w-5 h-5 rounded-full bg-amber-100 text-amber-700 text-xs flex items-center justify-center font-bold flex-shrink-0">
-                  {i + 1}
-                </span>
-                {ing}
-              </li>
-            ))}
-          </ul>
+        {/* Footer Navigation */}
+        <div className="mt-24 pt-12 border-t border-black/5 flex justify-between items-center">
+           <Link href="/blog" className="text-obsidian/30 hover:text-sage transition-colors font-black uppercase tracking-widest text-[10px] flex items-center gap-2">
+             <ChevronLeft className="w-4 h-4" /> More Recipes
+           </Link>
+           <p className="text-obsidian/20 text-[10px] font-black uppercase tracking-[0.2em]">© Almond Mom Kitchen</p>
         </div>
-
-        {/* Instructions */}
-        <div className="mb-12">
-          <h2 className="text-2xl font-bold text-stone-800 mb-4">Instructions</h2>
-          <ol className="space-y-4">
-            {recipe.instructions.map((step, i) => (
-              <li key={i} className="flex gap-4">
-                <span className="w-8 h-8 rounded-full bg-amber-500 text-white text-sm flex items-center justify-center font-bold flex-shrink-0">
-                  {i + 1}
-                </span>
-                <p className="text-stone-600 leading-relaxed pt-1">{step}</p>
-              </li>
-            ))}
-          </ol>
-        </div>
-
-        {/* Back link */}
-        <Link href="/blog" className="text-amber-600 font-semibold hover:underline">
-          ← Back to all recipes
-        </Link>
       </div>
-
-      {/* Footer */}
-      <footer className="border-t border-stone-200 py-10 text-center text-sm text-stone-400 mt-10">
-        <p>© {new Date().getFullYear()} Almond Mom Kitchen. All rights reserved.</p>
-      </footer>
     </div>
   );
 }

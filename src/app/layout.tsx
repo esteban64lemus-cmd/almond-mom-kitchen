@@ -1,27 +1,29 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Outfit, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { SEOHandler } from "@/components/global/SEO-Handler";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const outfit = Outfit({
   subsets: ["latin"],
+  variable: "--font-outfit",
+  weight: ["300", "400", "500", "700", "900"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const playfair = Playfair_Display({
   subsets: ["latin"],
+  variable: "--font-playfair",
+  style: ["normal", "italic"],
 });
 
 export const metadata: Metadata = {
-  title: "Almond Mom Kitchen",
-  description: "Advanced AI recipe converter and pro-wellness platform.",
+  title: "ALMOND MOM | Organic Luxury Kitchen",
+  description: "Experience the rebirth of clean eating. Advanced AI recipe rescue and high-protein gourmet essentials.",
   openGraph: {
-    title: "Almond Mom Kitchen",
+    title: "ALMOND MOM | Organic Luxury Kitchen",
     description: "Convert recipes into clean versions instantly.",
     url: "https://almondmomkitchen.dev",
     siteName: "Almond Mom Kitchen",
-    images: [{ url: "/og-image.jpg" }]
+    images: [{ url: "/images/hero.png" }]
   }
 };
 
@@ -42,12 +44,14 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${outfit.variable} ${playfair.variable} h-full antialiased selection:bg-copper/20`}
     >
       <head>
         <SEOHandler schemaData={orgSchema} />
       </head>
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col font-sans bg-background text-obsidian">
+        {children}
+      </body>
     </html>
   );
 }

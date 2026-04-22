@@ -1,150 +1,219 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { getIngredients, matchRecipes } from '@/app/actions/fridge-rescue'
-import RecipeCard from './recipe-card'
+import react from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { 
+  Plus, 
+  Trash2, 
+  Loader2, 
+  ShieldAlert, 
+  Leaf,
+  ChefHat,
+  Sparkles
+} from 'lucide-react';
+import { auditFridgeItem, generateCleanRecipe } from '@/app/actions/ai-actions';
 
-interface Ingredient {
-  id: string
-  name: string
-  category: string
+interface FridgeAuditData {
+  verdict: string;
+  hidden_toxins: string;
+  clean_swap: string;
+  impact: string;
 }
 
-interface Recipe {
-  id: string
-  title: string
-  description: string
-  category: string
-  is_clean_swap: boolean
-  affiliate_url?: string
-  image_url?: string
+interface CleanRecipeData {
+  title: string;
+  time: string;
+  ingredients: string[];
+  steps: string[];
+  wellness_benefit: string;
 }
 
 export default function FridgeRescue() {
-  const [query, setQuery] = useState('')
-  const [suggestions, setSuggestions] = useState<Ingredient[]>([])
-  const [selectedIngredients, setSelectedIngredients] = useState<Ingredient[]>([])
-  const [recipes, setRecipes] = useState<Recipe[]>([])
-  const [loading, setLoading] = useState(false)
+  const [ingredients, setIngredients] = react.useState<string[]>([]);
+  const [inputValue, setInputValue] = react.useState('');
+  const [auditResult, setAuditResult] = react.useState<FridgeAuditData | null>(null);
+  const [recipeResult, setRecipeResult] = react.useState<CleanRecipeData | null>(null);
+  const [isAuditing, setIsAuditing] = react.useState(false);
+  const [isGeneratingRecipe, setIsGeneratingRecipe] = react.useState(false);
+  const [error, setError] = react.useState('');
 
-  useEffect(() => {
-    const fetchSuggestions = async () => {
-      if (query.length < 2) {
-        setSuggestions([])
-        return
-      }
-      const data = await getIngredients(query)
-      setSuggestions(data as Ingredient[])
+  const addIngredient = async (ingredient: string) => {
+    const trimmed = ingredient.trim();
+    if (!trimmed || ingredients.includes(trimmed)) return;
+    
+    setIngredients([...ingredients, trimmed]);
+    setInputValue('');
+    
+    // Audit the new item immediately
+    setIsAuditing(true);
+    setError('');
+    const result = await auditFridgeItem(trimmed);
+    if (result.success && result.data) {
+      setAuditResult(result.data);
     }
+    setIsAuditing(false);
+  };
 
-    const timer = setTimeout(fetchSuggestions, 300)
-    return () => clearTimeout(timer)
-  }, [query])
-
-  const addIngredient = (ingredient: Ingredient) => {
-    if (!selectedIngredients.find((i) => i.id === ingredient.id)) {
-      setSelectedIngredients([...selectedIngredients, ingredient])
+  const removeIngredient = (index: number) => {
+    setIngredients(ingredients.filter((_, i) => i !== index));
+    if (ingredients.length === 1) {
+      setAuditResult(null);
+      setRecipeResult(null);
     }
-    setQuery('')
-    setSuggestions([])
-  }
+  };
 
-  const removeIngredient = (id: string) => {
-    setSelectedIngredients(selectedIngredients.filter((i) => i.id !== id))
-  }
-
-  const handleRescue = async () => {
-    setLoading(true)
-    const result = await matchRecipes(selectedIngredients.map((i) => i.id))
-    if (result.success) {
-      setRecipes(result.data || [])
+  const handleGenerateRecipe = async () => {
+    if (ingredients.length === 0) return;
+    setIsGeneratingRecipe(true);
+    setError('');
+    const result = await generateCleanRecipe(ingredients);
+    if (result.success && result.data) {
+      setRecipeResult(result.data);
+    } else {
+      setError(result.error || "Could not generate recipe.");
     }
-    setLoading(false)
-  }
+    setIsGeneratingRecipe(false);
+  };
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <div className="bg-white rounded-3xl shadow-xl border border-stone-100 p-8 mb-12">
-        <h2 className="text-3xl font-bold text-stone-900 mb-2">Fridge Rescue Engine 🥦</h2>
-        <p className="text-stone-500 mb-8">Tell us what&apos;s in your fridge, and we&apos;ll find the cleanest recipes you can make right now.</p>
-
-        {/* Input & Suggestions */}
-        <div className="relative mb-6">
-          <input
-            type="text"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search ingredients (e.g. Avocado, Almonds...)"
-            className="w-full bg-stone-50 border border-stone-200 rounded-2xl px-6 py-4 text-stone-800 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all"
-          />
-          {suggestions.length > 0 && (
-            <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-stone-100 shadow-2xl rounded-2xl overflow-hidden z-50">
-              {suggestions.map((s) => (
-                <button
-                  key={s.id}
-                  onClick={() => addIngredient(s)}
-                  className="w-full text-left px-6 py-3 hover:bg-amber-50 text-stone-700 transition-colors border-b border-stone-50 last:border-0"
-                >
-                  <span className="font-medium">{s.name}</span>
-                  <span className="ml-2 text-xs text-stone-400 uppercase tracking-wider">{s.category}</span>
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Selected Ingredients Tags */}
-        <div className="flex flex-wrap gap-2 mb-8">
-          {selectedIngredients.map((i) => (
-            <span
-              key={i.id}
-              className="inline-flex items-center gap-2 bg-amber-100 text-amber-800 px-4 py-2 rounded-full text-sm font-semibold border border-amber-200 animate-in fade-in zoom-in duration-200"
-            >
-              {i.name}
-              <button
-                onClick={() => removeIngredient(i.id)}
-                className="hover:text-amber-600 transition-colors"
-              >
-                ✕
-              </button>
-            </span>
-          ))}
-          {selectedIngredients.length === 0 && (
-            <span className="text-stone-400 italic text-sm py-2">No ingredients selected yet...</span>
-          )}
-        </div>
-
-        {/* Action Button */}
-        <button
-          onClick={handleRescue}
-          disabled={selectedIngredients.length === 0 || loading}
-          className="w-full bg-amber-500 hover:bg-amber-600 disabled:bg-stone-200 disabled:text-stone-400 text-white font-bold py-4 rounded-2xl transition-all shadow-lg shadow-amber-500/20 active:scale-[0.98]"
-        >
-          {loading ? 'Searching Recipes...' : 'Rescue My Dinner →'}
-        </button>
+    <div className="space-y-8 animate-in slide-in-bottom duration-500">
+      <div className="text-center space-y-2">
+        <h2 className="text-3xl font-serif italic">Fridge Detox</h2>
+        <p className="text-stone-500 text-sm max-w-xs mx-auto">Is that safe? Let AI audit your fridge and turn the &apos;clearest&apos; items into a gourmet meal.</p>
       </div>
 
-      {/* Results */}
-      {recipes.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 animate-in slide-in-from-bottom-4 duration-500">
-          {recipes.map((recipe) => (
-            <RecipeCard
-              key={recipe.id}
-              title={recipe.title}
-              description={recipe.description}
-              category={recipe.category}
-              isCleanSwap={recipe.is_clean_swap}
-              affiliateUrl={recipe.affiliate_url || ""}
-              imageUrl={recipe.image_url || ""}
-            />
+      {/* Input Section */}
+      <div className="space-y-4">
+        <div className="relative">
+          <input 
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && addIngredient(inputValue)}
+            placeholder="Add an ingredient..."
+            className="w-full bg-white border border-stone-200 rounded-full pl-6 pr-14 py-4 text-sm shadow-sm focus:border-stone-400 outline-none transition-all placeholder:text-stone-300"
+          />
+          <button 
+            onClick={() => addIngredient(inputValue)}
+            title="Add ingredient"
+            aria-label="Add ingredient"
+            className="absolute right-2 top-2 bottom-2 aspect-square bg-stone-900 text-white rounded-full flex items-center justify-center hover:bg-stone-800"
+          >
+            <Plus size={18} />
+          </button>
+        </div>
+
+        <div className="flex flex-wrap gap-2 justify-center">
+          {ingredients.map((item, idx) => (
+            <motion.span 
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              key={idx} 
+              className="bg-stone-100 px-4 py-2 rounded-full text-xs font-medium text-stone-700 flex items-center space-x-2 border border-stone-200"
+            >
+              <span>{item}</span>
+              <button 
+                onClick={() => removeIngredient(idx)} 
+                title="Remove ingredient"
+                aria-label={`Remove ${item}`}
+                className="text-stone-400 hover:text-red-500 transition-colors"
+              >
+                <Trash2 size={12} />
+              </button>
+            </motion.span>
           ))}
+          {ingredients.length === 0 && (
+            <p className="text-[10px] text-stone-300 uppercase tracking-widest font-bold">Fridge is empty</p>
+          )}
         </div>
-      ) : recipes.length === 0 && !loading && selectedIngredients.length > 0 ? (
-        <div className="text-center py-20 bg-stone-50 rounded-3xl border-2 border-dashed border-stone-200">
-          <p className="text-stone-400 font-medium">No recipes found matching ALL these ingredients.</p>
-          <p className="text-stone-400 text-sm">Try removing one or two!</p>
+      </div>
+
+      {/* Audit Result */}
+      <AnimatePresence mode="wait">
+        {isAuditing ? (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="flex justify-center py-4"
+          >
+            <Loader2 className="animate-spin text-stone-400" />
+          </motion.div>
+        ) : auditResult && (
+          <motion.div 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className={`p-6 rounded-[2.5rem] border ${auditResult.verdict === 'Toss' ? 'bg-red-50 border-red-100' : 'bg-lime-light border-lime-border'} space-y-4`}
+          >
+            <div className="flex items-center space-x-3">
+              {auditResult.verdict === 'Toss' ? (
+                <ShieldAlert className="text-red-500" />
+              ) : (
+                <Leaf className="text-lime-clean" />
+              )}
+              <h3 className="font-serif italic text-stone-800">AI Audit: {auditResult.verdict.toUpperCase()}</h3>
+            </div>
+            <p className="text-xs text-stone-600 leading-relaxed italic">&quot;{auditResult.impact}&quot;</p>
+            {auditResult.clean_swap && (
+              <div className="pt-2">
+                <p className="text-[10px] font-bold uppercase tracking-widest text-stone-400 mb-1">Recommended Swap</p>
+                <p className="text-sm font-medium text-stone-800">{auditResult.clean_swap}</p>
+              </div>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Recipe Generation */}
+      {ingredients.length >= 2 && (
+        <div className="space-y-6">
+          <button 
+            onClick={handleGenerateRecipe}
+            disabled={isGeneratingRecipe}
+            className="w-full bg-stone-900 text-white py-4 rounded-full font-bold text-sm uppercase tracking-widest hover:bg-stone-800 transition-all flex items-center justify-center space-x-2"
+          >
+            {isGeneratingRecipe ? <Loader2 className="animate-spin" size={18} /> : <ChefHat size={18} />}
+            <span>{isGeneratingRecipe ? 'Creating Masterpiece...' : 'Create Clean Meal'}</span>
+          </button>
+
+          <AnimatePresence>
+            {recipeResult && (
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="bg-white border border-stone-100 rounded-[2.5rem] p-8 space-y-6 shadow-xl"
+              >
+                <div className="space-y-1">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-lime-clean">Chef&apos;s Selection</p>
+                  <h3 className="text-2xl font-serif text-stone-800 leading-tight">{recipeResult.title}</h3>
+                </div>
+                
+                <div className="flex items-center space-x-4 text-[10px] uppercase font-bold tracking-widest text-stone-400">
+                  <span className="flex items-center"><Sparkles size={10} className="mr-1" /> Nutritious</span>
+                  <span>•</span>
+                  <span>{recipeResult.time}</span>
+                </div>
+
+                <div className="space-y-3">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-stone-400">Method</p>
+                  <div className="space-y-3">
+                    {recipeResult.steps.map((step: string, idx: number) => (
+                      <div key={idx} className="flex space-x-4">
+                        <span className="text-stone-300 font-serif italic text-sm">{idx + 1}.</span>
+                        <p className="text-xs text-stone-600 leading-relaxed">{step}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="bg-stone-50 rounded-2xl p-4 italic text-stone-500 text-[10px] text-center border border-stone-100">
+                  &quot; {recipeResult.wellness_benefit} &quot;
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
-      ) : null}
+      )}
+      {error && <p className="text-red-500 text-xs text-center">{error}</p>}
     </div>
-  )
+  );
 }
