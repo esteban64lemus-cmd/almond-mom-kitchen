@@ -8,7 +8,6 @@ import {
   Loader2, 
   ShieldAlert, 
   Leaf,
-  ChefHat,
   Sparkles
 } from 'lucide-react';
 import { auditFridgeItem, generateCleanRecipe } from '@/app/actions/ai-actions';
@@ -163,16 +162,16 @@ export default function FridgeRescue() {
         )}
       </AnimatePresence>
 
-      {/* Recipe Generation */}
-      {ingredients.length >= 2 && (
+      {/* Recipe Generation & Action Button */}
+      {ingredients.length > 0 && (
         <div className="space-y-6">
           <button 
             onClick={handleGenerateRecipe}
             disabled={isGeneratingRecipe}
-            className="w-full bg-stone-900 text-white py-4 rounded-full font-bold text-sm uppercase tracking-widest hover:bg-stone-800 transition-all flex items-center justify-center space-x-2"
+            className="w-full bg-stone-900 text-white py-4 rounded-full font-bold text-sm uppercase tracking-widest hover:bg-stone-800 transition-all flex items-center justify-center space-x-2 shadow-xl shadow-stone-200"
           >
-            {isGeneratingRecipe ? <Loader2 className="animate-spin" size={18} /> : <ChefHat size={18} />}
-            <span>{isGeneratingRecipe ? 'Creating Masterpiece...' : 'Create Clean Meal'}</span>
+            {isGeneratingRecipe ? <Loader2 className="animate-spin" size={18} /> : <Sparkles size={18} />}
+            <span>{isGeneratingRecipe ? 'Creating Masterpiece...' : ingredients.length === 1 ? 'Audit Ingredient' : 'Create Clean Meal'}</span>
           </button>
 
           <AnimatePresence>

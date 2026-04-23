@@ -67,7 +67,6 @@ export default function SetupPage() {
           Almond Mom
         </Link>
         <div className="flex items-center gap-8">
-          <Link href="/fridge-rescue" className="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-500 hover:text-stone-800 transition-colors">Fridge Rescue</Link>
           <div className="bg-white/80 backdrop-blur-sm px-4 py-1.5 rounded-full text-[9px] font-bold uppercase tracking-widest text-stone-400 border border-stone-200">
             Setup Step {step}/3
           </div>
@@ -98,8 +97,8 @@ export default function SetupPage() {
                 transition={{ duration: 0.3 }}
               >
                 <span className="text-stone-400 font-bold text-[10px] uppercase tracking-[0.3em] mb-4 block">Personalization</span>
-                <h1 className="text-4xl md:text-5xl font-serif italic text-stone-800 mb-4 leading-tight">What's your primary<br/>wellness goal?</h1>
-                <p className="text-stone-500 mb-10 text-sm font-light">Pick everything that applies. We'll tailor your sanctuary accordingly.</p>
+                <h1 className="text-4xl md:text-5xl font-serif italic text-stone-800 mb-4 leading-tight">What&apos;s your primary<br/>wellness goal?</h1>
+                <p className="text-stone-500 mb-10 text-sm font-light">Pick everything that applies. We&apos;ll tailor your sanctuary accordingly.</p>
                 
                 <div className="grid grid-cols-2 gap-4">
                   {GOALS.map((g) => (
@@ -163,7 +162,7 @@ export default function SetupPage() {
               >
                 <div className="text-6xl mb-8 animate-bounce-slow">🌿</div>
                 <h1 className="text-4xl md:text-5xl font-serif italic text-stone-800 mb-6 leading-tight">Your Sanctuary<br/>is ready.</h1>
-                <p className="text-stone-500 mb-12 text-sm font-light max-w-sm mx-auto">We've customized your experience. Prepare to explore the cleanest version of your kitchen.</p>
+                <p className="text-stone-500 mb-12 text-sm font-light max-w-sm mx-auto">We&apos;ve customized your experience. Prepare to explore the cleanest version of your kitchen.</p>
                 
                 <div className="bg-lime-light/30 rounded-[2rem] p-8 text-left mb-8 border border-lime-border/50 max-w-sm mx-auto">
                   <h3 className="text-[10px] uppercase tracking-[0.2em] font-bold text-stone-400 mb-3">Your Curation</h3>

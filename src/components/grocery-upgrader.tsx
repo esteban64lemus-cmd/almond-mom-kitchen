@@ -81,17 +81,20 @@ export default function GroceryUpgrader() {
                     <div className="flex items-center justify-between border-b border-stone-50 pb-4">
                       <div className="flex-1">
                         <p className="text-[9px] font-bold uppercase tracking-widest text-stone-400 mb-1">Ditch</p>
-                        <p className="text-stone-400 line-through font-serif">{item.original}</p>
+                        <p className="text-stone-400 line-through font-serif italic text-sm">{item.original}</p>
                       </div>
-                      <div className="px-4 text-stone-300"><ArrowRight size={16} /></div>
+                      <div className="px-6 text-stone-200"><ArrowRight size={20} strokeWidth={1.5} /></div>
                       <div className="flex-1 text-right">
-                        <p className="text-[9px] font-bold uppercase tracking-widest text-lime-clean mb-1">Buy Instead</p>
-                        <p className="text-stone-800 font-serif font-bold">{item.swap}</p>
+                        <p className="text-[9px] font-bold uppercase tracking-widest text-lime-clean mb-1">Upgrade</p>
+                        <p className="text-stone-900 font-serif font-bold text-lg leading-tight">{item.swap}</p>
                       </div>
                     </div>
-                    <p className="text-xs text-stone-500 italic bg-stone-50 p-3 rounded-xl border border-stone-100">
-                      <span className="font-bold not-italic">Why:</span> {item.reason}
-                    </p>
+                    <div className="bg-stone-50/50 p-4 rounded-2xl border border-stone-100/50">
+                      <p className="text-[9px] font-bold uppercase tracking-widest text-stone-400 mb-2">Biological Rationale</p>
+                      <p className="text-xs text-stone-600 leading-relaxed font-light">
+                        {item.reason}
+                      </p>
+                    </div>
                   </div>
                 </motion.div>
               ))}
