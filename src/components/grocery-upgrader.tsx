@@ -45,7 +45,7 @@ export default function GroceryUpgrader() {
           value={groceryInput}
           onChange={(e) => setGroceryInput(e.target.value)}
           placeholder="e.g. Peanut butter, Doritos, White bread, Coffee creamer..."
-          className="w-full bg-white border border-stone-200 rounded-[2rem] p-6 text-sm shadow-sm focus:border-stone-400 outline-none transition-all placeholder:text-stone-300 min-h-[150px] resize-none"
+          className="w-full bg-white border border-stone-200 rounded-4xl p-6 text-sm shadow-sm focus:border-stone-400 outline-none transition-all placeholder:text-stone-300 min-h-[150px] resize-none"
         />
         <button 
           onClick={handleUpgradeGrocery}
@@ -75,7 +75,7 @@ export default function GroceryUpgrader() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.1 }}
-                  className="bg-white border border-stone-100 rounded-[2rem] p-6 shadow-sm group hover:shadow-md transition-all"
+                  className="bg-white border border-stone-100 rounded-4xl p-6 shadow-sm group hover:shadow-md transition-all"
                 >
                   <div className="flex flex-col space-y-4">
                     <div className="flex items-center justify-between border-b border-stone-50 pb-4">

@@ -81,8 +81,7 @@ export default function SetupPage() {
         {/* Progress Bar */}
         <div className="h-1 w-full bg-stone-100/50">
           <div 
-            className="h-full bg-stone-900 transition-all duration-700 ease-in-out" 
-            style={{ width: `${(step / 3) * 100}%` }}
+            className={`h-full bg-stone-900 transition-all duration-700 ease-in-out ${step === 1 ? 'w-1/3' : step === 2 ? 'w-2/3' : 'w-full'}`}
           />
         </div>
 
@@ -105,7 +104,7 @@ export default function SetupPage() {
                     <button
                       key={g.id}
                       onClick={() => toggleGoal(g.id)}
-                      className={`p-6 rounded-[2rem] border transition-all duration-300 group ${
+                      className={`p-6 rounded-4xl border transition-all duration-300 group ${
                         goals.includes(g.id) 
                           ? 'border-stone-900 bg-stone-50 shadow-md scale-[1.02]' 
                           : 'border-stone-100/50 bg-white hover:border-stone-200 hover:bg-stone-50/50'
@@ -164,7 +163,7 @@ export default function SetupPage() {
                 <h1 className="text-4xl md:text-5xl font-serif italic text-stone-800 mb-6 leading-tight">Your Sanctuary<br/>is ready.</h1>
                 <p className="text-stone-500 mb-12 text-sm font-light max-w-sm mx-auto">We&apos;ve customized your experience. Prepare to explore the cleanest version of your kitchen.</p>
                 
-                <div className="bg-lime-light/30 rounded-[2rem] p-8 text-left mb-8 border border-lime-border/50 max-w-sm mx-auto">
+                <div className="bg-lime-light/30 rounded-4xl p-8 text-left mb-8 border border-lime-border/50 max-w-sm mx-auto">
                   <h3 className="text-[10px] uppercase tracking-[0.2em] font-bold text-stone-400 mb-3">Your Curation</h3>
                   <p className="text-stone-800 text-sm leading-relaxed">
                     Focusing on <span className="font-bold">{goals.length > 0 ? goals.join(', ') : 'holistic wellness'}</span>

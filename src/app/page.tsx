@@ -7,7 +7,7 @@ import BottomNav from "@/components/bottom-nav";
 
 export default function AppDashboard() {
   return (
-    <div className="min-h-[100dvh] bg-background pb-32">
+    <div className="min-h-dvh bg-background pb-32">
       <div className="max-w-md mx-auto px-6 pt-12">
         
         {/* Header */}
