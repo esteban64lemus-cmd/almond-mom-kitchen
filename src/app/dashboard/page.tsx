@@ -81,58 +81,59 @@ export default function DashboardPage() {
         {/* Recipe Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {CURATED_RECIPES.map((recipe, index) => (
-            <motion.div
-              key={recipe._id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group cursor-pointer bg-white/60 backdrop-blur-md rounded-3xl border border-stone-100 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1"
-            >
-              {/* Recipe Image */}
-              <div className="h-64 w-full relative overflow-hidden bg-stone-100">
-                <img 
-                  src={recipe.imageUrl} 
-                  alt={recipe.title} 
-                  className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-700 ease-out"
-                />
-                <div className="absolute top-4 left-4 flex flex-wrap gap-2">
-                  {recipe.dietaryTags.slice(0, 2).map(tag => (
-                    <span key={tag} className="bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest text-stone-800 shadow-sm">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              {/* Recipe Info */}
-              <div className="p-8">
-                <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-xl font-serif italic text-stone-800 leading-snug group-hover:text-stone-600 transition-colors">
-                    {recipe.title}
-                  </h3>
-                </div>
-                
-                <div className="grid grid-cols-2 gap-4 mb-6">
-                  <div className="bg-stone-50 rounded-2xl p-3 border border-stone-100/50">
-                    <span className="block text-[9px] font-bold uppercase tracking-widest text-stone-400 mb-1">Time</span>
-                    <span className="text-xs text-stone-800 font-medium">{recipe.timeMetrics.prepTime + recipe.timeMetrics.cookTime} mins</span>
-                  </div>
-                  <div className="bg-stone-50 rounded-2xl p-3 border border-stone-100/50">
-                    <span className="block text-[9px] font-bold uppercase tracking-widest text-stone-400 mb-1">Calories</span>
-                    <span className="text-xs text-stone-800 font-medium">{recipe.macros.calories} kcal</span>
+            <Link href={`/recipe/${recipe._id}`} key={recipe._id} className="block">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="group cursor-pointer bg-white/60 backdrop-blur-md rounded-3xl border border-stone-100 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1 h-full"
+              >
+                {/* Recipe Image */}
+                <div className="h-64 w-full relative overflow-hidden bg-stone-100">
+                  <img 
+                    src={recipe.imageUrl} 
+                    alt={recipe.title} 
+                    className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-700 ease-out"
+                  />
+                  <div className="absolute top-4 left-4 flex flex-wrap gap-2">
+                    {recipe.dietaryTags.slice(0, 2).map(tag => (
+                      <span key={tag} className="bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest text-stone-800 shadow-sm">
+                        {tag}
+                      </span>
+                    ))}
                   </div>
                 </div>
 
-                <div className="flex items-center gap-4 border-t border-stone-100 pt-6">
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-stone-400">Macros</span>
-                  <div className="flex gap-3 text-xs text-stone-500">
-                    <span><strong className="text-stone-800">{recipe.macros.protein}g</strong> P</span>
-                    <span><strong className="text-stone-800">{recipe.macros.carbs}g</strong> C</span>
-                    <span><strong className="text-stone-800">{recipe.macros.fat}g</strong> F</span>
+                {/* Recipe Info */}
+                <div className="p-8 flex flex-col flex-grow">
+                  <div className="flex justify-between items-start mb-4">
+                    <h3 className="text-xl font-serif italic text-stone-800 leading-snug group-hover:text-stone-600 transition-colors">
+                      {recipe.title}
+                    </h3>
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-4 mb-6">
+                    <div className="bg-stone-50 rounded-2xl p-3 border border-stone-100/50">
+                      <span className="block text-[9px] font-bold uppercase tracking-widest text-stone-400 mb-1">Time</span>
+                      <span className="text-xs text-stone-800 font-medium">{recipe.timeMetrics.prepTime + recipe.timeMetrics.cookTime} mins</span>
+                    </div>
+                    <div className="bg-stone-50 rounded-2xl p-3 border border-stone-100/50">
+                      <span className="block text-[9px] font-bold uppercase tracking-widest text-stone-400 mb-1">Calories</span>
+                      <span className="text-xs text-stone-800 font-medium">{recipe.macros.calories} kcal</span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-4 border-t border-stone-100 pt-6 mt-auto">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-stone-400">Macros</span>
+                    <div className="flex gap-3 text-xs text-stone-500">
+                      <span><strong className="text-stone-800">{recipe.macros.protein}g</strong> P</span>
+                      <span><strong className="text-stone-800">{recipe.macros.carbs}g</strong> C</span>
+                      <span><strong className="text-stone-800">{recipe.macros.fat}g</strong> F</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </motion.div>
+              </motion.div>
+            </Link>
           ))}
         </div>
       </main>
