@@ -2,10 +2,28 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useParams } from 'next/navigation'
 
+interface Ingredient {
+  quantity: number
+  unit: string
+  ingredientName: string
+  isCleanSwap: boolean
+}
+
+interface Recipe {
+  _id: string
+  title: string
+  dietaryTags: string[]
+  timeMetrics: { prepTime: number; cookTime: number }
+  macros: { calories: number; protein: number; carbs: number; fat: number }
+  imageUrl: string
+  ingredients: Ingredient[]
+}
+
 // Mock Database expanded with ingredients to match your schema
-const RECIPE_DB: Record<string, any> = {
+const RECIPE_DB: Record<string, Recipe> = {
   '1': {
     _id: '1',
     title: 'Matcha Chia Seed Pudding',
@@ -88,8 +106,14 @@ export default function RecipeDetailPage() {
           className="bg-white/80 backdrop-blur-xl rounded-[3rem] shadow-2xl border border-stone-100 overflow-hidden"
         >
            {/* Hero Image */}
-           <div className="w-full h-80 relative overflow-hidden bg-stone-100">
-              <img src={recipe.imageUrl} alt={recipe.title} className="object-cover w-full h-full" />
+            <div className="w-full h-80 relative overflow-hidden bg-stone-100">
+               <Image 
+                 src={recipe.imageUrl} 
+                 alt={recipe.title} 
+                 fill
+                 className="object-cover"
+                 priority
+               />
               <div className="absolute top-6 left-6 flex flex-wrap gap-2">
                 {recipe.dietaryTags.map((tag: string) => (
                   <span key={tag} className="bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest text-stone-800 shadow-sm">
@@ -129,7 +153,7 @@ export default function RecipeDetailPage() {
              <div>
                <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] text-stone-400 mb-6 block">Ingredients</h3>
                <ul className="space-y-2">
-                 {recipe.ingredients.map((ing: any, i: number) => (
+                 {recipe.ingredients.map((ing: Ingredient, i: number) => (
                    <li key={i} className="flex items-center justify-between p-4 bg-stone-50/50 rounded-2xl border border-stone-100/50 hover:bg-stone-50 transition-colors">
                      <div className="flex items-center gap-4">
                        <span className="text-stone-800 font-bold text-xs w-16">{ing.quantity} {ing.unit}</span>

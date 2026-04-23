@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import Image from 'next/image'
 
 // Mock data tailored to match your Sanity 'recipe' schema
 const CURATED_RECIPES = [
@@ -90,10 +91,11 @@ export default function DashboardPage() {
               >
                 {/* Recipe Image */}
                 <div className="h-64 w-full relative overflow-hidden bg-stone-100">
-                  <img 
+                  <Image 
                     src={recipe.imageUrl} 
                     alt={recipe.title} 
-                    className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-700 ease-out"
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                   />
                   <div className="absolute top-4 left-4 flex flex-wrap gap-2">
                     {recipe.dietaryTags.slice(0, 2).map(tag => (
