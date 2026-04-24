@@ -4,7 +4,7 @@ import { type NextRequest, NextResponse } from "next/server";
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 
-export const createClient = (request: NextRequest) => {
+export const createClient = async (request: NextRequest) => {
   // Create an unmodified response
   let supabaseResponse = NextResponse.next({
     request: {
@@ -12,7 +12,7 @@ export const createClient = (request: NextRequest) => {
     },
   });
 
-  createServerClient(supabaseUrl!, supabaseKey!, {
+  const supabase = createServerClient(supabaseUrl!, supabaseKey!, {
     cookies: {
       getAll() {
         return request.cookies.getAll();
@@ -30,6 +30,28 @@ export const createClient = (request: NextRequest) => {
       },
     },
   });
+
+  // This automatically refreshes the auth token if needed
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  // If user is logged in, they should go directly to dashboard instead of root or login
+  if (
+    user &&
+    (request.nextUrl.pathname === "/" || request.nextUrl.pathname === "/login")
+  ) {
+    return NextResponse.redirect(new URL("/dashboard", request.url));
+  }
+
+  // If user is NOT logged in, they must be at /login (or auth callbacks)
+  if (
+    !user &&
+    request.nextUrl.pathname !== "/login" &&
+    !request.nextUrl.pathname.startsWith("/auth")
+  ) {
+    return NextResponse.redirect(new URL("/login", request.url));
+  }
 
   return supabaseResponse;
 };

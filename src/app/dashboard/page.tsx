@@ -6,11 +6,9 @@ import Image from "next/image";
 import {
   Flame,
   Activity,
-  CheckCircle2,
   ChevronRight,
   Refrigerator,
   ShoppingCart,
-  Moon,
 } from "lucide-react";
 
 // Mock data tailored to match your Sanity 'recipe' schema
