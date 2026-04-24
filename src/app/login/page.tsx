@@ -13,6 +13,7 @@ import { signIn, signUp } from '@/app/actions/auth'
 import { createClient } from '@/utils/supabase/client'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
+import InputField from '@/components/InputField'
 
 export default function LoginPage() {
   // ==========================================
@@ -125,11 +126,18 @@ export default function LoginPage() {
               <input
                 name="email"
                 type="email"
+              {/* Full Name Field (Sign Up Only) */}
+              <InputField
+                label="Full Name"
+                name="fullName"
+                type="text"
                 required
                 placeholder="hello@example.com"
                 className="w-full bg-stone-50/50 border border-stone-100 rounded-full px-6 py-4 text-sm text-stone-800 focus:outline-none focus:ring-1 focus:ring-stone-300 focus:border-stone-300 transition-all placeholder:text-stone-300"
+                placeholder="Jane Doe"
               />
             </div>
+            )}
 
             <div className="space-y-2">
               {/* Password Field */}
@@ -142,6 +150,23 @@ export default function LoginPage() {
                 className="w-full bg-stone-50/50 border border-stone-100 rounded-full px-6 py-4 text-sm text-stone-800 focus:outline-none focus:ring-1 focus:ring-stone-300 focus:border-stone-300 transition-all placeholder:text-stone-300"
               />
             </div>
+            {/* Email Field */}
+            <InputField
+              label="Email Address"
+              name="email"
+              type="email"
+              required
+              placeholder="hello@example.com"
+            />
+
+            {/* Password Field */}
+            <InputField
+              label="Password"
+              name="password"
+              type="password"
+              required
+              placeholder="••••••••"
+            />
 
             {/* Error Message Display */}
             {error && (
@@ -160,6 +185,7 @@ export default function LoginPage() {
             </button>
 
             {isLogin && (
+              {/* Forgot Password Link (Log In Only) */}
               <p className="text-center text-[10px] uppercase tracking-widest font-bold text-stone-400 mt-6">
                 Forgot password? <button type="button" className="text-stone-600 hover:text-stone-900 transition-colors">Reset it</button>
               </p>
