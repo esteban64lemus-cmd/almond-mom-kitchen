@@ -8,9 +8,13 @@ export async function signUp(formData: FormData) {
   const cookieStore = await cookies()
   const supabase = createClient(cookieStore)
 
-  const email = formData.get('email') as string
-  const password = formData.get('password') as string
-  const fullName = formData.get('fullName') as string
+  const email = formData.get('email')?.toString() ?? ''
+  const password = formData.get('password')?.toString() ?? ''
+  const fullName = formData.get('fullName')?.toString() ?? ''
+
+  if (!email || !password || !fullName) {
+    return { error: 'Missing required fields.' }
+  }
 
   const { error } = await supabase.auth.signUp({
     email,
@@ -35,8 +39,12 @@ export async function signIn(formData: FormData) {
   const cookieStore = await cookies()
   const supabase = createClient(cookieStore)
 
-  const email = formData.get('email') as string
-  const password = formData.get('password') as string
+  const email = formData.get('email')?.toString() ?? ''
+  const password = formData.get('password')?.toString() ?? ''
+
+  if (!email || !password) {
+    return { error: 'Missing required fields.' }
+  }
 
   const { error } = await supabase.auth.signInWithPassword({
     email,

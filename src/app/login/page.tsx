@@ -11,7 +11,6 @@
 import { useState } from 'react'
 import { signIn, signUp } from '@/app/actions/auth'
 import { createClient } from '@/utils/supabase/client'
-import Link from 'next/link'
 import { motion } from 'framer-motion'
 import InputField from '@/components/InputField'
 
@@ -27,6 +26,14 @@ export default function LoginPage() {
   // ==========================================
   // Event Handlers
   // ==========================================
+
+  /**
+   * Handles switching between Log In and Sign Up tabs while clearing errors
+   */
+  const handleTabSwitch = (isLoginView: boolean) => {
+    setIsLogin(isLoginView)
+    setError(null)
+  }
 
   /**
    * Handles Third-Party OAuth Sign In
@@ -88,7 +95,7 @@ export default function LoginPage() {
           {/* Tab Navigation (Log In vs Sign Up) */}
           <div className="flex border-b border-stone-100/50">
             <button
-              onClick={() => setIsLogin(true)}
+              onClick={() => handleTabSwitch(true)}
               className={`flex-1 py-5 text-[10px] uppercase tracking-widest font-bold transition-all ${
                 isLogin ? 'text-stone-900 border-b-2 border-stone-900' : 'text-stone-400 hover:text-stone-600'
               }`}
@@ -96,7 +103,7 @@ export default function LoginPage() {
               Log In
             </button>
             <button
-              onClick={() => setIsLogin(false)}
+              onClick={() => handleTabSwitch(false)}
               className={`flex-1 py-5 text-[10px] uppercase tracking-widest font-bold transition-all ${
                 !isLogin ? 'text-stone-900 border-b-2 border-stone-900' : 'text-stone-400 hover:text-stone-600'
               }`}
@@ -113,6 +120,8 @@ export default function LoginPage() {
                 name="fullName"
                 type="text"
                 required
+                minLength={2}
+                maxLength={50}
                 placeholder="Jane Doe"
               />
             )}
@@ -132,6 +141,7 @@ export default function LoginPage() {
               name="password"
               type="password"
               required
+              minLength={8}
               placeholder="••••••••"
             />
 
