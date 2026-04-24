@@ -35,7 +35,7 @@ export function getCleanBadgeLabel(isCleanSwap: boolean): string | null {
  */
 export function suggestCleanSwap(
   ingredientName: string,
-  swapMap: Record<string, string>
+  swapMap: Record<string, string>,
 ): string | null {
   return swapMap[ingredientName.toLowerCase()] ?? null;
 }

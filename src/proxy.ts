@@ -1,10 +1,10 @@
-import { type NextRequest } from 'next/server'
-import { createClient } from '@/utils/supabase/middleware'
+import { type NextRequest } from "next/server";
+import { createClient } from "@/utils/supabase/middleware";
 
 export async function proxy(request: NextRequest) {
   // This helper refreshes the user's session if it has expired
   // and returns a NextResponse object with updated cookies.
-  return await createClient(request)
+  return await createClient(request);
 }
 
 export const config = {
@@ -16,6 +16,6 @@ export const config = {
      * - favicon.ico (favicon file)
      * Feel free to modify this pattern to include more paths.
      */
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
   ],
-}
+};

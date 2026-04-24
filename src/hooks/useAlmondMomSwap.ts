@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 export const useAlmondMomSwap = () => {
-    const [isSwapped, setIsSwapped] = useState(false);
-    
-    const toggleSwap = () => setIsSwapped(!isSwapped);
+  const [isSwapped, setIsSwapped] = useState(false);
 
-    return { isSwapped, toggleSwap };
+  const toggleSwap = () => setIsSwapped(!isSwapped);
+
+  return { isSwapped, toggleSwap };
 };

@@ -4,7 +4,7 @@ import "./globals.css";
 import { SEOHandler } from "@/components/global/SEO-Handler";
 import { cn } from "@/lib/utils";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -20,14 +20,15 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   title: "ALMOND MOM | Organic Luxury Kitchen",
-  description: "Experience the rebirth of clean eating. Advanced AI recipe rescue and high-protein gourmet essentials.",
+  description:
+    "Experience the rebirth of clean eating. Advanced AI recipe rescue and high-protein gourmet essentials.",
   openGraph: {
     title: "ALMOND MOM | Organic Luxury Kitchen",
     description: "Convert recipes into clean versions instantly.",
     url: "https://almondmomkitchen.dev",
     siteName: "Almond Mom Kitchen",
-    images: [{ url: "/images/hero.png" }]
-  }
+    images: [{ url: "/images/hero.png" }],
+  },
 };
 
 export default function RootLayout({
@@ -39,20 +40,28 @@ export default function RootLayout({
   const orgSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "Almond Mom Kitchen",
-    "url": "https://almondmomkitchen.dev",
-    "logo": "https://almondmomkitchen.dev/logo.png"
+    name: "Almond Mom Kitchen",
+    url: "https://almondmomkitchen.dev",
+    logo: "https://almondmomkitchen.dev/logo.png",
   };
 
   return (
     <html
       lang="en"
-      className={cn("h-full", "antialiased", "selection:bg-copper/20", outfit.variable, playfair.variable, "font-sans", geist.variable)}
+      className={cn(
+        "h-full",
+        "antialiased",
+        "selection:bg-copper/20",
+        outfit.variable,
+        playfair.variable,
+        "font-sans",
+        geist.variable,
+      )}
     >
       <head>
         <SEOHandler schemaData={orgSchema} />
       </head>
-      <body className="min-h-full flex flex-col font-sans bg-background text-obsidian">
+      <body className="bg-background text-obsidian flex min-h-full flex-col font-sans">
         {children}
       </body>
     </html>
