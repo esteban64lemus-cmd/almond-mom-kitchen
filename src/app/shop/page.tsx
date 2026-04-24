@@ -1,5 +1,5 @@
 import GroceryUpgrader from "@/components/grocery-upgrader";
-import { BottomNav } from "@/components/bottom-nav";
+import BottomNav from "@/components/bottom-nav";
 
 export default function ShopPage() {
   return (
