@@ -118,8 +118,31 @@ export default function LoginPage() {
             </button>
           </div>
 
+          {/* Demo Button */}
+          <div className="px-10 pt-8 pb-2">
+            <button
+              type="button"
+              onClick={() => {
+                document.cookie = "demo_mode=true; path=/; max-age=86400";
+                window.location.href = "/dashboard";
+              }}
+              className="w-full rounded-full bg-lime-700 py-4 text-xs font-bold tracking-widest text-white uppercase shadow-lg transition-all hover:bg-lime-600 hover:shadow-xl active:scale-[0.98]"
+            >
+              Instant Demo Access ✨
+            </button>
+            
+            <div className="relative mt-8 flex items-center justify-center">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-stone-200/50"></div>
+              </div>
+              <span className="relative bg-white/80 px-4 text-[9px] font-bold tracking-[0.2em] text-stone-400 uppercase backdrop-blur-xl">
+                Or sign in with email
+              </span>
+            </div>
+          </div>
+
           {/* Authentication Form */}
-          <form onSubmit={handleSubmit} className="space-y-6 p-10">
+          <form onSubmit={handleSubmit} className="space-y-6 px-10 pb-10 pt-2">
             {!isLogin && (
               <InputField
                 label="Full Name"
