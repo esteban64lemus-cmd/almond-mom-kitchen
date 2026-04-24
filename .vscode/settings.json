@@ -22,6 +22,8 @@
   ],
   "cmake.sourceDirectory": "C:/Users/esteb/.antigravity/almond-mom-kitchen/node_modules/bare-fs",
   "terminal.explorerKind": "both",
-  "terminal.integrated.accessibleViewFocusOnCommandExecution": false
-
+  "terminal.integrated.accessibleViewFocusOnCommandExecution": false,
+  "python.testing.unittestArgs": ["-v", "-s", ".", "-p", "*test.py"],
+  "python.testing.pytestEnabled": false,
+  "python.testing.unittestEnabled": true
 }

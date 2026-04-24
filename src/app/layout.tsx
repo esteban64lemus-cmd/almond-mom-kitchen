@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
-import { Outfit, Playfair_Display } from "next/font/google";
+import { Outfit, Playfair_Display, Geist } from "next/font/google";
 import "./globals.css";
 import { SEOHandler } from "@/components/global/SEO-Handler";
+import { cn } from "@/lib/utils";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -44,7 +47,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${outfit.variable} ${playfair.variable} h-full antialiased selection:bg-copper/20`}
+      className={cn("h-full", "antialiased", "selection:bg-copper/20", outfit.variable, playfair.variable, "font-sans", geist.variable)}
     >
       <head>
         <SEOHandler schemaData={orgSchema} />
