@@ -1,15 +1,50 @@
 'use client'
 
+/**
+ * LoginPage Component
+ * 
+ * This component serves as the entry point for user authentication. It handles both
+ * standard email/password authentication (Login/Sign Up) and OAuth providers (Google/Apple)
+ * via Supabase.
+ */
+
 import { useState } from 'react'
 import { signIn, signUp } from '@/app/actions/auth'
+import { createClient } from '@/utils/supabase/client'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 
 export default function LoginPage() {
+  // ==========================================
+  // State & Dependencies
+  // ==========================================
   const [isLogin, setIsLogin] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+  const supabase = createClient()
 
+  // ==========================================
+  // Event Handlers
+  // ==========================================
+
+  /**
+   * Handles Third-Party OAuth Sign In
+   */
+  const handleOAuth = async (provider: 'google' | 'apple') => {
+    setLoading(true)
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider,
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
+    })
+    if (error) setError(error.message)
+    setLoading(false)
+  }
+
+  /**
+   * Handles standard Email/Password Form Submission
+   */
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setError(null)
@@ -24,19 +59,22 @@ export default function LoginPage() {
     }
   }
 
+  // ==========================================
+  // Render UI
+  // ==========================================
   return (
     <div className="min-h-screen bg-[#FDFCFB] overflow-hidden flex flex-col items-center justify-center p-8">
-      {/* Abstract Background Elements */}
+      {/* --- Abstract Background Elements --- */}
       <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-lime-light rounded-full blur-[120px] opacity-60" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-stone-100 rounded-full blur-[120px] opacity-60" />
 
-      {/* No nav bar here since it's the app entrance */}
+      {/* --- Main Content Container --- */}
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="relative z-10 w-full max-w-md"
       >
-        {/* Logo/Header */}
+        {/* Logo & Header Section */}
         <div className="text-center mb-10">
           <h1 className="text-5xl font-serif italic text-stone-800 tracking-tight block mb-4">
             Sanctuary Access
@@ -44,9 +82,9 @@ export default function LoginPage() {
           <p className="text-stone-500 font-light text-sm">Step into your clean eating companion.</p>
         </div>
 
-        {/* Auth Card */}
+        {/* --- Authentication Card --- */}
         <div className="bg-white/80 backdrop-blur-xl rounded-[2.5rem] shadow-2xl border border-stone-100 overflow-hidden">
-          {/* Tabs */}
+          {/* Tab Navigation (Log In vs Sign Up) */}
           <div className="flex border-b border-stone-100/50">
             <button
               onClick={() => setIsLogin(true)}
@@ -66,8 +104,10 @@ export default function LoginPage() {
             </button>
           </div>
 
+          {/* Authentication Form */}
           <form onSubmit={handleSubmit} className="p-10 space-y-6">
             {!isLogin && (
+              {/* Full Name Field (Sign Up Only) */}
               <div className="space-y-2">
                 <label className="text-[9px] font-bold text-stone-400 uppercase tracking-widest ml-1">Full Name</label>
                 <input
@@ -81,6 +121,7 @@ export default function LoginPage() {
             )}
 
             <div className="space-y-2">
+              {/* Email Field */}
               <label className="text-[9px] font-bold text-stone-400 uppercase tracking-widest ml-1">Email Address</label>
               <input
                 name="email"
@@ -92,6 +133,7 @@ export default function LoginPage() {
             </div>
 
             <div className="space-y-2">
+              {/* Password Field */}
               <label className="text-[9px] font-bold text-stone-400 uppercase tracking-widest ml-1">Password</label>
               <input
                 name="password"
@@ -102,12 +144,14 @@ export default function LoginPage() {
               />
             </div>
 
+            {/* Error Message Display */}
             {error && (
               <div className="bg-red-50 border border-red-100 text-red-600 text-[10px] uppercase tracking-widest p-4 rounded-2xl animate-in fade-in zoom-in duration-200 text-center font-bold">
                 {error}
               </div>
             )}
 
+            {/* Submit Button */}
             <button
               type="submit"
               disabled={loading}
@@ -117,6 +161,7 @@ export default function LoginPage() {
             </button>
 
             {isLogin && (
+              {/* Forgot Password Link (Log In Only) */}
               <p className="text-center text-[10px] uppercase tracking-widest font-bold text-stone-400 mt-6">
                 Forgot password? <button type="button" className="text-stone-600 hover:text-stone-900 transition-colors">Reset it</button>
               </p>
@@ -124,8 +169,9 @@ export default function LoginPage() {
           </form>
         </div>
 
-        {/* Social Auth */}
+        {/* --- Social Authentication Section --- */}
         <div className="mt-10">
+          {/* Divider */}
           <div className="relative flex items-center justify-center mb-8">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-stone-200/50"></div>
@@ -133,12 +179,23 @@ export default function LoginPage() {
             <span className="relative px-4 bg-[#FDFCFB] text-[9px] text-stone-400 uppercase tracking-[0.2em] font-bold">Or continue with</span>
           </div>
 
+          {/* OAuth Buttons */}
           <div className="grid grid-cols-2 gap-4">
-            <button className="flex items-center justify-center gap-2 bg-white/60 backdrop-blur-md border border-stone-200/50 rounded-full py-4 hover:bg-white transition-all shadow-sm group">
+            <button
+              type="button"
+              onClick={() => handleOAuth('google')}
+              disabled={loading}
+              className="flex items-center justify-center gap-2 bg-white/60 backdrop-blur-md border border-stone-200/50 rounded-full py-4 hover:bg-white transition-all shadow-sm group disabled:opacity-50"
+            >
               <span className="text-lg opacity-70 group-hover:opacity-100 transition-opacity">G</span>
               <span className="text-[10px] uppercase tracking-widest font-bold text-stone-600 group-hover:text-stone-900 transition-colors">Google</span>
             </button>
-            <button className="flex items-center justify-center gap-2 bg-white/60 backdrop-blur-md border border-stone-200/50 rounded-full py-4 hover:bg-white transition-all shadow-sm group">
+            <button
+              type="button"
+              onClick={() => handleOAuth('apple')}
+              disabled={loading}
+              className="flex items-center justify-center gap-2 bg-white/60 backdrop-blur-md border border-stone-200/50 rounded-full py-4 hover:bg-white transition-all shadow-sm group disabled:opacity-50"
+            >
               <span className="text-lg opacity-70 group-hover:opacity-100 transition-opacity">A</span>
               <span className="text-[10px] uppercase tracking-widest font-bold text-stone-600 group-hover:text-stone-900 transition-colors">Apple</span>
             </button>
