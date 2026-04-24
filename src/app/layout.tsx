@@ -61,7 +61,7 @@ export default function RootLayout({
       <head>
         <SEOHandler schemaData={orgSchema} />
       </head>
-      <body className="bg-background text-obsidian flex min-h-full flex-col font-sans">
+      <body suppressHydrationWarning className="bg-background text-obsidian flex min-h-full flex-col font-sans">
         {children}
       </body>
     </html>
