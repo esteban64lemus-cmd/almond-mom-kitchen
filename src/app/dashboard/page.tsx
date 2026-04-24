@@ -107,7 +107,7 @@ export default function DashboardPage() {
                 </div>
 
                 {/* Recipe Info */}
-                <div className="p-8 flex flex-col flex-grow">
+                <div className="p-8 flex flex-col grow">
                   <div className="flex justify-between items-start mb-4">
                     <h3 className="text-xl font-serif italic text-stone-800 leading-snug group-hover:text-stone-600 transition-colors">
                       {recipe.title}
