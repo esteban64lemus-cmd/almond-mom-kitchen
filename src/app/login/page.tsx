@@ -107,7 +107,6 @@ export default function LoginPage() {
           {/* Authentication Form */}
           <form onSubmit={handleSubmit} className="p-10 space-y-6">
             {!isLogin && (
-              {/* Full Name Field (Sign Up Only) */}
               <div className="space-y-2">
                 <label className="text-[9px] font-bold text-stone-400 uppercase tracking-widest ml-1">Full Name</label>
                 <input
@@ -161,7 +160,6 @@ export default function LoginPage() {
             </button>
 
             {isLogin && (
-              {/* Forgot Password Link (Log In Only) */}
               <p className="text-center text-[10px] uppercase tracking-widest font-bold text-stone-400 mt-6">
                 Forgot password? <button type="button" className="text-stone-600 hover:text-stone-900 transition-colors">Reset it</button>
               </p>
