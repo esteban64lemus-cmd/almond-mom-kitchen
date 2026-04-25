@@ -30,7 +30,7 @@ export default function LandingPage() {
     visible: {
       y: 0,
       opacity: 1,
-      transition: { duration: 0.8, ease: "easeOut" } as any,
+      transition: { duration: 0.8, ease: "easeOut" },
     },
   };
 
