@@ -37,29 +37,28 @@ interface GroceryUpgradeItem {
 /**
  * GEMINI API INTEGRATION with Exponential Backoff
  */
-const apiKey = process.env.GEMINI_API_KEY;
+const apiKey = process.env.AI_GATEWAY_API_KEY;
 
-async function fetchGemini(
+async function fetchAI(
   prompt: string,
   schemaProperties: Record<string, unknown>,
 ) {
   if (!apiKey) {
     throw new Error(
-      "GEMINI_API_KEY is not configured. Please add it to your environment variables.",
+      "AI_GATEWAY_API_KEY is not configured. Please add it to your environment variables.",
     );
   }
 
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+  const url = `https://ai-gateway.vercel.sh/v1/chat/completions`;
+  const systemPrompt = `You are a high-end holistic wellness coach AI. Output ONLY valid JSON matching this schema properties: ${JSON.stringify(schemaProperties)}. Do not include markdown code blocks around the JSON.`;
 
   const payload = {
-    contents: [{ parts: [{ text: prompt }] }],
-    generationConfig: {
-      responseMimeType: "application/json",
-      responseSchema: {
-        type: "OBJECT",
-        properties: schemaProperties,
-      },
-    },
+    model: "openai/gpt-4o",
+    messages: [
+      { role: "system", content: systemPrompt },
+      { role: "user", content: prompt }
+    ],
+    response_format: { type: "json_object" }
   };
 
   let delay = 1000;
@@ -67,20 +66,24 @@ async function fetchGemini(
     try {
       const response = await fetch(url, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${apiKey}`
+        },
         body: JSON.stringify(payload),
       });
       if (!response.ok) {
-        const errorData = await response.json();
+        const errorData = await response.json().catch(() => ({}));
         throw new Error(
-          `HTTP error! status: ${response.status}, message: ${JSON.stringify(errorData)}`,
+          `HTTP error! status: ${response.status}, message: ${JSON.stringify(errorData)}`
         );
       }
       const result = await response.json();
-      if (!result.candidates || !result.candidates[0].content.parts[0].text) {
-        throw new Error("Unexpected response structure from Gemini API");
+      const content = result.choices?.[0]?.message?.content;
+      if (!content) {
+        throw new Error("Unexpected response structure from AI Gateway");
       }
-      return JSON.parse(result.candidates[0].content.parts[0].text);
+      return JSON.parse(content);
     } catch (e) {
       if (i === 4) throw e;
       await new Promise((resolve) => setTimeout(resolve, delay));
@@ -102,7 +105,7 @@ export async function analyzeCraving(
   };
 
   try {
-    const data = await fetchGemini(prompt, schema);
+    const data = await fetchAI(prompt, schema);
     return { success: true, data };
   } catch (err: unknown) {
     const error = err as Error;
@@ -124,7 +127,7 @@ export async function auditFridgeItem(
   };
 
   try {
-    const data = await fetchGemini(prompt, schema);
+    const data = await fetchAI(prompt, schema);
     return { success: true, data };
   } catch (err: unknown) {
     const error = err as Error;
@@ -147,7 +150,7 @@ export async function generateCleanRecipe(
   };
 
   try {
-    const data = await fetchGemini(prompt, schema);
+    const data = await fetchAI(prompt, schema);
     return { success: true, data };
   } catch (err: unknown) {
     const error = err as Error;
@@ -176,7 +179,7 @@ export async function upgradeGroceryList(
   };
 
   try {
-    const result = await fetchGemini(prompt, schema);
+    const result = await fetchAI(prompt, schema);
     return { success: true, data: result.upgrades };
   } catch (err: unknown) {
     const error = err as Error;
