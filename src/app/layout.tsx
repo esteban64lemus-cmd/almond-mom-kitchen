@@ -3,6 +3,8 @@ import { Outfit, Playfair_Display, Geist } from "next/font/google";
 import "./globals.css";
 import { SEOHandler } from "@/components/global/SEO-Handler";
 import { cn } from "@/lib/utils";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -63,6 +65,8 @@ export default function RootLayout({
       </head>
       <body suppressHydrationWarning className="bg-background text-obsidian flex min-h-full flex-col font-sans">
         {children}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
