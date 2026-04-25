@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { 
   Sparkles, 
   ShieldCheck, 
@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 
 export default function LandingPage() {
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -25,7 +25,7 @@ export default function LandingPage() {
     },
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { y: 20, opacity: 0 },
     visible: {
       y: 0,
@@ -67,7 +67,7 @@ export default function LandingPage() {
             className="object-cover"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#FBF9F6]/80 via-[#FBF9F6]/20 to-[#FBF9F6]" />
+          <div className="absolute inset-0 bg-linear-to-b from-[#FBF9F6]/80 via-[#FBF9F6]/20 to-[#FBF9F6]" />
         </div>
 
         <motion.div 
