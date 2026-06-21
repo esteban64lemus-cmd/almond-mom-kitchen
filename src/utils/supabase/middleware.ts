@@ -39,19 +39,20 @@ export const createClient = async (request: NextRequest) => {
   // Demo Mode Bypass
   const isDemo = request.cookies.has("demo_mode");
 
-  // If user is logged in (or in demo mode), they should go directly to dashboard instead of root or login
+  // If user is logged in (or in demo mode) and tries to access /login, send them to dashboard
   if (
     (user || isDemo) &&
-    (request.nextUrl.pathname === "/" || request.nextUrl.pathname === "/login")
+    request.nextUrl.pathname === "/login"
   ) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
-  // If user is NOT logged in and NOT in demo mode, they must be at /login (or auth callbacks)
+  // If user is NOT logged in and NOT in demo mode, they must be at /login, /, or auth callbacks
   if (
     !user &&
     !isDemo &&
     request.nextUrl.pathname !== "/login" &&
+    request.nextUrl.pathname !== "/" &&
     !request.nextUrl.pathname.startsWith("/auth")
   ) {
     return NextResponse.redirect(new URL("/login", request.url));
