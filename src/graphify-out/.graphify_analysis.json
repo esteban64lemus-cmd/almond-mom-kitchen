@@ -1,0 +1,258 @@
+{
+  "communities": {
+    "0": [
+      "actions_ai_actions",
+      "actions_ai_actions_airesponse",
+      "actions_ai_actions_analyzecraving",
+      "actions_ai_actions_auditfridgeitem",
+      "actions_ai_actions_cleanrecipedata",
+      "actions_ai_actions_cravingdata",
+      "actions_ai_actions_fetchai",
+      "actions_ai_actions_fridgeauditdata",
+      "actions_ai_actions_generatecleanrecipe",
+      "actions_ai_actions_groceryupgradeitem",
+      "actions_ai_actions_upgradegrocerylist",
+      "components_cravings_crusher",
+      "components_cravings_crusher_cravingresult",
+      "components_cravings_crusher_cravingscrusher",
+      "components_fridge_rescue",
+      "components_fridge_rescue_cleanrecipedata",
+      "components_fridge_rescue_fridgeauditdata",
+      "components_fridge_rescue_fridgerescue",
+      "components_grocery_upgrader",
+      "components_grocery_upgrader_groceryitem",
+      "components_grocery_upgrader_groceryupgrader"
+    ],
+    "1": [
+      "app_layout",
+      "app_layout_geist",
+      "app_layout_metadata",
+      "app_layout_outfit",
+      "app_layout_playfair",
+      "app_layout_rootlayout",
+      "global_seo_handler",
+      "global_seo_handler_seohandler",
+      "lib_utils",
+      "lib_utils_cn",
+      "ui_button",
+      "ui_button_button",
+      "ui_button_buttonvariants"
+    ],
+    "2": [
+      "actions_auth",
+      "actions_auth_getuserprofile",
+      "actions_auth_signin",
+      "actions_auth_signout",
+      "actions_auth_signup",
+      "actions_auth_updateprofile",
+      "supabase_server",
+      "supabase_server_createclient"
+    ],
+    "3": [
+      "components_inputfield",
+      "components_inputfield_inputfield",
+      "components_inputfield_inputfieldprops",
+      "components_inputfield_test",
+      "login_page",
+      "login_page_loginpage",
+      "supabase_client",
+      "supabase_client_createclient"
+    ],
+    "4": [
+      "components_bottom_nav",
+      "components_bottom_nav_bottomnav",
+      "fridge_rescue_page",
+      "fridge_rescue_page_fridgerescuepage",
+      "shop_page",
+      "shop_page_shoppage",
+      "shop_page_test"
+    ],
+    "5": [
+      "lib_ai_converter",
+      "lib_ai_converter_getcleanbadgelabel",
+      "lib_ai_converter_gramstoounces",
+      "lib_ai_converter_isverifiedclean",
+      "lib_ai_converter_ouncestograms",
+      "lib_ai_converter_suggestcleanswap"
+    ],
+    "6": [
+      "proxy",
+      "proxy_config",
+      "proxy_proxy",
+      "supabase_middleware",
+      "supabase_middleware_createclient"
+    ],
+    "7": [
+      "setup_page",
+      "setup_page_ingredient",
+      "setup_page_recipe",
+      "setup_page_recipe_db",
+      "setup_page_recipedetailpage"
+    ],
+    "8": [
+      "components_energy_tracker",
+      "components_energy_tracker_energytracker",
+      "components_energy_tracker_mock_logs"
+    ],
+    "9": [
+      "dashboard_page",
+      "dashboard_page_curated_recipes",
+      "dashboard_page_dashboardpage"
+    ],
+    "10": [
+      "app_page",
+      "app_page_landingpage"
+    ],
+    "11": [
+      "callback_route",
+      "callback_route_get"
+    ],
+    "12": [
+      "hooks_usealmondmomswap",
+      "hooks_usealmondmomswap_usealmondmomswap"
+    ],
+    "13": [
+      "lib_affiliate_engine",
+      "lib_affiliate_engine_getaffiliatelink"
+    ],
+    "14": [
+      "lib_sanityclient",
+      "lib_sanityclient_sanityclient"
+    ],
+    "15": [
+      "lib_supabaseclient",
+      "lib_supabaseclient_supabase"
+    ]
+  },
+  "cohesion": {
+    "0": 0.13333333333333333,
+    "1": 0.23076923076923078,
+    "2": 0.4642857142857143,
+    "3": 0.39285714285714285,
+    "4": 0.3333333333333333,
+    "5": 0.3333333333333333,
+    "6": 0.6,
+    "7": 0.4,
+    "8": 0.6666666666666666,
+    "9": 0.6666666666666666,
+    "10": 1.0,
+    "11": 1.0,
+    "12": 1.0,
+    "13": 1.0,
+    "14": 1.0,
+    "15": 1.0
+  },
+  "gods": [
+    {
+      "id": "supabase_server_createclient",
+      "label": "createClient()",
+      "degree": 7
+    },
+    {
+      "id": "actions_ai_actions_fetchai",
+      "label": "fetchAI()",
+      "degree": 5
+    },
+    {
+      "id": "lib_utils_cn",
+      "label": "cn()",
+      "degree": 5
+    },
+    {
+      "id": "actions_ai_actions_analyzecraving",
+      "label": "analyzeCraving()",
+      "degree": 3
+    },
+    {
+      "id": "actions_ai_actions_auditfridgeitem",
+      "label": "auditFridgeItem()",
+      "degree": 3
+    },
+    {
+      "id": "actions_ai_actions_generatecleanrecipe",
+      "label": "generateCleanRecipe()",
+      "degree": 3
+    },
+    {
+      "id": "actions_ai_actions_upgradegrocerylist",
+      "label": "upgradeGroceryList()",
+      "degree": 3
+    },
+    {
+      "id": "actions_auth_signup",
+      "label": "signUp()",
+      "degree": 3
+    },
+    {
+      "id": "actions_auth_signin",
+      "label": "signIn()",
+      "degree": 3
+    },
+    {
+      "id": "components_inputfield_inputfield",
+      "label": "InputField()",
+      "degree": 3
+    }
+  ],
+  "surprises": [
+    {
+      "source": "signOut()",
+      "target": "createClient()",
+      "source_files": [
+        "app/actions/auth.ts",
+        "utils/supabase/server.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; peripheral node `signOut()` unexpectedly reaches hub `createClient()`"
+    },
+    {
+      "source": "updateProfile()",
+      "target": "createClient()",
+      "source_files": [
+        "app/actions/auth.ts",
+        "utils/supabase/server.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; peripheral node `updateProfile()` unexpectedly reaches hub `createClient()`"
+    },
+    {
+      "source": "getUserProfile()",
+      "target": "createClient()",
+      "source_files": [
+        "app/actions/auth.ts",
+        "utils/supabase/server.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; peripheral node `getUserProfile()` unexpectedly reaches hub `createClient()`"
+    },
+    {
+      "source": "RootLayout()",
+      "target": "cn()",
+      "source_files": [
+        "app/layout.tsx",
+        "lib/utils.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; peripheral node `RootLayout()` unexpectedly reaches hub `cn()`"
+    },
+    {
+      "source": "signUp()",
+      "target": "createClient()",
+      "source_files": [
+        "app/actions/auth.ts",
+        "utils/supabase/server.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories"
+    }
+  ],
+  "tokens": {
+    "input": 0,
+    "output": 0
+  }
+}
