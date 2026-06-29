@@ -11,36 +11,7 @@ import {
   ShoppingCart,
 } from "lucide-react";
 
-// Mock data tailored to match your Sanity 'recipe' schema
-const CURATED_RECIPES = [
-  {
-    _id: "1",
-    title: "Matcha Chia Seed Pudding",
-    dietaryTags: ["Vegan", "Gluten-Free", "Dairy-Free"],
-    timeMetrics: { prepTime: 10, cookTime: 0 },
-    macros: { calories: 250, protein: 12, carbs: 20, fat: 15 },
-    imageUrl:
-      "https://images.unsplash.com/photo-1490474418585-ba9bad8fd0ea?auto=format&fit=crop&q=80&w=800",
-  },
-  {
-    _id: "2",
-    title: "Almond Flour Lemon Loaf",
-    dietaryTags: ["Paleo", "Gluten-Free", "Vegetarian"],
-    timeMetrics: { prepTime: 15, cookTime: 45 },
-    macros: { calories: 180, protein: 6, carbs: 12, fat: 14 },
-    imageUrl:
-      "https://images.unsplash.com/photo-1615486171448-4afbf3692ea4?auto=format&fit=crop&q=80&w=800",
-  },
-  {
-    _id: "3",
-    title: "Wild Caught Salmon Bowl",
-    dietaryTags: ["Dairy-Free", "Gluten-Free", "High Protein"],
-    timeMetrics: { prepTime: 20, cookTime: 15 },
-    macros: { calories: 420, protein: 35, carbs: 25, fat: 22 },
-    imageUrl:
-      "https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&q=80&w=800",
-  },
-];
+import { recipes } from "@/data/recipes";
 
 export default function DashboardPage() {
   return (
@@ -72,7 +43,7 @@ export default function DashboardPage() {
           >
             Welcome back,
             <br />
-            Jane
+            Almond Mom
           </motion.h1>
         </header>
 
@@ -179,14 +150,19 @@ export default function DashboardPage() {
 
         {/* Daily Nourishment / Meal Finder */}
         <div className="mb-12">
-          <h2 className="mb-4 px-2 text-[10px] font-black tracking-[0.2em] text-stone-400 uppercase">
-            Meal Finder
-          </h2>
+          <div className="mb-4 px-2 flex items-center justify-between">
+            <h2 className="text-[10px] font-black tracking-[0.2em] text-stone-400 uppercase">
+              Meal Finder
+            </h2>
+            <Link href="/blog" className="text-[10px] font-bold tracking-widest text-stone-400 uppercase hover:text-stone-700 transition-colors">
+              View all →
+            </Link>
+          </div>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            {CURATED_RECIPES.slice(0, 2).map((recipe, index) => (
+            {recipes.slice(0, 4).map((recipe, index) => (
               <Link
-                href={`/recipe/${recipe._id}`}
-                key={recipe._id}
+                href={`/blog/${recipe.slug}`}
+                key={recipe.id}
                 className="block"
               >
                 <motion.div
@@ -197,7 +173,7 @@ export default function DashboardPage() {
                 >
                   <div className="relative h-40 w-full overflow-hidden bg-stone-100">
                     <Image
-                      src={recipe.imageUrl}
+                      src={recipe.image}
                       alt={recipe.title}
                       fill
                       className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
