@@ -366,5 +366,120 @@ export const recipes: Recipe[] = [
       "Pour into a bowl and arrange toppings aesthetically on top.",
       "Enjoy immediately with a spoon."
     ]
+  },
+  {
+    id: "17",
+    slug: "almond-flour-banana-bread",
+    title: "Grain-Free Almond Flour Banana Bread",
+    description: "Moist, tender, and completely grain-free. The clean version your family will actually request.",
+    image: "https://images.unsplash.com/photo-1621188988909-fbef0a2a1010?auto=format&fit=crop&w=800&q=80",
+    prepTime: "10 mins",
+    cookTime: "50 mins",
+    servings: 10,
+    dietaryTags: ["Gluten-Free", "Paleo", "Dairy-Free"],
+    ingredients: [
+      "2 cups blanched almond flour",
+      "3 ripe organic bananas, mashed",
+      "3 pasture-raised eggs",
+      "2 tbsp pure maple syrup or raw honey",
+      "1 tsp baking soda",
+      "1 tsp vanilla extract",
+      "Pinch of pink Himalayan salt",
+      "Optional: 1/3 cup dark chocolate chips (85%+ cacao)"
+    ],
+    instructions: [
+      "Preheat oven to 350°F (175°C). Line a loaf pan with parchment paper.",
+      "In a large bowl, mash the bananas until smooth.",
+      "Whisk in the eggs, maple syrup, and vanilla extract.",
+      "Fold in the almond flour, baking soda, and salt until just combined. Do not over-mix.",
+      "Fold in chocolate chips if using.",
+      "Pour into prepared pan and bake 45-55 minutes until a toothpick comes out clean.",
+      "Cool completely in the pan before slicing."
+    ]
+  },
+  {
+    id: "18",
+    slug: "turkey-lettuce-wraps",
+    title: "Asian-Inspired Turkey Lettuce Wraps",
+    description: "High-protein, low-carb, and ready in 20 minutes. Weeknight clean eating at its finest.",
+    image: "https://images.unsplash.com/photo-1567620832903-9fc6debc209f?auto=format&fit=crop&w=800&q=80",
+    prepTime: "10 mins",
+    cookTime: "12 mins",
+    servings: 4,
+    dietaryTags: ["Keto", "Dairy-Free", "Gluten-Free"],
+    ingredients: [
+      "1 lb ground pasture-raised turkey",
+      "1 head butter lettuce, leaves separated",
+      "3 tbsp coconut aminos",
+      "1 tbsp toasted sesame oil",
+      "2 cloves garlic, minced",
+      "1 tsp fresh ginger, grated",
+      "1/2 cup water chestnuts, diced",
+      "Green onions and sesame seeds for garnish"
+    ],
+    instructions: [
+      "Heat sesame oil in a skillet over medium-high heat.",
+      "Add garlic and ginger, cook 30 seconds until fragrant.",
+      "Add ground turkey, breaking it apart, cook until no longer pink (8-10 minutes).",
+      "Stir in coconut aminos and water chestnuts. Cook 2 more minutes.",
+      "Spoon mixture into lettuce cups.",
+      "Garnish with sliced green onions and sesame seeds."
+    ]
+  },
+  {
+    id: "19",
+    slug: "golden-milk-overnight-oats",
+    title: "Golden Milk Overnight Oats",
+    description: "Anti-inflammatory spices meet slow-digesting oats in this prep-ahead morning powerhouse.",
+    image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80",
+    prepTime: "5 mins",
+    cookTime: "0 mins",
+    servings: 1,
+    dietaryTags: ["Vegan", "Gluten-Free", "Dairy-Free"],
+    ingredients: [
+      "1/2 cup gluten-free rolled oats",
+      "1 cup unsweetened coconut milk",
+      "1/2 tsp ground turmeric",
+      "1/4 tsp cinnamon",
+      "Pinch of black pepper",
+      "1 tsp raw honey or maple syrup",
+      "1/2 tsp vanilla extract",
+      "Toppings: sliced mango, toasted coconut"
+    ],
+    instructions: [
+      "Combine oats, coconut milk, turmeric, cinnamon, black pepper, sweetener, and vanilla in a jar.",
+      "Stir well to combine — the black pepper is key to activating the curcumin.",
+      "Cover and refrigerate overnight, or for at least 4 hours.",
+      "In the morning, stir and add a splash more milk if too thick.",
+      "Top with mango slices and toasted coconut before serving."
+    ]
+  },
+  {
+    id: "20",
+    slug: "roasted-beet-walnut-salad",
+    title: "Roasted Beet & Candied Walnut Salad",
+    description: "A stunning, earthy salad that looks like it came from a Michelin-starred restaurant.",
+    image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=800&q=80",
+    prepTime: "15 mins",
+    cookTime: "45 mins",
+    servings: 2,
+    dietaryTags: ["Vegan", "Gluten-Free", "Paleo"],
+    ingredients: [
+      "3 medium beets, scrubbed",
+      "1/2 cup raw walnuts",
+      "1 tbsp maple syrup",
+      "4 cups arugula",
+      "2 tbsp extra virgin olive oil",
+      "1 tbsp balsamic vinegar",
+      "Sea salt and black pepper"
+    ],
+    instructions: [
+      "Preheat oven to 400°F. Wrap beets in foil and roast 40-45 minutes until fork-tender.",
+      "Meanwhile, toss walnuts with maple syrup and a pinch of salt. Toast in a dry pan 3-4 minutes until caramelized.",
+      "Let beets cool, then peel (use gloves) and slice into wedges.",
+      "Whisk together olive oil and balsamic vinegar for the dressing.",
+      "Arrange arugula on plates, top with beet wedges and candied walnuts.",
+      "Drizzle with dressing and finish with flaky sea salt."
+    ]
   }
 ];
