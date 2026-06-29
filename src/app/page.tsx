@@ -47,8 +47,9 @@ export default function LandingPage() {
           <div className="hidden items-center gap-8 md:flex">
             <a href="#solutions" className="text-sm font-medium text-obsidian/60 hover:text-obsidian transition-colors">Solutions</a>
             <a href="#features" className="text-sm font-medium text-obsidian/60 hover:text-obsidian transition-colors">Features</a>
-            <Link 
-              href="/login" 
+            <Link href="/blog" className="text-sm font-medium text-obsidian/60 hover:text-obsidian transition-colors">Recipes</Link>
+            <Link
+              href="/login"
               className="rounded-full bg-obsidian px-6 py-2.5 text-sm font-semibold text-white transition-transform hover:scale-105 active:scale-95 shadow-lg shadow-obsidian/10"
             >
               Launch App
