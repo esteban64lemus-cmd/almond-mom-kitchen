@@ -46,7 +46,7 @@ export default function LandingPage() {
           </div>
           <div className="hidden items-center gap-8 md:flex">
             <a href="#solutions" className="text-sm font-medium text-obsidian/60 hover:text-obsidian transition-colors">Solutions</a>
-            <a href="#features" className="text-sm font-medium text-obsidian/60 hover:text-obsidian transition-colors">Features</a>
+            <a href="#manifesto" className="text-sm font-medium text-obsidian/60 hover:text-obsidian transition-colors">Manifesto</a>
             <Link href="/blog" className="text-sm font-medium text-obsidian/60 hover:text-obsidian transition-colors">Recipes</Link>
             <Link
               href="/login"
@@ -171,7 +171,7 @@ export default function LandingPage() {
       </section>
 
       {/* Mission Statement */}
-      <section className="bg-obsidian py-32 text-white overflow-hidden relative">
+      <section id="manifesto" className="bg-obsidian py-32 text-white overflow-hidden relative">
         <div className="absolute top-0 right-0 w-1/3 h-full bg-sage/10 blur-[100px] rounded-full translate-x-1/2" />
         <div className="absolute bottom-0 left-0 w-1/4 h-full bg-copper/5 blur-[80px] rounded-full -translate-x-1/2" />
         
