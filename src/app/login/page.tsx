@@ -20,7 +20,9 @@ export default function LoginPage() {
   // ==========================================
   const [isLogin, setIsLogin] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [resetMessage, setResetMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState("");
   const supabase = createClient();
 
   // ==========================================
@@ -33,6 +35,7 @@ export default function LoginPage() {
   const handleTabSwitch = (isLoginView: boolean) => {
     setIsLogin(isLoginView);
     setError(null);
+    setResetMessage(null);
   };
 
   /**
@@ -51,11 +54,44 @@ export default function LoginPage() {
   };
 
   /**
+   * Handles sending a password reset email for the address in the form
+   */
+  const handleForgotPassword = async () => {
+    setError(null);
+    setResetMessage(null);
+
+    if (!email) {
+      setError("Enter your email address above, then click reset.");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/auth/callback?next=/reset-password`,
+      });
+
+      if (error) {
+        setError(error.message);
+      } else {
+        setResetMessage(
+          "Check your email for a link to reset your password.",
+        );
+      }
+    } catch {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  /**
    * Handles standard Email/Password Form Submission
    */
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
+    setResetMessage(null);
     setLoading(true);
 
     const formData = new FormData(e.currentTarget);
@@ -161,6 +197,8 @@ export default function LoginPage() {
               name="email"
               type="email"
               required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="hello@example.com"
             />
 
@@ -178,6 +216,13 @@ export default function LoginPage() {
             {error && (
               <div className="animate-in fade-in zoom-in rounded-2xl border border-red-100 bg-red-50 p-4 text-center text-[10px] font-bold tracking-widest text-red-600 uppercase duration-200">
                 {error}
+              </div>
+            )}
+
+            {/* Reset Password Confirmation */}
+            {resetMessage && (
+              <div className="animate-in fade-in zoom-in rounded-2xl border border-lime-100 bg-lime-50 p-4 text-center text-[10px] font-bold tracking-widest text-lime-700 uppercase duration-200">
+                {resetMessage}
               </div>
             )}
 
@@ -199,7 +244,9 @@ export default function LoginPage() {
                 Forgot password?{" "}
                 <button
                   type="button"
-                  className="text-stone-600 transition-colors hover:text-stone-900"
+                  onClick={handleForgotPassword}
+                  disabled={loading}
+                  className="text-stone-600 transition-colors hover:text-stone-900 disabled:opacity-50"
                 >
                   Reset it
                 </button>
