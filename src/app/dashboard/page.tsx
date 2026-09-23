@@ -9,6 +9,7 @@ import {
   ChevronRight,
   Refrigerator,
   ShoppingCart,
+  Sparkles,
 } from "lucide-react";
 
 import { recipes } from "@/data/recipes";
@@ -94,6 +95,32 @@ export default function DashboardPage() {
             AI Tools
           </h2>
           <div className="flex flex-col gap-4">
+            <Link href="/quests" className="block">
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className="group flex items-center justify-between rounded-[32px] border border-black/5 bg-white/80 p-6 shadow-sm backdrop-blur-md transition-all hover:border-black/10 hover:shadow-md"
+              >
+                <div className="flex items-center gap-5">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-sage-light text-sage transition-colors group-hover:bg-sage group-hover:text-white">
+                    <Sparkles size={24} strokeWidth={1.5} />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-black tracking-tight text-stone-800">
+                      Daily Quests
+                    </h3>
+                    <p className="text-xs font-medium text-stone-500">
+                      Sleep-aware stamina &amp; micro-quests
+                    </p>
+                  </div>
+                </div>
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-black/5 text-stone-400 transition-colors group-hover:bg-stone-800 group-hover:text-white">
+                  <ChevronRight size={16} />
+                </div>
+              </motion.div>
+            </Link>
+
             <Link href="/fridge-rescue" className="block">
               <motion.div
                 initial={{ opacity: 0, x: -20 }}

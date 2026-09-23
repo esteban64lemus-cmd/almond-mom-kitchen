@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Outfit, Playfair_Display, Geist } from "next/font/google";
+import { Outfit, Playfair_Display, Geist, Caveat } from "next/font/google";
 import "./globals.css";
 import { SEOHandler } from "@/components/global/SEO-Handler";
 import { cn } from "@/lib/utils";
@@ -18,6 +18,12 @@ const playfair = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-playfair",
   style: ["normal", "italic"],
+});
+
+// Handwritten "Grandma's scrap paper" notes.
+const caveat = Caveat({
+  subsets: ["latin"],
+  variable: "--font-caveat",
 });
 
 export const metadata: Metadata = {
@@ -56,6 +62,7 @@ export default function RootLayout({
         "selection:bg-copper/20",
         outfit.variable,
         playfair.variable,
+        caveat.variable,
         "font-sans",
         geist.variable,
       )}
