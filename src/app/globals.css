@@ -19,6 +19,13 @@
   --lime-light: #f8faeb;
   --lime-border: #eef4d4;
   --glass: rgba(255, 255, 255, 0.8);
+  /* "Clean girl" warm neutrals for the quest dashboard */
+  --ivory: #fbf8f1;
+  --sage: #9caf88;
+  --sage-light: #eef2e8;
+  --taupe: #8b7d6b;
+  --terracotta: #c8744f;
+  --scrap-paper: #f6efdc;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -69,6 +76,13 @@
   --color-lime-clean: var(--lime-clean);
   --color-lime-light: var(--lime-light);
   --color-lime-border: var(--lime-border);
+  --color-ivory: var(--ivory);
+  --color-sage: var(--sage);
+  --color-sage-light: var(--sage-light);
+  --color-taupe: var(--taupe);
+  --color-terracotta: var(--terracotta);
+  --color-scrap-paper: var(--scrap-paper);
+  --font-hand: var(--font-caveat);
   --font-sans: var(--font-sans);
   --font-serif: var(--font-playfair);
   --font-heading: var(--font-sans);
