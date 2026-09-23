@@ -9,11 +9,11 @@ jest.mock("@/components/grocery-upgrader", () => {
   };
 });
 
-jest.mock("@/components/bottom-nav", () => ({
-  BottomNav: function MockBottomNav() {
+jest.mock("@/components/bottom-nav", () => {
+  return function MockBottomNav() {
     return <div data-testid="mock-bottom-nav">Mock Bottom Nav</div>;
-  },
-}));
+  };
+});
 
 describe("ShopPage", () => {
   it("renders the main container", () => {

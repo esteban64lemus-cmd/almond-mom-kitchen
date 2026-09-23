@@ -1,5 +1,7 @@
 "use server";
 
+import { SAFETY_RAILS, sanitizeAiInput } from "@/lib/ai-safety";
+
 interface AIResponse<T> {
   success: boolean;
   data?: T;
@@ -14,8 +16,8 @@ interface CravingData {
 }
 
 interface FridgeAuditData {
-  verdict: string;
-  hidden_toxins: string;
+  verdict: "Enjoy" | "Level up";
+  notes: string;
   clean_swap: string;
   impact: string;
 }
@@ -50,7 +52,11 @@ async function fetchAI(
   }
 
   const url = `https://ai-gateway.vercel.sh/v1/chat/completions`;
-  const systemPrompt = `You are a high-end holistic wellness coach AI. Output ONLY valid JSON matching this schema properties: ${JSON.stringify(schemaProperties)}. Do not include markdown code blocks around the JSON.`;
+  const systemPrompt = `You are Almond Mom, a warm holistic kitchen companion.
+
+${SAFETY_RAILS}
+
+Output ONLY valid JSON matching these schema properties: ${JSON.stringify(schemaProperties)}. Do not include markdown code blocks around the JSON.`;
 
   const payload = {
     model: "openai/gpt-4o",
@@ -95,7 +101,7 @@ async function fetchAI(
 export async function analyzeCraving(
   input: string,
 ): Promise<AIResponse<CravingData>> {
-  const prompt = `User is craving: "${input}". Act as a high-end wellness coach. Analyze the craving. Explain the biological deficiency (magnesium, etc.), provide a whole-food alternative, the science behind it, and a motivational tip.`;
+  const prompt = `User is craving: "${sanitizeAiInput(input)}". Gently explore what this craving may be telling them (for example rest, comfort, magnesium, or simply enjoyment — enjoyment is valid). Suggest a satisfying whole-food option they could have alongside or instead if they'd like, the simple science behind it, and a kind tip.`;
 
   const schema = {
     deficiency: { type: "string" },
@@ -117,11 +123,11 @@ export async function analyzeCraving(
 export async function auditFridgeItem(
   input: string,
 ): Promise<AIResponse<FridgeAuditData>> {
-  const prompt = `User has "${input}" in their refrigerator. Act as a strict but encouraging holistic wellness coach. Analyze this food item. Provide a verdict ("Keep" or "Toss"), identify any hidden toxins (seed oils, sugars, gums), suggest a clean swap, and explain the biological impact.`;
+  const prompt = `User has "${sanitizeAiInput(input)}" in their refrigerator. Give a verdict of exactly "Enjoy" (great as is) or "Level up" (great with an easy addition). Add a short neutral note about what's in it, suggest one easy thing to pair or add for more nourishment, and describe in one sentence how it can support their day.`;
 
   const schema = {
-    verdict: { type: "string" },
-    hidden_toxins: { type: "string" },
+    verdict: { type: "string", enum: ["Enjoy", "Level up"] },
+    notes: { type: "string" },
     clean_swap: { type: "string" },
     impact: { type: "string" },
   };
@@ -139,7 +145,7 @@ export async function auditFridgeItem(
 export async function generateCleanRecipe(
   items: string[],
 ): Promise<AIResponse<CleanRecipeData>> {
-  const prompt = `I have these items in my fridge/pantry: ${items.join(", ")}. Act as an Almond Mom Kitchen wellness chef. Create a highly aesthetic, clean-girl, gut-friendly recipe using some of these items (and basic pantry staples). Output the title, prep time, ingredients list, step-by-step instructions, and the core wellness benefit.`;
+  const prompt = `I have these items in my fridge/pantry: ${items.map(sanitizeAiInput).join(", ")}. Create a beautiful, cozy, gut-friendly recipe using some of these items (and basic pantry staples). Output the title, prep time, ingredients list, step-by-step instructions, and the core wellness benefit.`;
 
   const schema = {
     title: { type: "string" },
@@ -162,7 +168,7 @@ export async function generateCleanRecipe(
 export async function upgradeGroceryList(
   input: string,
 ): Promise<AIResponse<GroceryUpgradeItem[]>> {
-  const prompt = `Here is my standard grocery list: "${input}". Act as an elite holistic wellness coach. Upgrade this list to the cleanest, highest-quality 'Almond Mom' standards. For each item, provide the original name, a specific clean brand or whole-food alternative swap, and the health reason.`;
+  const prompt = `Here is my grocery list: "${sanitizeAiInput(input)}". For each item, suggest an optional upgrade — a whole-food variety, a more nourishing version, or something to add alongside it. Provide the original name, the suggestion, and one friendly sentence on why it's nice. Keeping the original is always fine.`;
 
   const schema = {
     upgrades: {

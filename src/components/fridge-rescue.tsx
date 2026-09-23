@@ -6,15 +6,14 @@ import {
   Plus,
   Trash2,
   Loader2,
-  ShieldAlert,
   Leaf,
   Sparkles,
 } from "lucide-react";
 import { auditFridgeItem, generateCleanRecipe } from "@/app/actions/ai-actions";
 
 interface FridgeAuditData {
-  verdict: string;
-  hidden_toxins: string;
+  verdict: "Enjoy" | "Level up";
+  notes: string;
   clean_swap: string;
   impact: string;
 }
@@ -150,16 +149,16 @@ export default function FridgeRescue() {
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className={`rounded-[2.5rem] border p-6 ${auditResult.verdict === "Toss" ? "border-red-100 bg-red-50" : "bg-lime-light border-lime-border"} space-y-4`}
+              className={`rounded-[2.5rem] border p-6 ${auditResult.verdict === "Level up" ? "border-scrap-paper bg-ivory" : "bg-lime-light border-lime-border"} space-y-4`}
             >
               <div className="flex items-center space-x-3">
-                {auditResult.verdict === "Toss" ? (
-                  <ShieldAlert className="text-red-500" />
+                {auditResult.verdict === "Level up" ? (
+                  <Sparkles className="text-terracotta" />
                 ) : (
                   <Leaf className="text-lime-clean" />
                 )}
                 <h3 className="font-serif text-stone-800 italic">
-                  AI Audit: {auditResult.verdict.toUpperCase()}
+                  Almond Mom says: {auditResult.verdict}
                 </h3>
               </div>
               <p className="text-xs leading-relaxed text-stone-600 italic">
@@ -168,7 +167,7 @@ export default function FridgeRescue() {
               {auditResult.clean_swap && (
                 <div className="pt-2">
                   <p className="mb-1 text-[10px] font-bold tracking-widest text-stone-400 uppercase">
-                    Recommended Swap
+                    Try adding
                   </p>
                   <p className="text-sm font-medium text-stone-800">
                     {auditResult.clean_swap}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import Link from "next/link";
 import { recipes } from "@/data/recipes";
 import { RecipeCard } from "@/components/RecipeCard";
 import { motion } from "framer-motion";
@@ -28,9 +29,9 @@ export default function BlogIndex() {
       {/* Header */}
       <div className="bg-white/60 backdrop-blur-md border-b border-neutral-100 sticky top-0 z-20 px-4 py-4">
         <div className="max-w-6xl mx-auto flex items-center justify-between gap-4 flex-wrap">
-          <a href="/" className="font-playfair text-xl font-bold text-obsidian tracking-tight">
+          <Link href="/" className="font-playfair text-xl font-bold text-obsidian tracking-tight">
             ALMOND<span className="text-sage italic">MOM</span>
-          </a>
+          </Link>
           <div className="relative flex-1 max-w-sm">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-400" />
             <input

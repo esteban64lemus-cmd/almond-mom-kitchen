@@ -82,7 +82,7 @@ export default function CravingsCrusher() {
           >
             <div className="space-y-1">
               <p className="text-[10px] font-bold tracking-widest text-stone-400 uppercase">
-                Biological Gap
+                What your body may be asking for
               </p>
               <p className="font-serif text-xl text-stone-800">
                 {cravingResult.deficiency}
@@ -91,7 +91,7 @@ export default function CravingsCrusher() {
             <div className="h-px w-full bg-stone-100" />
             <div className="space-y-2">
               <p className="text-[10px] font-bold tracking-widest text-stone-400 uppercase">
-                Clean Swap
+                Something to try
               </p>
               <p className="font-serif text-lg text-stone-800 italic">
                 {cravingResult.alternative}

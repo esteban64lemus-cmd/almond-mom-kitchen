@@ -20,7 +20,7 @@ export default function BottomNav() {
     { name: "FRIDGE", path: "/fridge-rescue", icon: Refrigerator },
     { name: "CRAVINGS", path: "/cravings", icon: Utensils },
     { name: "SHOP", path: "/shop", icon: ShoppingCart },
-    { name: "LOG", path: "/log", icon: Activity },
+    { name: "QUESTS", path: "/quests", icon: Activity },
     { name: "READ", path: "/blog", icon: BookOpen },
   ];
 
