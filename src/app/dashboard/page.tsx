@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import {
   Flame,
+  Gamepad2,
   Activity,
   ChevronRight,
   Refrigerator,
@@ -164,6 +165,32 @@ export default function DashboardPage() {
                     </h3>
                     <p className="text-xs font-medium text-stone-500">
                       Clean up your shopping list
+                    </p>
+                  </div>
+                </div>
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-black/5 text-stone-400 transition-colors group-hover:bg-stone-800 group-hover:text-white">
+                  <ChevronRight size={16} />
+                </div>
+              </motion.div>
+            </Link>
+
+            <Link href="/hot-potato" className="block">
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                className="group flex items-center justify-between rounded-[32px] border border-black/5 bg-white/80 p-6 shadow-sm backdrop-blur-md transition-all hover:border-black/10 hover:shadow-md"
+              >
+                <div className="flex items-center gap-5">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-terracotta/10 text-terracotta transition-colors group-hover:bg-terracotta group-hover:text-white">
+                    <Gamepad2 size={24} strokeWidth={1.5} />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-black tracking-tight text-stone-800">
+                      Hot Potato
+                    </h3>
+                    <p className="text-xs font-medium text-stone-500">
+                      Pass-the-phone party game for kids
                     </p>
                   </div>
                 </div>
