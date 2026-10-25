@@ -5,6 +5,7 @@ import { SEOHandler } from "@/components/global/SEO-Handler";
 import { cn } from "@/lib/utils";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { CartProvider } from "@/components/cart-provider";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -71,7 +72,7 @@ export default function RootLayout({
         <SEOHandler schemaData={orgSchema} />
       </head>
       <body suppressHydrationWarning className="bg-background text-obsidian flex min-h-full flex-col font-sans">
-        {children}
+        <CartProvider>{children}</CartProvider>
         <Analytics />
         <SpeedInsights />
       </body>

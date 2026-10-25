@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import Image from "next/image";
 import {
   Flame,
   Activity,
@@ -13,6 +12,8 @@ import {
 } from "lucide-react";
 
 import { recipes } from "@/data/recipes";
+import { CartLink } from "@/components/cart-link";
+import { MealFinderCard } from "@/components/meal-finder-card";
 
 export default function DashboardPage() {
   return (
@@ -26,7 +27,8 @@ export default function DashboardPage() {
         <div className="font-serif text-xl text-stone-800 italic">
           Almond Mom Hub
         </div>
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-3">
+          <CartLink />
           <button className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border-2 border-white bg-stone-200 text-xs font-bold text-stone-500 shadow-sm transition-transform hover:scale-105">
             JM
           </button>
@@ -187,42 +189,14 @@ export default function DashboardPage() {
           </div>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             {recipes.slice(0, 4).map((recipe, index) => (
-              <Link
-                href={`/blog/${recipe.slug}`}
+              <motion.div
                 key={recipe.id}
-                className="block"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
               >
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
-                  className="group h-full cursor-pointer overflow-hidden rounded-3xl border border-stone-100 bg-white/60 shadow-sm backdrop-blur-md transition-all hover:shadow-xl"
-                >
-                  <div className="relative h-40 w-full overflow-hidden bg-stone-100">
-                    <Image
-                      src={recipe.image}
-                      alt={recipe.title}
-                      fill
-                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                    />
-                  </div>
-                  <div className="p-5">
-                    <h3 className="text-md mb-2 font-serif leading-snug text-stone-800 italic">
-                      {recipe.title}
-                    </h3>
-                    <div className="flex gap-2">
-                      {recipe.dietaryTags.slice(0, 2).map((tag) => (
-                        <span
-                          key={tag}
-                          className="rounded bg-stone-100 px-2 py-1 text-[9px] font-bold text-stone-600 uppercase"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </motion.div>
-              </Link>
+                <MealFinderCard recipe={recipe} />
+              </motion.div>
             ))}
           </div>
         </div>
