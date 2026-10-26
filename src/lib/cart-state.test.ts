@@ -4,6 +4,7 @@ import {
   cartTotalCents,
   formatMoney,
   isCartLine,
+  orderAfterCartEdit,
   setLineQty,
   type CartLine,
 } from "./cart-state";
@@ -54,6 +55,13 @@ describe("cart state", () => {
     expect(order.lines).toEqual([{ ...chia, qty: 2 }]);
     expect(order.lines).not.toBe(lines);
     expect(order.placedAt).toBe(new Date(1_700_000_000_000).toISOString());
+  });
+
+  it("drops a previous receipt when the cart is emptied again", () => {
+    const placed = buildOrder([{ ...chia, qty: 1 }], 1_700_000_000_000);
+    const restocked = [{ ...chia, qty: 1 }];
+    expect(orderAfterCartEdit(placed, restocked)).toBe(placed);
+    expect(orderAfterCartEdit(placed, [])).toBeNull();
   });
 
   it("rejects stored rows that are not a real cart line", () => {

@@ -7,6 +7,7 @@ import {
   cartCount,
   cartTotalCents,
   isCartLine,
+  orderAfterCartEdit,
   setLineQty,
   type CartLine,
   type Order,
@@ -90,8 +91,16 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       add: (item, qty = 1) => commit(addLine(getSnapshot(), item, qty)),
       addMany: (items) =>
         commit(items.reduce((next, item) => addLine(next, item, 1), getSnapshot())),
-      setQty: (id, qty) => commit(setLineQty(getSnapshot(), id, qty)),
-      remove: (id) => commit(setLineQty(getSnapshot(), id, 0)),
+      setQty: (id, qty) => {
+        const next = setLineQty(getSnapshot(), id, qty);
+        commit(next);
+        setLastOrder((current) => orderAfterCartEdit(current, next));
+      },
+      remove: (id) => {
+        const next = setLineQty(getSnapshot(), id, 0);
+        commit(next);
+        setLastOrder((current) => orderAfterCartEdit(current, next));
+      },
       placeOrder: () => {
         const current = getSnapshot();
         if (current.length === 0) return null;

@@ -63,6 +63,10 @@ export function formatMoney(cents: number): string {
   }).format(cents / 100);
 }
 
+export function orderAfterCartEdit(lastOrder: Order | null, nextLines: CartLine[]): Order | null {
+  return nextLines.length === 0 ? null : lastOrder;
+}
+
 export function buildOrder(lines: CartLine[], now = Date.now()): Order {
   const snapshot = lines.map((line) => ({ ...line }));
   return {
