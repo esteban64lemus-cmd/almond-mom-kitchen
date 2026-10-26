@@ -38,7 +38,7 @@ export default function GroceryUpgrader() {
   return (
     <div className="animate-in slide-in-bottom space-y-8 duration-500">
       <div className="space-y-2 text-center">
-        <h2 className="font-serif text-3xl italic">Grocery Upgrader</h2>
+        <h2 className="font-display text-3xl font-extrabold">Grocery Upgrader</h2>
         <p className="mx-auto max-w-xs text-sm text-stone-500">
           Paste your basic shopping list and let AI swap it for the cleanest
           alternatives.
@@ -55,7 +55,7 @@ export default function GroceryUpgrader() {
         <button
           onClick={handleUpgradeGrocery}
           disabled={isUpgradingGrocery || !groceryInput.trim()}
-          className="flex w-full items-center justify-center space-x-2 rounded-full bg-stone-900 py-4 text-sm font-bold tracking-widest text-white uppercase transition-all hover:bg-stone-800 disabled:opacity-50"
+          className="flex w-full items-center justify-center space-x-2 rounded-full bg-coral py-4 text-sm font-bold tracking-widest text-white uppercase transition-all hover:bg-coral-strong disabled:opacity-50 active:scale-[0.985]"
         >
           {isUpgradingGrocery ? (
             <Loader2 className="animate-spin" size={18} />

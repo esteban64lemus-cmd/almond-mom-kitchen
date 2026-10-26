@@ -1,13 +1,24 @@
 import type { Metadata } from "next";
-import { Outfit, Playfair_Display, Geist, Caveat } from "next/font/google";
+import { Outfit, Playfair_Display, Caveat, Plus_Jakarta_Sans, Nunito } from "next/font/google";
 import "./globals.css";
 import { SEOHandler } from "@/components/global/SEO-Handler";
 import { cn } from "@/lib/utils";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { CartProvider } from "@/components/cart-provider";
+import { SavedProvider } from "@/components/saved-provider";
 
-const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
+const jakarta = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  weight: ["400", "500", "600", "700", "800"],
+});
+
+const nunito = Nunito({
+  subsets: ["latin"],
+  variable: "--font-nunito",
+  weight: ["700", "800"],
+});
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -64,15 +75,18 @@ export default function RootLayout({
         outfit.variable,
         playfair.variable,
         caveat.variable,
+        jakarta.variable,
+        nunito.variable,
         "font-sans",
-        geist.variable,
       )}
     >
       <head>
         <SEOHandler schemaData={orgSchema} />
       </head>
-      <body suppressHydrationWarning className="bg-background text-obsidian flex min-h-full flex-col font-sans">
-        <CartProvider>{children}</CartProvider>
+      <body suppressHydrationWarning className="bg-cream text-ink flex min-h-full flex-col font-sans">
+        <CartProvider>
+          <SavedProvider>{children}</SavedProvider>
+        </CartProvider>
         <Analytics />
         <SpeedInsights />
       </body>
