@@ -14,6 +14,29 @@ export interface Recipe {
 
 export const recipes: Recipe[] = [
   {
+    id: "21",
+    slug: "lemon-herb-chicken-bowl",
+    title: "Lemon Herb Chicken Bowl",
+    description: "A bright weeknight bowl — herby chicken, quinoa, and a pile of spinach.",
+    image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80",
+    prepTime: "10 mins",
+    cookTime: "15 mins",
+    servings: 1,
+    dietaryTags: ["High Protein", "Gluten-Free"],
+    ingredients: [
+      "6 oz chicken breast",
+      "3/4 cup quinoa, cooked",
+      "2 cups spinach",
+      "1 tbsp olive oil",
+      "1 lemon zest"
+    ],
+    instructions: [
+      "Pat the chicken breast dry and season with salt, pepper, and lemon zest.",
+      "Heat olive oil in a pan over medium heat. Sear chicken until golden and cooked through, about 6–8 minutes per side.",
+      "Slice the chicken over quinoa and spinach. Finish with any extra lemon zest."
+    ]
+  },
+  {
     id: "1",
     slug: "chia-seed-pudding-jar",
     title: "Overnight Chia Seed Pudding",

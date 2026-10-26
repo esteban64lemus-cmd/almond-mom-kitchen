@@ -13,11 +13,12 @@ import {
 
 import { recipes } from "@/data/recipes";
 import { CartLink } from "@/components/cart-link";
-import { MealFinderCard } from "@/components/meal-finder-card";
+import { MealCard } from "@/components/kitchen/meal-card";
+import BottomNav from "@/components/bottom-nav";
 
 export default function DashboardPage() {
   return (
-    <div className="relative flex min-h-screen flex-col items-center overflow-hidden bg-[#FDFCFB] p-6 font-sans">
+    <div className="relative flex min-h-screen flex-col items-center overflow-hidden bg-cream p-6 pb-32 font-sans text-ink">
       {/* Abstract Background Elements */}
       <div className="bg-lime-light pointer-events-none fixed top-[-5%] left-[-10%] h-[50%] w-[50%] rounded-full opacity-40 blur-[150px]" />
       <div className="pointer-events-none fixed right-[-10%] bottom-[-10%] h-[40%] w-[40%] rounded-full bg-stone-100 opacity-60 blur-[120px]" />
@@ -58,19 +59,19 @@ export default function DashboardPage() {
           className="mb-10 grid grid-cols-2 gap-4"
         >
           {/* Consistency Card */}
-          <div className="group relative overflow-hidden rounded-[32px] bg-stone-900 p-6 text-white shadow-xl shadow-black/10 transition-transform hover:scale-[1.02]">
+          <div className="group relative overflow-hidden rounded-[32px] bg-coral-soft p-6 text-ink shadow-[0_12px_28px_rgba(61,41,20,0.08)]">
             <div className="pointer-events-none absolute top-0 right-0 -mt-10 -mr-10 h-32 w-32 rounded-full bg-white/5 blur-2xl" />
             <div className="mb-8 flex items-center gap-2">
               <Flame size={16} className="text-orange-400" />
-              <span className="text-[10px] font-bold tracking-widest text-white/60 uppercase">
+              <span className="text-[10px] font-bold tracking-widest text-coral-strong uppercase">
                 Consistency
               </span>
             </div>
             <div className="flex items-baseline gap-1">
-              <span className="font-sans text-4xl font-black tracking-tighter">
+              <span className="font-display text-4xl font-extrabold tracking-tighter">
                 12
               </span>
-              <span className="text-sm font-bold tracking-widest text-white/60 uppercase">
+              <span className="text-sm font-bold tracking-widest text-muted-foreground uppercase">
                 Days
               </span>
             </div>
@@ -188,19 +189,13 @@ export default function DashboardPage() {
             </Link>
           </div>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            {recipes.slice(0, 4).map((recipe, index) => (
-              <motion.div
-                key={recipe.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
-              >
-                <MealFinderCard recipe={recipe} />
-              </motion.div>
+            {recipes.slice(0, 4).map((recipe) => (
+              <MealCard key={recipe.id} recipe={recipe} layout="tile" />
             ))}
           </div>
         </div>
       </main>
+      <BottomNav />
     </div>
   );
 }

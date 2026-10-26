@@ -4,6 +4,8 @@ export type CartLine = {
   amount: string;
   priceCents: number;
   qty: number;
+  /** Recipe the line was added from, when we know it. */
+  recipeTitle?: string;
 };
 
 export type Order = {
@@ -26,7 +28,8 @@ export function isCartLine(value: unknown): value is CartLine {
     line.priceCents >= 0 &&
     typeof line.qty === "number" &&
     Number.isInteger(line.qty) &&
-    line.qty > 0
+    line.qty > 0 &&
+    (line.recipeTitle === undefined || typeof line.recipeTitle === "string")
   );
 }
 
@@ -39,7 +42,14 @@ export function addLine(
   const existing = lines.find((line) => line.id === item.id);
   if (!existing) return [...lines, { ...item, qty }];
   return lines.map((line) =>
-    line.id === item.id ? { ...line, qty: line.qty + qty, amount: item.amount } : line,
+    line.id === item.id
+      ? {
+          ...line,
+          qty: line.qty + qty,
+          amount: item.amount,
+          recipeTitle: item.recipeTitle ?? line.recipeTitle,
+        }
+      : line,
   );
 }
 

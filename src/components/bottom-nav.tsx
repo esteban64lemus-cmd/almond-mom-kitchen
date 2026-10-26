@@ -2,67 +2,59 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  Home,
-  Refrigerator,
-  ShoppingCart,
-  Activity,
-  BookOpen,
-  Utensils,
-} from "lucide-react";
-import { motion } from "framer-motion";
+import { Bookmark, Home, ShoppingBag, User } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
+
+const NAV = [
+  { name: "Home", path: "/", icon: Home },
+  { name: "Shop", path: "/shop", icon: ShoppingBag },
+  { name: "Saved", path: "/saved", icon: Bookmark },
+  { name: "Profile", path: "/dashboard", icon: User },
+];
+
+function isActive(pathname: string, path: string) {
+  if (path === "/") return pathname === "/";
+  if (path === "/shop") return pathname === "/shop" || pathname === "/cart";
+  if (path === "/dashboard") {
+    return ["/dashboard", "/login", "/setup", "/quests", "/fridge-rescue"].includes(pathname);
+  }
+  return pathname === path || pathname.startsWith(`${path}/`);
+}
 
 export default function BottomNav() {
   const pathname = usePathname();
-
-  const navItems = [
-    { name: "HOME", path: "/", icon: Home },
-    { name: "FRIDGE", path: "/fridge-rescue", icon: Refrigerator },
-    { name: "CRAVINGS", path: "/cravings", icon: Utensils },
-    { name: "SHOP", path: "/shop", icon: ShoppingCart },
-    { name: "LOG", path: "/log", icon: Activity },
-    { name: "READ", path: "/blog", icon: BookOpen },
-  ];
+  const reduce = useReducedMotion();
 
   return (
-    <div className="pointer-events-none fixed right-0 bottom-6 left-0 z-50 flex justify-center px-4">
-      <motion.nav
-        initial={{ y: 50, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-        className="glass no-scrollbar pointer-events-auto flex max-w-full items-center gap-1 overflow-x-auto rounded-[32px] px-2 py-2 shadow-2xl shadow-black/10"
-      >
-        {navItems.map((item) => {
-          const isActive = pathname === item.path;
+    <nav className="fixed right-0 bottom-0 left-0 z-50 border-t border-border bg-white px-8 pt-4 pb-[max(1.25rem,env(safe-area-inset-bottom))] shadow-[0_-8px_24px_rgba(61,41,20,0.04)]">
+      <div className="mx-auto flex max-w-md items-center justify-between">
+        {NAV.map((item) => {
+          const active = isActive(pathname, item.path);
           const Icon = item.icon;
-
           return (
             <Link
               key={item.name}
               href={item.path}
-              className={`relative flex h-14 w-16 flex-col items-center justify-center rounded-2xl transition-all duration-300 ${
-                isActive
-                  ? "text-obsidian"
-                  : "text-obsidian/40 hover:text-obsidian hover:bg-black/5"
+              className={`flex flex-col items-center gap-1.5 text-[10px] font-bold tracking-widest uppercase ${
+                active ? "text-coral" : "text-muted-foreground hover:text-coral"
               }`}
             >
-              {isActive && (
-                <motion.div
-                  layoutId="active-nav-bg"
-                  className="absolute inset-0 rounded-2xl border border-black/5 bg-white shadow-sm"
-                  transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                />
-              )}
-              <div className="relative z-10 flex flex-col items-center gap-1">
-                <Icon size={20} strokeWidth={isActive ? 2.5 : 2} />
-                <span className="text-[9px] font-bold tracking-wider">
-                  {item.name}
-                </span>
-              </div>
+              <motion.span
+                className="relative"
+                whileTap={reduce ? undefined : { scale: 0.9 }}
+                animate={reduce ? undefined : { scale: active ? 1.04 : 1 }}
+                transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+              >
+                {active ? (
+                  <span className="absolute -top-2 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-coral" />
+                ) : null}
+                <Icon size={24} strokeWidth={active ? 2.4 : 2} />
+              </motion.span>
+              {item.name}
             </Link>
           );
         })}
-      </motion.nav>
-    </div>
+      </div>
+    </nav>
   );
 }

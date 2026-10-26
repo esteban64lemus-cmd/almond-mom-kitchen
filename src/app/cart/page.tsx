@@ -4,12 +4,13 @@ import Link from "next/link";
 import { formatMoney } from "@/lib/cart-state";
 import { useCart } from "@/components/cart-provider";
 import { CartLink } from "@/components/cart-link";
+import BottomNav from "@/components/bottom-nav";
 
 export default function CartPage() {
   const { lines, totalCents, lastOrder, setQty, remove, placeOrder } = useCart();
 
   return (
-    <div className="min-h-screen bg-[#FDFCFB] px-6 py-8 text-stone-800">
+    <div className="min-h-screen bg-cream px-6 py-8 pb-32 text-ink">
       <div className="mx-auto w-full max-w-2xl">
         <nav className="mb-8 flex items-center justify-between">
           <Link
@@ -80,7 +81,7 @@ export default function CartPage() {
                 </li>
               ))}
             </ul>
-            <div className="mt-6 rounded-3xl bg-stone-900 p-6 text-white">
+            <div className="mt-6 rounded-[32px] bg-coral p-6 text-white">
               <div className="mb-5 flex items-baseline justify-between">
                 <span className="text-[10px] font-bold tracking-[0.18em] text-white/60 uppercase">
                   Subtotal
@@ -90,7 +91,7 @@ export default function CartPage() {
               <button
                 type="button"
                 onClick={() => placeOrder()}
-                className="w-full rounded-2xl bg-white py-3 text-[11px] font-bold tracking-[0.18em] text-stone-900 uppercase"
+                className="w-full rounded-full bg-white py-3 text-[11px] font-bold tracking-[0.18em] text-ink uppercase active:scale-[0.985]"
               >
                 Buy ingredients
               </button>
@@ -101,6 +102,7 @@ export default function CartPage() {
           </>
         )}
       </div>
+      <BottomNav />
     </div>
   );
 }
@@ -113,8 +115,8 @@ function EmptyCart() {
         Nothing here yet. Open a meal and add the ingredients you want to buy.
       </p>
       <Link
-        href="/dashboard"
-        className="inline-flex rounded-2xl bg-stone-900 px-5 py-3 text-[10px] font-bold tracking-[0.18em] text-white uppercase"
+        href="/"
+        className="inline-flex rounded-full bg-coral px-5 py-3 text-[10px] font-bold tracking-[0.18em] text-white uppercase"
       >
         Back to meals
       </Link>

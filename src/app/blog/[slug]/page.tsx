@@ -1,175 +1,212 @@
 "use client";
 
 import { use, useState } from "react";
-import { recipes } from "@/data/recipes";
-import { notFound } from "next/navigation";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { RecipeCard } from "@/components/RecipeCard";
-import { CartLink } from "@/components/cart-link";
-import { ShoppableIngredients } from "@/components/shoppable-ingredients";
-import { ArrowLeft, CheckCircle2, Circle, Clock, Users, Flame } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { notFound } from "next/navigation";
+import { ChevronLeft, Clock, Heart, Minus, Plus } from "lucide-react";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { recipes } from "@/data/recipes";
+import {
+  macrosForIngredient,
+  macrosForRecipe,
+  scaleMacros,
+  shopItemsForRecipe,
+  totalTimeLabel,
+} from "@/lib/kitchen";
+import { parseIngredientLine } from "@/lib/shoppable";
+import { useCart } from "@/components/cart-provider";
+import { useSaved } from "@/components/saved-provider";
+import BottomNav from "@/components/bottom-nav";
+import { IngredientPhoto } from "@/components/kitchen/ingredient-photo";
+import { SwipeRow } from "@/components/kitchen/swipe-row";
+
+function leadMacro(name: string) {
+  const macros = macrosForIngredient(name);
+  const options = [
+    { label: `${macros.protein}P`, value: macros.protein, className: "text-protein" },
+    { label: `${macros.carbs}C`, value: macros.carbs, className: "text-carbs" },
+    { label: `${macros.fat}F`, value: macros.fat, className: "text-fat" },
+  ];
+  return options.reduce((best, option) => (option.value > best.value ? option : best));
+}
 
 export default function RecipePage({ params }: { params: Promise<{ slug: string }> }) {
-  const resolvedParams = use(params);
-  const recipe = recipes.find((r) => r.slug === resolvedParams.slug);
+  const { slug } = use(params);
+  const recipe = recipes.find((entry) => entry.slug === slug);
+  const router = useRouter();
+  const { addMany } = useCart();
+  const saved = useSaved();
+  const reduce = useReducedMotion();
+  const { scrollY } = useScroll();
+  const heroY = useTransform(scrollY, [0, 280], [0, reduce ? 0 : 8]);
+  const [servings, setServings] = useState(recipe?.servings ?? 1);
+  const [have, setHave] = useState<Set<string>>(new Set());
 
   if (!recipe) notFound();
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [checked, setChecked] = useState<Set<number>>(new Set());
+  const factor = servings / recipe.servings;
+  const macros = scaleMacros(macrosForRecipe(recipe), factor);
+  const items = recipe.ingredients.flatMap((line) => parseIngredientLine(line));
+  const isSaved = saved.isSaved(recipe.id);
 
-  const toggle = (i: number) =>
-    setChecked((prev) => {
-      const next = new Set(prev);
-      next.has(i) ? next.delete(i) : next.add(i);
+  function toggleHave(id: string) {
+    setHave((current) => {
+      const next = new Set(current);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
       return next;
     });
-
-  const related = recipes.filter(
-    (r) => r.id !== recipe.id && r.dietaryTags.some((t) => recipe.dietaryTags.includes(t))
-  ).slice(0, 3);
+  }
 
   return (
-    <div className="min-h-screen bg-[#FBF9F6]">
-      {/* Sticky top bar */}
-      <div className="sticky top-0 z-20 bg-white/70 backdrop-blur-md border-b border-obsidian/5 px-4 py-3">
-        <div className="max-w-4xl mx-auto flex items-center justify-between">
-          <Link
-            href="/blog"
-            className="inline-flex items-center gap-1.5 text-sm font-semibold text-obsidian/60 hover:text-obsidian transition-colors"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Recipes
-          </Link>
-          <span className="font-playfair text-lg font-bold text-obsidian hidden sm:block">
-            ALMOND<span className="text-sage italic">MOM</span>
-          </span>
-          <div className="flex items-center gap-2">
-            <CartLink />
-            {recipe.dietaryTags.slice(0, 2).map((tag) => (
-              <span
-                key={tag}
-                className="rounded-full bg-sage/10 px-3 py-1 text-xs font-bold uppercase tracking-wide text-sage"
+    <div className="min-h-screen bg-cream text-ink">
+      <div className="mx-auto min-h-screen w-full max-w-md pb-40">
+        <div className="relative h-[55vh] overflow-hidden rounded-b-[32px] shadow-lg">
+          <motion.img
+            src={recipe.image}
+            alt={recipe.title}
+            style={{ y: heroY }}
+            className="h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-linear-to-b from-black/20 via-transparent to-transparent" />
+          <header className="absolute inset-x-0 top-0 z-10 flex items-center justify-between px-5 pt-14">
+            <Link
+              href="/"
+              aria-label="Back to meals"
+              className="flex size-11 items-center justify-center rounded-full bg-white/90 text-ink shadow-sm backdrop-blur-md active:scale-95"
+            >
+              <ChevronLeft size={24} />
+            </Link>
+            <button
+              type="button"
+              aria-label={isSaved ? "Remove from saved" : "Save recipe"}
+              onClick={() => saved.toggle(recipe.id)}
+              className="flex size-11 items-center justify-center rounded-full bg-white/90 text-coral shadow-sm backdrop-blur-md active:scale-95"
+            >
+              <Heart size={20} fill={isSaved ? "currentColor" : "none"} />
+            </button>
+          </header>
+        </div>
+
+        <div className="mt-8 px-5">
+          <h1 className="font-display mb-2 text-[28px] leading-tight font-extrabold">{recipe.title}</h1>
+          <p className="mb-4 text-[15px] leading-relaxed text-muted-foreground">{recipe.description}</p>
+          <div className="mb-5 flex items-center justify-between">
+            <div className="flex items-center gap-1.5 rounded-full bg-secondary px-3 py-1">
+              <button
+                type="button"
+                aria-label="Fewer servings"
+                className="text-lg leading-none font-bold text-coral active:scale-90"
+                onClick={() => setServings((value) => Math.max(1, value - 1))}
               >
-                {tag}
+                <Minus size={16} />
+              </button>
+              <span className="mx-2 text-sm font-bold">
+                {servings} {servings === 1 ? "serving" : "servings"}
               </span>
-            ))}
+              <button
+                type="button"
+                aria-label="More servings"
+                className="text-lg leading-none font-bold text-coral active:scale-90"
+                onClick={() => setServings((value) => Math.min(12, value + 1))}
+              >
+                <Plus size={16} />
+              </button>
+            </div>
+            <div className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground">
+              <Clock className="text-coral" size={16} />
+              {totalTimeLabel(recipe.prepTime, recipe.cookTime)}
+            </div>
           </div>
+
+          <div className="mb-6 rounded-[24px] border border-border bg-white p-4 shadow-sm">
+            <div className="mb-1 flex items-center justify-between">
+              <span className="text-[11px] font-bold tracking-wider text-faint uppercase">This meal</span>
+              <span className="text-[13px] font-bold text-kcal">{macros.kcal} kcal</span>
+            </div>
+            <div className="mb-3 flex gap-2">
+              <div className="h-1.5 flex-1 rounded-full bg-protein" />
+              <div className="h-1.5 flex-1 rounded-full bg-carbs" />
+              <div className="h-1.5 flex-1 rounded-full bg-fat" />
+            </div>
+            <div className="flex gap-4 text-center">
+              <div>
+                <div className="text-sm font-extrabold">{macros.protein}g</div>
+                <div className="text-[10px] font-bold text-protein uppercase">P</div>
+              </div>
+              <div>
+                <div className="text-sm font-extrabold">{macros.carbs}g</div>
+                <div className="text-[10px] font-bold text-carbs uppercase">C</div>
+              </div>
+              <div>
+                <div className="text-sm font-extrabold">{macros.fat}g</div>
+                <div className="text-[10px] font-bold text-fat uppercase">F</div>
+              </div>
+            </div>
+          </div>
+
+          <section className="mb-8 rounded-[32px] border border-border bg-white p-5 shadow-[0_12px_28px_rgba(61,41,20,0.06)]">
+            <div className="mb-6 flex items-center justify-between px-1">
+              <h2 className="text-[13px] font-bold tracking-widest text-muted-foreground uppercase">
+                Ingredients
+              </h2>
+              <span className="text-[12px] font-medium text-faint italic">swipe → have it</span>
+            </div>
+            <div className="flex flex-col gap-2">
+              {items.map((item) => {
+                const owned = have.has(item.id);
+                const macro = leadMacro(item.productName);
+                return (
+                  <SwipeRow key={item.id} faded={owned} onHave={() => toggleHave(item.id)}>
+                    <div className={`flex items-center gap-4 p-2 ${owned ? "line-through" : ""}`}>
+                      <IngredientPhoto name={item.productName} />
+                      <div className="flex-1">
+                        <div className="text-[15px] font-bold">{item.productName}</div>
+                        <div className="text-[12px] text-muted-foreground">
+                          {item.amount} · <span className={macro.className}>{macro.label}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </SwipeRow>
+                );
+              })}
+            </div>
+          </section>
+
+          <section className="mb-10">
+            <h2 className="mb-6 px-1 text-[13px] font-bold tracking-widest text-muted-foreground uppercase">
+              Steps
+            </h2>
+            <ol className="space-y-6">
+              {recipe.instructions.map((step, index) => (
+                <li key={step} className="flex gap-4">
+                  <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-coral text-sm font-bold text-white shadow-sm">
+                    {index + 1}
+                  </div>
+                  <p className="pt-1 text-[15px] leading-relaxed">{step}</p>
+                </li>
+              ))}
+            </ol>
+          </section>
         </div>
       </div>
 
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Title */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-10 text-center"
-        >
-          <h1 className="font-playfair text-4xl md:text-5xl font-bold text-obsidian tracking-tight mb-4">
-            {recipe.title}
-          </h1>
-          <p className="text-lg text-obsidian/60 max-w-2xl mx-auto">{recipe.description}</p>
-        </motion.div>
-
-        {/* Hero image */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.97 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.1 }}
-          className="relative aspect-video w-full rounded-3xl overflow-hidden shadow-xl mb-10"
-        >
-          <img src={recipe.image} alt={recipe.title} className="object-cover w-full h-full" />
-        </motion.div>
-
-        {/* Meta strip */}
-        <div className="grid grid-cols-3 gap-px bg-obsidian/5 rounded-2xl overflow-hidden mb-16 shadow-sm">
-          {[
-            { icon: Clock, label: "Prep", value: recipe.prepTime },
-            { icon: Flame, label: "Cook", value: recipe.cookTime },
-            { icon: Users, label: "Servings", value: `${recipe.servings}` },
-          ].map(({ icon: Icon, label, value }) => (
-            <div key={label} className="bg-white text-center px-4 py-5">
-              <Icon className="h-5 w-5 mx-auto mb-1 text-sage" />
-              <p className="text-xs text-obsidian/40 uppercase font-bold tracking-widest mb-1">{label}</p>
-              <p className="text-lg font-semibold text-obsidian">{value}</p>
-            </div>
-          ))}
+      <div className="fixed inset-x-0 bottom-0 z-40 bg-cream">
+        <div className="mx-auto w-full max-w-md px-5 pt-4 pb-2">
+          <button
+            type="button"
+            onClick={() => {
+              addMany(shopItemsForRecipe(recipe));
+              router.push("/shop");
+            }}
+            className="flex h-16 w-full items-center justify-center rounded-full bg-coral text-[15px] font-extrabold tracking-widest text-white uppercase shadow-[0_8px_24px_rgba(255,139,92,0.3)] active:scale-[0.985] active:bg-coral-strong"
+          >
+            Add ingredients to Shop
+          </button>
         </div>
-
-        {/* Ingredients + Instructions */}
-        <div className="grid md:grid-cols-3 gap-12 lg:gap-16 mb-20">
-          {/* Ingredients — interactive checkboxes */}
-          <div className="md:col-span-1">
-            <h2 className="font-playfair text-2xl font-bold text-obsidian mb-6">Ingredients</h2>
-            <p className="text-xs text-obsidian/40 uppercase tracking-widest mb-4">Tap to check off</p>
-            <ul className="space-y-3">
-              {recipe.ingredients.map((ingredient, i) => (
-                <li key={i}>
-                  <button
-                    onClick={() => toggle(i)}
-                    className="flex items-start gap-3 w-full text-left group"
-                  >
-                    {checked.has(i) ? (
-                      <CheckCircle2 className="h-5 w-5 text-sage shrink-0 mt-0.5" />
-                    ) : (
-                      <Circle className="h-5 w-5 text-obsidian/20 shrink-0 mt-0.5 group-hover:text-sage/50 transition-colors" />
-                    )}
-                    <span
-                      className={`text-sm leading-relaxed transition-colors ${
-                        checked.has(i) ? "line-through text-obsidian/30" : "text-obsidian/70"
-                      }`}
-                    >
-                      {ingredient}
-                    </span>
-                  </button>
-                </li>
-              ))}
-            </ul>
-            {checked.size > 0 && (
-              <button
-                onClick={() => setChecked(new Set())}
-                className="mt-6 text-xs text-obsidian/40 hover:text-obsidian underline underline-offset-2 transition-colors"
-              >
-                Clear all
-              </button>
-            )}
-            <div className="mt-8">
-              <h3 className="font-playfair text-lg font-bold text-obsidian">Buy these ingredients</h3>
-              <ShoppableIngredients lines={recipe.ingredients} />
-            </div>
-          </div>
-
-          {/* Instructions */}
-          <div className="md:col-span-2">
-            <h2 className="font-playfair text-2xl font-bold text-obsidian mb-6">Instructions</h2>
-            <div className="space-y-8">
-              {recipe.instructions.map((step, i) => (
-                <div key={i} className="flex gap-5">
-                  <div className="shrink-0 w-8 h-8 rounded-full bg-sage/10 flex items-center justify-center font-bold text-sage text-sm">
-                    {i + 1}
-                  </div>
-                  <p className="text-obsidian/70 text-base leading-relaxed pt-1">{step}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Related recipes */}
-        {related.length > 0 && (
-          <div className="border-t border-obsidian/5 pt-16">
-            <h2 className="font-playfair text-2xl font-bold text-obsidian mb-8 text-center">
-              You might also like
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {related.map((r) => (
-                <RecipeCard key={r.id} recipe={r} />
-              ))}
-            </div>
-          </div>
-        )}
-      </main>
+        <BottomNav />
+      </div>
     </div>
   );
 }

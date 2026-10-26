@@ -53,14 +53,19 @@ export const createClient = async (request: NextRequest) => {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
-  // If user is NOT logged in and NOT in demo mode, they must be at /login, /, or auth callbacks
-  if (
-    !user &&
-    !isDemo &&
-    request.nextUrl.pathname !== "/login" &&
-    request.nextUrl.pathname !== "/" &&
-    !request.nextUrl.pathname.startsWith("/auth")
-  ) {
+  // Logged-out visitors can use the mix kitchen (home, recipes, shop, saved, cart).
+  // Profile, quests, fridge, and setup still require a session or demo mode.
+  const path = request.nextUrl.pathname;
+  const kitchen =
+    path === "/" ||
+    path === "/login" ||
+    path === "/welcome" ||
+    path === "/shop" ||
+    path === "/saved" ||
+    path === "/cart" ||
+    path.startsWith("/auth") ||
+    path.startsWith("/blog");
+  if (!user && !isDemo && !kitchen) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
