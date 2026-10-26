@@ -18,7 +18,7 @@ export const recipes: Recipe[] = [
     slug: "chia-seed-pudding-jar",
     title: "Overnight Chia Seed Pudding",
     description: "A nutrient-dense, low-glycemic breakfast that basically makes itself while you sleep.",
-    image: "https://images.unsplash.com/photo-1596541223130-5d5644a5b6f4?auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=800&q=80",
     prepTime: "5 mins",
     cookTime: "0 mins",
     servings: 1,

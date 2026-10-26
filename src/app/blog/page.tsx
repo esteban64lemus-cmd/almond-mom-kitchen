@@ -7,12 +7,14 @@ import { RecipeCard } from "@/components/RecipeCard";
 import { motion } from "framer-motion";
 import { Search } from "lucide-react";
 import { CartLink } from "@/components/cart-link";
+import { FocusWash } from "@/components/meal-motion";
 
 const ALL_TAGS = Array.from(new Set(recipes.flatMap((r) => r.dietaryTags))).sort();
 
 export default function BlogIndex() {
   const [query, setQuery] = useState("");
   const [activeTag, setActiveTag] = useState<string | null>(null);
+  const [openId, setOpenId] = useState<string | null>(null);
 
   const filtered = useMemo(() => {
     return recipes.filter((r) => {
@@ -25,8 +27,11 @@ export default function BlogIndex() {
     });
   }, [query, activeTag]);
 
+  const openRecipe = filtered.some((recipe) => recipe.id === openId) ? openId : null;
+
   return (
     <div className="min-h-screen bg-[#FBF9F6]">
+      <FocusWash active={openRecipe !== null} />
       {/* Header */}
       <div className="bg-white/60 backdrop-blur-md border-b border-neutral-100 sticky top-0 z-20 px-4 py-4">
         <div className="max-w-6xl mx-auto flex items-center gap-3">
@@ -47,7 +52,7 @@ export default function BlogIndex() {
         </div>
       </div>
 
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <main className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="text-center max-w-3xl mx-auto mb-10">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -110,7 +115,15 @@ export default function BlogIndex() {
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
           >
             {filtered.map((recipe) => (
-              <RecipeCard key={recipe.id} recipe={recipe} />
+              <RecipeCard
+                key={recipe.id}
+                recipe={recipe}
+                open={openRecipe === recipe.id}
+                dimmed={openRecipe !== null && openRecipe !== recipe.id}
+                onToggle={() =>
+                  setOpenId((current) => (current === recipe.id ? null : recipe.id))
+                }
+              />
             ))}
           </motion.div>
         )}

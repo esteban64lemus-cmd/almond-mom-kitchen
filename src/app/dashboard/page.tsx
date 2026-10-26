@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import {
@@ -14,10 +15,14 @@ import {
 import { recipes } from "@/data/recipes";
 import { CartLink } from "@/components/cart-link";
 import { MealFinderCard } from "@/components/meal-finder-card";
+import { FocusWash } from "@/components/meal-motion";
 
 export default function DashboardPage() {
+  const [openId, setOpenId] = useState<string | null>(null);
+
   return (
-    <div className="relative flex min-h-screen flex-col items-center overflow-hidden bg-[#FDFCFB] p-6 font-sans">
+    <div className="relative flex min-h-screen flex-col items-center overflow-x-clip bg-[#FDFCFB] p-6 font-sans">
+      <FocusWash active={openId !== null} />
       {/* Abstract Background Elements */}
       <div className="bg-lime-light pointer-events-none fixed top-[-5%] left-[-10%] h-[50%] w-[50%] rounded-full opacity-40 blur-[150px]" />
       <div className="pointer-events-none fixed right-[-10%] bottom-[-10%] h-[40%] w-[40%] rounded-full bg-stone-100 opacity-60 blur-[120px]" />
@@ -187,7 +192,7 @@ export default function DashboardPage() {
               View all →
             </Link>
           </div>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
             {recipes.slice(0, 4).map((recipe, index) => (
               <motion.div
                 key={recipe.id}
@@ -195,7 +200,14 @@ export default function DashboardPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
               >
-                <MealFinderCard recipe={recipe} />
+                <MealFinderCard
+                  recipe={recipe}
+                  open={openId === recipe.id}
+                  dimmed={openId !== null && openId !== recipe.id}
+                  onToggle={() =>
+                    setOpenId((current) => (current === recipe.id ? null : recipe.id))
+                  }
+                />
               </motion.div>
             ))}
           </div>

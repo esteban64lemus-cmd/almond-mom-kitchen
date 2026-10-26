@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 import { RecipeCard } from "@/components/RecipeCard";
 import { CartLink } from "@/components/cart-link";
 import { ShoppableIngredients } from "@/components/shoppable-ingredients";
+import { FocusWash } from "@/components/meal-motion";
 import { ArrowLeft, CheckCircle2, Circle, Clock, Users, Flame } from "lucide-react";
 
 export default function RecipePage({ params }: { params: Promise<{ slug: string }> }) {
@@ -18,6 +19,7 @@ export default function RecipePage({ params }: { params: Promise<{ slug: string 
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [checked, setChecked] = useState<Set<number>>(new Set());
+  const [openRelatedId, setOpenRelatedId] = useState<string | null>(null);
 
   const toggle = (i: number) =>
     setChecked((prev) => {
@@ -32,6 +34,7 @@ export default function RecipePage({ params }: { params: Promise<{ slug: string 
 
   return (
     <div className="min-h-screen bg-[#FBF9F6]">
+      <FocusWash active={openRelatedId !== null} />
       {/* Sticky top bar */}
       <div className="sticky top-0 z-20 bg-white/70 backdrop-blur-md border-b border-obsidian/5 px-4 py-3">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
@@ -59,7 +62,7 @@ export default function RecipePage({ params }: { params: Promise<{ slug: string 
         </div>
       </div>
 
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <main className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Title */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -164,7 +167,15 @@ export default function RecipePage({ params }: { params: Promise<{ slug: string 
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {related.map((r) => (
-                <RecipeCard key={r.id} recipe={r} />
+                <RecipeCard
+                  key={r.id}
+                  recipe={r}
+                  open={openRelatedId === r.id}
+                  dimmed={openRelatedId !== null && openRelatedId !== r.id}
+                  onToggle={() =>
+                    setOpenRelatedId((current) => (current === r.id ? null : r.id))
+                  }
+                />
               ))}
             </div>
           </div>
