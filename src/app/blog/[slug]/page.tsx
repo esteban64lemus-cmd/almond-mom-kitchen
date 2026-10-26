@@ -6,6 +6,8 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { RecipeCard } from "@/components/RecipeCard";
+import { CartLink } from "@/components/cart-link";
+import { ShoppableIngredients } from "@/components/shoppable-ingredients";
 import { ArrowLeft, CheckCircle2, Circle, Clock, Users, Flame } from "lucide-react";
 
 export default function RecipePage({ params }: { params: Promise<{ slug: string }> }) {
@@ -43,7 +45,8 @@ export default function RecipePage({ params }: { params: Promise<{ slug: string 
           <span className="font-playfair text-lg font-bold text-obsidian hidden sm:block">
             ALMOND<span className="text-sage italic">MOM</span>
           </span>
-          <div className="flex gap-2">
+          <div className="flex items-center gap-2">
+            <CartLink />
             {recipe.dietaryTags.slice(0, 2).map((tag) => (
               <span
                 key={tag}
@@ -131,6 +134,10 @@ export default function RecipePage({ params }: { params: Promise<{ slug: string 
                 Clear all
               </button>
             )}
+            <div className="mt-8">
+              <h3 className="font-playfair text-lg font-bold text-obsidian">Buy these ingredients</h3>
+              <ShoppableIngredients lines={recipe.ingredients} />
+            </div>
           </div>
 
           {/* Instructions */}

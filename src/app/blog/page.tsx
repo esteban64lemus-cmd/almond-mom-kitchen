@@ -1,10 +1,12 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import Link from "next/link";
 import { recipes } from "@/data/recipes";
 import { RecipeCard } from "@/components/RecipeCard";
 import { motion } from "framer-motion";
 import { Search } from "lucide-react";
+import { CartLink } from "@/components/cart-link";
 
 const ALL_TAGS = Array.from(new Set(recipes.flatMap((r) => r.dietaryTags))).sort();
 
@@ -27,11 +29,11 @@ export default function BlogIndex() {
     <div className="min-h-screen bg-[#FBF9F6]">
       {/* Header */}
       <div className="bg-white/60 backdrop-blur-md border-b border-neutral-100 sticky top-0 z-20 px-4 py-4">
-        <div className="max-w-6xl mx-auto flex items-center justify-between gap-4 flex-wrap">
-          <a href="/" className="font-playfair text-xl font-bold text-obsidian tracking-tight">
+        <div className="max-w-6xl mx-auto flex items-center gap-3">
+          <Link href="/" className="shrink-0 font-playfair text-xl font-bold text-obsidian tracking-tight">
             ALMOND<span className="text-sage italic">MOM</span>
-          </a>
-          <div className="relative flex-1 max-w-sm">
+          </Link>
+          <div className="relative min-w-0 flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-400" />
             <input
               type="text"
@@ -41,6 +43,7 @@ export default function BlogIndex() {
               className="w-full rounded-full border border-neutral-200 bg-white pl-9 pr-4 py-2 text-sm text-neutral-800 placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-sage/40"
             />
           </div>
+          <CartLink />
         </div>
       </div>
 
