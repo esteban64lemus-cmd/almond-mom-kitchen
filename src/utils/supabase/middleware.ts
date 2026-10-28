@@ -53,14 +53,14 @@ export const createClient = async (request: NextRequest) => {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
-  // Logged-out visitors can use the mix kitchen (home, recipes, shop, saved, cart).
-  // Profile, quests, fridge, and setup still require a session or demo mode.
+  // Logged-out visitors can browse static kitchen surfaces (home, recipes, saved, cart).
+  // /shop hosts GroceryUpgrader (billable AI via AI_GATEWAY_API_KEY) — keep it behind
+  // session/demo like fridge, quests, and profile.
   const path = request.nextUrl.pathname;
   const kitchen =
     path === "/" ||
     path === "/login" ||
     path === "/welcome" ||
-    path === "/shop" ||
     path === "/saved" ||
     path === "/cart" ||
     path.startsWith("/auth") ||
