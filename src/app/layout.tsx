@@ -45,7 +45,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "ALMOND MOM | Organic Luxury Kitchen",
     description: "Convert recipes into clean versions instantly.",
-    url: "https://almondmomkitchen.dev",
+    url: "https://almondmom.online",
     siteName: "Almond Mom Kitchen",
     images: [{ url: "/images/hero.png" }],
   },
@@ -61,8 +61,8 @@ export default function RootLayout({
     "@context": "https://schema.org",
     "@type": "Organization",
     name: "Almond Mom Kitchen",
-    url: "https://almondmomkitchen.dev",
-    logo: "https://almondmomkitchen.dev/logo.png",
+    url: "https://almondmom.online",
+    logo: "https://almondmom.online/logo.png",
   };
 
   return (
