@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 
 // ElevenLabs text-to-speech proxy. The API key never leaves the server, and
-// only signed-in users can spend credits (demo mode falls back to the
+// only signed-in users can spend credits (signed-out visitors fall back to the
 // browser's built-in voice on the client).
 
 const MAX_CHARS = 600;

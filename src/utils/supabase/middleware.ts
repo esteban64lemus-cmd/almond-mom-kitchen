@@ -37,24 +37,20 @@ export const createClient = async (request: NextRequest) => {
     },
   });
 
-  // This automatically refreshes the auth token if needed
+  // This automatically refreshes the auth token if needed.
+  // A Supabase session is the only way through this gate. Client cookies
+  // such as demo_mode are ignored so logged-out visitors cannot skip /login.
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // Demo Mode Bypass
-  const isDemo = request.cookies.has("demo_mode");
-
-  // If user is logged in (or in demo mode) and tries to access /login, send them to dashboard
-  if (
-    (user || isDemo) &&
-    request.nextUrl.pathname === "/login"
-  ) {
+  // Signed-in visitors do not need the login screen.
+  if (user && request.nextUrl.pathname === "/login") {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
   // Logged-out visitors can use the mix kitchen (home, recipes, shop, saved, cart).
-  // Profile, quests, fridge, and setup still require a session or demo mode.
+  // Profile, quests, fridge, and setup require a Supabase session.
   const path = request.nextUrl.pathname;
   const kitchen =
     path === "/" ||
@@ -65,7 +61,7 @@ export const createClient = async (request: NextRequest) => {
     path === "/cart" ||
     path.startsWith("/auth") ||
     path.startsWith("/blog");
-  if (!user && !isDemo && !kitchen) {
+  if (!user && !kitchen) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 

@@ -46,9 +46,11 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ```env
 NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
+NEXT_PUBLIC_SITE_URL=https://almondmom.online
 NEXT_PUBLIC_SANITY_PROJECT_ID=
 NEXT_PUBLIC_SANITY_DATASET=
 ```
 
-Built by Esteban J. Lemus · [almondmomkitchen.dev](https://almondmomkitchen.dev)
+Built by Esteban J. Lemus · [almondmom.online](https://almondmom.online)
