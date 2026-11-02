@@ -49,8 +49,9 @@ export const createClient = async (request: NextRequest) => {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
-  // Logged-out visitors can use the mix kitchen (home, recipes, shop, saved, cart).
-  // Profile, quests, fridge, and setup require a Supabase session.
+  // Logged-out visitors can use the mix kitchen (home, recipes, shop, saved, cart)
+  // and the public Desk by Seb page. Profile, quests, fridge, and setup
+  // require a Supabase session.
   const path = request.nextUrl.pathname;
   const kitchen =
     path === "/" ||
@@ -59,6 +60,8 @@ export const createClient = async (request: NextRequest) => {
     path === "/shop" ||
     path === "/saved" ||
     path === "/cart" ||
+    path === "/desk" ||
+    path.startsWith("/desk/") ||
     path.startsWith("/auth") ||
     path.startsWith("/blog");
   if (!user && !kitchen) {
