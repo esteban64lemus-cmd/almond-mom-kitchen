@@ -14,7 +14,7 @@ interface AlmondMomVoiceProps {
 
 /**
  * Reads `text` aloud in Almond Mom's ElevenLabs voice via /api/voice.
- * If that's unavailable (not configured, demo mode, offline), it falls back
+ * If that's unavailable (not configured, signed out, or offline), it falls back
  * to the browser's built-in speech so the button always does something.
  */
 export default function AlmondMomVoice({ text, label = "Listen", className }: AlmondMomVoiceProps) {
