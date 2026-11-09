@@ -34,6 +34,10 @@ yarn-error.log*
 .env*
 !.env.example
 
+# personal tax ops staging (may list local financial paths)
+.agents/ops/TAX_STAGE_CHECKLIST.md
+.agents/ops/TAX_*.md
+
 # vercel
 .vercel
 
