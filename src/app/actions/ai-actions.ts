@@ -1,9 +1,30 @@
 "use server";
 
+import { cookies } from "next/headers";
+import { createClient } from "@/utils/supabase/server";
+
 interface AIResponse<T> {
   success: boolean;
   data?: T;
   error?: string;
+}
+
+/**
+ * Billable AI gateway calls must not be reachable anonymously.
+ * Match page middleware: a signed-in Supabase user only (no demo_mode bypass).
+ * Server actions can be POSTed directly even when a page is gated.
+ */
+async function requireAiAccess(): Promise<AIResponse<never> | null> {
+  const cookieStore = await cookies();
+  const supabase = createClient(cookieStore);
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (user) return null;
+  return {
+    success: false,
+    error: "Sign in to use Almond Mom AI features.",
+  };
 }
 
 interface CravingData {
@@ -37,12 +58,11 @@ interface GroceryUpgradeItem {
 /**
  * GEMINI API INTEGRATION with Exponential Backoff
  */
-const apiKey = process.env.AI_GATEWAY_API_KEY;
-
 async function fetchAI(
   prompt: string,
   schemaProperties: Record<string, unknown>,
 ) {
+  const apiKey = process.env.AI_GATEWAY_API_KEY;
   if (!apiKey) {
     throw new Error(
       "AI_GATEWAY_API_KEY is not configured. Please add it to your environment variables.",
@@ -95,6 +115,9 @@ async function fetchAI(
 export async function analyzeCraving(
   input: string,
 ): Promise<AIResponse<CravingData>> {
+  const denied = await requireAiAccess();
+  if (denied) return denied;
+
   const prompt = `User is craving: "${input}". Act as a high-end wellness coach. Analyze the craving. Explain the biological deficiency (magnesium, etc.), provide a whole-food alternative, the science behind it, and a motivational tip.`;
 
   const schema = {
@@ -117,6 +140,9 @@ export async function analyzeCraving(
 export async function auditFridgeItem(
   input: string,
 ): Promise<AIResponse<FridgeAuditData>> {
+  const denied = await requireAiAccess();
+  if (denied) return denied;
+
   const prompt = `User has "${input}" in their refrigerator. Act as a strict but encouraging holistic wellness coach. Analyze this food item. Provide a verdict ("Keep" or "Toss"), identify any hidden toxins (seed oils, sugars, gums), suggest a clean swap, and explain the biological impact.`;
 
   const schema = {
@@ -139,6 +165,9 @@ export async function auditFridgeItem(
 export async function generateCleanRecipe(
   items: string[],
 ): Promise<AIResponse<CleanRecipeData>> {
+  const denied = await requireAiAccess();
+  if (denied) return denied;
+
   const prompt = `I have these items in my fridge/pantry: ${items.join(", ")}. Act as an Almond Mom Kitchen wellness chef. Create a highly aesthetic, clean-girl, gut-friendly recipe using some of these items (and basic pantry staples). Output the title, prep time, ingredients list, step-by-step instructions, and the core wellness benefit.`;
 
   const schema = {
@@ -162,6 +191,9 @@ export async function generateCleanRecipe(
 export async function upgradeGroceryList(
   input: string,
 ): Promise<AIResponse<GroceryUpgradeItem[]>> {
+  const denied = await requireAiAccess();
+  if (denied) return denied;
+
   const prompt = `Here is my standard grocery list: "${input}". Act as an elite holistic wellness coach. Upgrade this list to the cleanest, highest-quality 'Almond Mom' standards. For each item, provide the original name, a specific clean brand or whole-food alternative swap, and the health reason.`;
 
   const schema = {

@@ -49,15 +49,15 @@ export const createClient = async (request: NextRequest) => {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
-  // Logged-out visitors can use the mix kitchen (home, recipes, shop, saved, cart)
-  // and the public Desk by Seb page. Profile, quests, fridge, and setup
-  // require a Supabase session.
+  // Logged-out visitors can browse static kitchen surfaces (home, recipes,
+  // saved, cart) and the public Desk by Seb page. /shop hosts GroceryUpgrader
+  // (billable AI via AI_GATEWAY_API_KEY) — keep it behind a Supabase session
+  // like fridge, quests, and profile.
   const path = request.nextUrl.pathname;
   const kitchen =
     path === "/" ||
     path === "/login" ||
     path === "/welcome" ||
-    path === "/shop" ||
     path === "/saved" ||
     path === "/cart" ||
     path === "/desk" ||
