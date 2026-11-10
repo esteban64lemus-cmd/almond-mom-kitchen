@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowRight } from "lucide-react";
 import { MarketingFooter, MarketingNav } from "@/components/marketing/site-chrome";
 import { NewsletterForm } from "@/components/marketing/newsletter-form";
+import { ConversionCta } from "@/components/marketing/conversion-cta";
 import { SEOHandler } from "@/components/global/SEO-Handler";
 import { getAllJournalSlugs, getJournalPost, journalPosts } from "@/content/journal/posts";
 import { absoluteUrl, SITE_NAME } from "@/lib/site";
@@ -121,27 +121,11 @@ export default async function JournalArticlePage({ params }: PageProps) {
             </section>
           ))}
 
-          <div className="rounded-[24px] border border-ink/10 bg-white p-6">
-            <h3 className="font-serif text-xl font-bold">Cook the idea</h3>
-            <p className="mt-2 text-sm text-ink/65">
-              Move from reading into almond mom recipes, then launch the app when you want AI fridge
-              rescue or grocery upgrades.
-            </p>
-            <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-              <Link
-                href="/blog"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-ink px-5 py-3 text-sm font-bold text-white"
-              >
-                Browse recipes <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link
-                href="/login"
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-ink/10 px-5 py-3 text-sm font-bold text-ink"
-              >
-                Launch the app
-              </Link>
-            </div>
-          </div>
+          <ConversionCta
+            source={`journal-${post.slug}`}
+            headline="Cook the idea"
+            body="Shop almond mom recipes with affiliate ingredient links, or open the app for Fridge Rescue and grocery upgrades."
+          />
         </div>
       </article>
 

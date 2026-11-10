@@ -14,6 +14,8 @@ import {
   CheckCircle2
 } from "lucide-react";
 import { NewsletterForm } from "@/components/marketing/newsletter-form";
+import { DeskLeadCta } from "@/components/marketing/desk-lead";
+import { AFFILIATE_DISCLOSURE } from "@/lib/Affiliate-Engine";
 
 export default function LandingPage() {
   const containerVariants: Variants = {
@@ -50,11 +52,20 @@ export default function LandingPage() {
             <Link href="/mission" className="text-sm font-medium text-obsidian/60 hover:text-obsidian transition-colors">Mission</Link>
             <Link href="/blog" className="text-sm font-medium text-obsidian/60 hover:text-obsidian transition-colors">Recipes</Link>
             <Link href="/journal" className="text-sm font-medium text-obsidian/60 hover:text-obsidian transition-colors">Journal</Link>
+            <Link href="/desk" className="text-sm font-medium text-obsidian/60 hover:text-obsidian transition-colors">Desk</Link>
             <Link
-              href="/login"
+              href="/desk#book"
               className="rounded-full bg-obsidian px-6 py-2.5 text-sm font-semibold text-white transition-transform hover:scale-105 active:scale-95 shadow-lg shadow-obsidian/10"
             >
-              Launch App
+              Book Desk
+            </Link>
+          </div>
+          <div className="flex items-center gap-2 md:hidden">
+            <Link
+              href="/desk#book"
+              className="rounded-full bg-obsidian px-4 py-2 text-xs font-semibold text-white"
+            >
+              Book Desk
             </Link>
           </div>
         </div>
@@ -244,7 +255,8 @@ export default function LandingPage() {
         </motion.div>
       </section>
 
-      <section className="mx-auto max-w-3xl px-6 pb-24 text-left">
+      <section className="mx-auto max-w-3xl space-y-10 px-6 pb-24 text-left">
+        <DeskLeadCta source="welcome" />
         <NewsletterForm source="welcome" />
       </section>
 
@@ -256,11 +268,14 @@ export default function LandingPage() {
           </span>
           <div className="text-center text-sm font-medium text-obsidian/40">
             &copy; {new Date().getFullYear()} Almond Mom Kitchen. Organic Luxury Living.
-            <span className="mt-1 block text-[11px] tracking-wide text-obsidian/30">
-              Some recipe shop links are affiliate links.
+            <span className="mt-1 block max-w-md text-[11px] tracking-wide text-obsidian/30">
+              {AFFILIATE_DISCLOSURE}
             </span>
           </div>
           <div className="flex flex-wrap justify-center gap-6">
+            <Link href="/desk#book" className="text-xs font-bold uppercase tracking-widest text-sage hover:text-obsidian transition-colors">
+              Desk by Seb
+            </Link>
             <a
               href="https://instagram.com/a_bagel_hater"
               target="_blank"
@@ -283,9 +298,6 @@ export default function LandingPage() {
             >
               Esteban
             </a>
-            <Link href="/desk" className="text-xs font-bold uppercase tracking-widest text-obsidian/60 hover:text-obsidian transition-colors">
-              Desk
-            </Link>
           </div>
         </div>
       </footer>

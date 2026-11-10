@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowRight, CheckCircle2, Sparkles } from "lucide-react";
 import { MarketingFooter, MarketingNav } from "@/components/marketing/site-chrome";
 import { NewsletterForm } from "@/components/marketing/newsletter-form";
+import { ConversionCta } from "@/components/marketing/conversion-cta";
 import { SEOHandler } from "@/components/global/SEO-Handler";
 import { absoluteUrl, SITE_NAME } from "@/lib/site";
 
@@ -70,16 +71,16 @@ export default function MissionPage() {
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link
-              href="/blog"
+              href="/desk#book"
               className="inline-flex items-center justify-center gap-2 rounded-full bg-ink px-7 py-3.5 text-sm font-bold text-white"
             >
-              Browse almond mom recipes <ArrowRight className="h-4 w-4" />
+              Book Desk by Seb <ArrowRight className="h-4 w-4" />
             </Link>
             <Link
-              href="/journal"
+              href="/blog"
               className="inline-flex items-center justify-center gap-2 rounded-full border border-ink/10 bg-white px-7 py-3.5 text-sm font-bold text-ink"
             >
-              Read the Zaya journal
+              Browse recipes &amp; shop
             </Link>
           </div>
         </div>
@@ -126,16 +127,29 @@ export default function MissionPage() {
             alternatives. The recipe journal shows what almond mom clean eating looks like on a
             Tuesday night.
           </p>
-          <Link
-            href="/login"
-            className="mt-8 inline-flex items-center gap-2 rounded-full bg-sage px-8 py-4 text-sm font-bold text-ink"
-          >
-            Start your detox <ArrowRight className="h-4 w-4" />
-          </Link>
+          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <Link
+              href="/desk#book"
+              className="inline-flex items-center gap-2 rounded-full bg-sage px-8 py-4 text-sm font-bold text-ink"
+            >
+              Hire Desk by Seb <ArrowRight className="h-4 w-4" />
+            </Link>
+            <Link
+              href="/login"
+              className="inline-flex items-center gap-2 rounded-full border border-white/20 px-8 py-4 text-sm font-bold text-white"
+            >
+              Launch the app
+            </Link>
+          </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-3xl px-6 py-16">
+      <section className="mx-auto max-w-3xl space-y-10 px-6 py-16">
+        <ConversionCta
+          source="mission"
+          headline="Cook the mission"
+          body="Browse seed oil free recipes with shoppable Amazon links, or open the app for Fridge Rescue."
+        />
         <NewsletterForm source="mission" />
       </section>
 

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { CONTACT_EMAIL, ENTRY, PREMIUM } from "./offer";
+import { CONTACT_EMAIL, ENTRY, PREMIUM, promoMonthLabel } from "./offer";
 
 const TIERS = [
   { id: ENTRY.id, label: `${ENTRY.name} · ${ENTRY.price}/mo` },
@@ -13,6 +13,23 @@ type TierId = (typeof TIERS)[number]["id"];
 
 function isTier(value: string | null): value is TierId {
   return value === ENTRY.id || value === PREMIUM.id;
+}
+
+function buildKickoffMessage(input: {
+  name: string;
+  business: string;
+  tierLabel: string;
+  note: string;
+}) {
+  const subject = "Desk by Seb — 15-min kickoff";
+  const body = [
+    `Name: ${input.name}`,
+    `Business: ${input.business}`,
+    `Tier: ${input.tierLabel}`,
+    "",
+    input.note || "I would like to book a 15-minute kickoff.",
+  ].join("\n");
+  return { subject, body };
 }
 
 export function KickoffForm() {
@@ -28,6 +45,8 @@ export function KickoffForm() {
 function KickoffFields({ initialTier }: { initialTier: TierId | "" }) {
   const [tier, setTier] = useState<TierId | "">(initialTier);
   const [opened, setOpened] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const month = promoMonthLabel();
 
   function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -36,21 +55,36 @@ function KickoffFields({ initialTier }: { initialTier: TierId | "" }) {
     const business = String(data.get("business") ?? "").trim();
     const note = String(data.get("note") ?? "").trim();
     const chosen = TIERS.find((item) => item.id === tier);
-    const subject = "Desk by Seb — 15-min kickoff";
-    const body = [
-      `Name: ${name}`,
-      `Business: ${business}`,
-      `Tier: ${chosen?.label ?? ""}`,
-      "",
-      note || "I would like to book a 15-minute kickoff.",
-    ].join("\n");
+    const { subject, body } = buildKickoffMessage({
+      name,
+      business,
+      tierLabel: chosen?.label ?? "",
+      note,
+    });
     const href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     setOpened(true);
     window.location.href = href;
   }
 
+  async function copyContact() {
+    try {
+      await navigator.clipboard.writeText(CONTACT_EMAIL);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2500);
+    } catch {
+      setCopied(false);
+    }
+  }
+
   return (
     <form onSubmit={onSubmit} className="space-y-5" noValidate={false}>
+      <p className="rounded-2xl border border-coral-strong/25 bg-cream px-4 py-3 text-sm leading-relaxed">
+        Premium first month is{" "}
+        <span className="font-semibold text-ink">{PREMIUM.promoPrice}</span> when
+        you book a kickoff in {month}. Entry stays {ENTRY.price}
+        {ENTRY.cadence}.
+      </p>
+
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="block space-y-2 text-sm font-medium">
           <span>Your name</span>
@@ -113,12 +147,21 @@ function KickoffFields({ initialTier }: { initialTier: TierId | "" }) {
         />
       </label>
 
-      <button
-        type="submit"
-        className="bg-ink text-cream hover:bg-ink/90 focus-visible:outline-ink inline-flex min-h-12 w-full items-center justify-center rounded-full px-6 text-sm font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 sm:w-auto"
-      >
-        Book a 15-min kickoff
-      </button>
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+        <button
+          type="submit"
+          className="bg-ink text-cream hover:bg-ink/90 focus-visible:outline-ink inline-flex min-h-12 w-full items-center justify-center rounded-full px-6 text-sm font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 sm:w-auto"
+        >
+          Book a 15-min kickoff
+        </button>
+        <button
+          type="button"
+          onClick={copyContact}
+          className="border-ink/20 text-ink hover:bg-cream inline-flex min-h-12 items-center justify-center rounded-full border px-5 text-sm font-semibold"
+        >
+          {copied ? "Email copied" : "Copy email instead"}
+        </button>
+      </div>
 
       {opened ? (
         <p
@@ -126,13 +169,13 @@ function KickoffFields({ initialTier }: { initialTier: TierId | "" }) {
           role="status"
         >
           Your email app should open with a message to {CONTACT_EMAIL}. Send it
-          to request the kickoff. If it does not open, email that address
-          directly.
+          to request the kickoff. If it does not open, use “Copy email instead”
+          and paste a note manually.
         </p>
       ) : (
         <p className="text-muted-foreground text-sm leading-relaxed">
           This opens an email to {CONTACT_EMAIL}. Nothing is sent until you hit
-          send.
+          send. Prefer text? Copy the address and write Esteban directly.
         </p>
       )}
     </form>

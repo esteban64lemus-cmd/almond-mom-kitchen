@@ -14,7 +14,11 @@ import {
   totalTimeLabel,
 } from "@/lib/kitchen";
 import { parseIngredientLine } from "@/lib/shoppable";
-import { getAffiliateLink } from "@/lib/Affiliate-Engine";
+import {
+  AFFILIATE_DISCLOSURE,
+  getAffiliateLink,
+  getAffiliateSearchLink,
+} from "@/lib/Affiliate-Engine";
 import { useCart } from "@/components/cart-provider";
 import { useSaved } from "@/components/saved-provider";
 import BottomNav from "@/components/bottom-nav";
@@ -44,6 +48,12 @@ export function RecipeDetailClient({ recipe }: { recipe: Recipe }) {
   const factor = servings / recipe.servings;
   const macros = scaleMacros(macrosForRecipe(recipe), factor);
   const items = recipe.ingredients.flatMap((line) => parseIngredientLine(line));
+  const missingNames = items
+    .filter((item) => !have.has(item.id))
+    .map((item) => item.productName);
+  const missingAffiliate = getAffiliateSearchLink(
+    missingNames.length > 0 ? missingNames : items.map((item) => item.productName),
+  );
   const isSaved = saved.isSaved(recipe.id);
 
   function toggleHave(id: string) {
@@ -143,12 +153,15 @@ export function RecipeDetailClient({ recipe }: { recipe: Recipe }) {
           </div>
 
           <section className="mb-8 rounded-[32px] border border-border bg-white p-5 shadow-[0_12px_28px_rgba(61,41,20,0.06)]">
-            <div className="mb-6 flex items-center justify-between px-1">
+            <div className="mb-3 flex items-center justify-between px-1">
               <h2 className="text-[13px] font-bold tracking-widest text-muted-foreground uppercase">
                 Ingredients
               </h2>
               <span className="text-[12px] font-medium text-faint italic">swipe → have it</span>
             </div>
+            <p className="mb-5 px-1 text-[11px] leading-relaxed text-faint">
+              {AFFILIATE_DISCLOSURE}
+            </p>
             <div className="flex flex-col gap-2">
               {items.map((item) => {
                 const owned = have.has(item.id);
@@ -168,7 +181,7 @@ export function RecipeDetailClient({ recipe }: { recipe: Recipe }) {
                         href={affiliate}
                         target="_blank"
                         rel="noopener noreferrer sponsored"
-                        aria-label={`Shop ${item.productName} (affiliate)`}
+                        aria-label={`Shop ${item.productName} on Amazon (affiliate)`}
                         className="inline-flex shrink-0 items-center gap-1 rounded-full bg-sage/15 px-3 py-1.5 text-[10px] font-bold tracking-wider text-sage uppercase"
                         onClick={(event) => event.stopPropagation()}
                       >
@@ -179,9 +192,6 @@ export function RecipeDetailClient({ recipe }: { recipe: Recipe }) {
                 );
               })}
             </div>
-            <p className="mt-4 px-1 text-[11px] leading-relaxed text-faint">
-              Shop links may be affiliate links. We may earn a commission at no extra cost to you.
-            </p>
           </section>
 
           <section className="mb-10">
@@ -203,14 +213,22 @@ export function RecipeDetailClient({ recipe }: { recipe: Recipe }) {
       </div>
 
       <div className="fixed inset-x-0 bottom-0 z-40 bg-cream">
-        <div className="mx-auto w-full max-w-md px-5 pt-4 pb-2">
+        <div className="mx-auto flex w-full max-w-md flex-col gap-2 px-5 pt-3 pb-2">
+          <a
+            href={missingAffiliate}
+            target="_blank"
+            rel="noopener noreferrer sponsored"
+            className="flex h-12 w-full items-center justify-center gap-2 rounded-full border border-sage/30 bg-sage/15 text-[13px] font-extrabold tracking-wider text-sage uppercase"
+          >
+            Shop missing on Amazon <ExternalLink size={14} />
+          </a>
           <button
             type="button"
             onClick={() => {
               addMany(shopItemsForRecipe(recipe));
               router.push("/shop");
             }}
-            className="flex h-16 w-full items-center justify-center rounded-full bg-coral text-[15px] font-extrabold tracking-widest text-white uppercase shadow-[0_8px_24px_rgba(255,139,92,0.3)] active:scale-[0.985] active:bg-coral-strong"
+            className="flex h-14 w-full items-center justify-center rounded-full bg-coral text-[15px] font-extrabold tracking-widest text-white uppercase shadow-[0_8px_24px_rgba(255,139,92,0.3)] active:scale-[0.985] active:bg-coral-strong"
           >
             Add ingredients to Shop
           </button>

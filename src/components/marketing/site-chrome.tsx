@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AFFILIATE_DISCLOSURE } from "@/lib/Affiliate-Engine";
 
 const navLinks = [
   { href: "/mission", label: "Mission" },
@@ -8,8 +9,8 @@ const navLinks = [
 ];
 
 export function MarketingNav({
-  ctaHref = "/login",
-  ctaLabel = "Launch App",
+  ctaHref = "/desk#book",
+  ctaLabel = "Book Desk",
 }: {
   ctaHref?: string;
   ctaLabel?: string;
@@ -57,8 +58,8 @@ export function MarketingFooter() {
         </Link>
         <div className="text-center text-sm font-medium text-ink/40">
           &copy; {new Date().getFullYear()} Almond Mom Kitchen. Organic luxury living.
-          <span className="mt-1 block text-[11px] tracking-wide text-ink/30">
-            Some recipe shop links are affiliate links. We may earn a commission at no extra cost to you.
+          <span className="mt-1 block max-w-md text-[11px] tracking-wide text-ink/30">
+            {AFFILIATE_DISCLOSURE}
           </span>
         </div>
         <div className="flex flex-wrap justify-center gap-5">
@@ -73,6 +74,12 @@ export function MarketingFooter() {
             className="text-xs font-bold tracking-widest text-ink/60 uppercase transition-colors hover:text-ink"
           >
             Journal
+          </Link>
+          <Link
+            href="/desk#book"
+            className="text-xs font-bold tracking-widest text-sage uppercase transition-colors hover:text-ink"
+          >
+            Desk by Seb
           </Link>
           <a
             href="https://instagram.com/a_bagel_hater"
@@ -90,12 +97,6 @@ export function MarketingFooter() {
           >
             Esteban
           </a>
-          <Link
-            href="/desk"
-            className="text-xs font-bold tracking-widest text-ink/60 uppercase transition-colors hover:text-ink"
-          >
-            Desk
-          </Link>
         </div>
       </div>
     </footer>

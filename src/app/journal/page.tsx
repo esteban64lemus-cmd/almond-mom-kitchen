@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { MarketingFooter, MarketingNav } from "@/components/marketing/site-chrome";
 import { NewsletterForm } from "@/components/marketing/newsletter-form";
+import { DeskLeadCta } from "@/components/marketing/desk-lead";
 import { SEOHandler } from "@/components/global/SEO-Handler";
 import { journalPosts } from "@/content/journal/posts";
 import { absoluteUrl, SITE_NAME } from "@/lib/site";
@@ -124,7 +125,8 @@ export default function JournalIndexPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-3xl px-6 pb-16">
+      <section className="mx-auto max-w-3xl space-y-10 px-6 pb-16">
+        <DeskLeadCta source="journal-index" />
         <NewsletterForm source="journal-index" />
       </section>
 
