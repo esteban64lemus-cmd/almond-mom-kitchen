@@ -47,6 +47,7 @@
   --ring: #ff8b5c;
   --cream: #fff8f1;
   --ink: #3d2914;
+  --obsidian: #1c1917;
   --faint: #c4a882;
   --coral: #ff8b5c;
   --coral-strong: #e86a3a;
@@ -104,6 +105,7 @@
   --color-scrap-paper: var(--scrap-paper);
   --color-cream: var(--cream);
   --color-ink: var(--ink);
+  --color-obsidian: var(--obsidian);
   --color-faint: var(--faint);
   --color-coral: var(--coral);
   --color-coral-strong: var(--coral-strong);

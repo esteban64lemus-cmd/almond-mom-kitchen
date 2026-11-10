@@ -2,6 +2,11 @@ export const CONTACT_EMAIL = "esteban64lemus@gmail.com";
 
 export const SITE_URL = "https://almondmom.online/desk";
 
+/** Real calendar month for Premium kickoff promo copy (no fake countdown). */
+export function promoMonthLabel(date = new Date()) {
+  return date.toLocaleString("en-US", { month: "long" });
+}
+
 export const ENTRY = {
   id: "entry",
   name: "Entry",

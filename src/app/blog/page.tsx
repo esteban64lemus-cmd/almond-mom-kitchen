@@ -28,11 +28,22 @@ export default function BlogIndex() {
     <div className="min-h-screen bg-cream text-ink">
       <div className="mx-auto w-full max-w-md">
         <header className="sticky top-0 z-20 bg-cream/90 px-5 py-4 backdrop-blur-md">
-          <div className="mb-3 flex items-center justify-between">
+          <div className="mb-3 flex items-center justify-between gap-3">
             <Link href="/" className="font-display text-xl font-extrabold">
               Recipes
             </Link>
+            <div className="flex items-center gap-3 text-[11px] font-bold tracking-wider uppercase">
+              <Link href="/journal" className="text-sage">
+                Journal
+              </Link>
+              <Link href="/mission" className="text-muted-foreground">
+                Mission
+              </Link>
+            </div>
           </div>
+          <p className="mb-3 text-[13px] leading-relaxed text-muted-foreground">
+            Almond mom recipes for seed oil free, high-protein clean eating.
+          </p>
           <div className="relative">
             <Search className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-faint" />
             <input

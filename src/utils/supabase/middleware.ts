@@ -49,21 +49,28 @@ export const createClient = async (request: NextRequest) => {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
-  // Logged-out visitors can browse static kitchen surfaces (home, recipes,
-  // saved, cart) and the public Desk by Seb page. /shop hosts GroceryUpgrader
-  // (billable AI via AI_GATEWAY_API_KEY) — keep it behind a Supabase session
-  // like fridge, quests, and profile.
+  // Logged-out visitors can browse marketing + static kitchen surfaces
+  // (welcome, mission, journal, recipes, saved, cart) and Desk by Seb.
+  // /shop hosts GroceryUpgrader (billable AI) — keep it behind a session.
   const path = request.nextUrl.pathname;
+
+  // Cold traffic on `/` should land on the marketing funnel, not the app feed.
+  if (!user && path === "/") {
+    return NextResponse.redirect(new URL("/welcome", request.url));
+  }
+
   const kitchen =
-    path === "/" ||
     path === "/login" ||
     path === "/welcome" ||
+    path === "/mission" ||
     path === "/saved" ||
     path === "/cart" ||
     path === "/desk" ||
     path.startsWith("/desk/") ||
     path.startsWith("/auth") ||
-    path.startsWith("/blog");
+    path.startsWith("/blog") ||
+    path.startsWith("/journal") ||
+    path.startsWith("/api/newsletter");
   if (!user && !kitchen) {
     return NextResponse.redirect(new URL("/login", request.url));
   }

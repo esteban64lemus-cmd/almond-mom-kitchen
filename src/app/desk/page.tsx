@@ -9,6 +9,7 @@ import {
   ENTRY,
   PREMIUM,
   SITE_URL,
+  promoMonthLabel,
 } from "./offer";
 
 const description =
@@ -68,6 +69,8 @@ const nav = [
 ];
 
 export default function DeskPage() {
+  const month = promoMonthLabel();
+
   return (
     <div id="top" className="bg-cream text-ink min-h-screen">
       <SEOHandler schemaData={schema} />
@@ -135,10 +138,11 @@ export default function DeskPage() {
                 Compare Entry and Premium
               </a>
             </div>
-            <p className="text-muted-foreground mt-4 text-sm">
+            <p className="text-muted-foreground mt-4 text-sm leading-relaxed">
+              Premium first month {PREMIUM.promoPrice} if you book in {month}.{" "}
               <a
                 className="text-ink font-medium underline-offset-4 hover:underline"
-                href={`mailto:${CONTACT_EMAIL}`}
+                href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("Desk by Seb — 15-min kickoff")}`}
               >
                 {CONTACT_EMAIL}
               </a>
@@ -185,8 +189,8 @@ export default function DeskPage() {
                 {PREMIUM.summary}
               </p>
               <p className="text-muted-foreground mt-3 text-sm">
-                First month {PREMIUM.promoPrice} if you book a kickoff this
-                month.
+                First month {PREMIUM.promoPrice} if you book a kickoff in{" "}
+                {month}.
               </p>
               <p className="mt-3 text-sm font-semibold">Book Premium</p>
             </a>
@@ -282,8 +286,8 @@ export default function DeskPage() {
                 <span className="text-muted-foreground">{PREMIUM.cadence}</span>
               </p>
               <p className="mt-3 text-sm leading-relaxed">
-                First month {PREMIUM.promoPrice} if you book a kickoff this
-                month. Then {PREMIUM.price}
+                First month {PREMIUM.promoPrice} if you book a kickoff in{" "}
+                {month}. Then {PREMIUM.price}
                 {PREMIUM.cadence}.
               </p>
               <ul className="mt-5 space-y-2 text-sm">
@@ -316,7 +320,7 @@ export default function DeskPage() {
               {[
                 [
                   "01",
-                  "30-min kickoff",
+                  "15-min kickoff",
                   "Map the inbox, follow-ups, and reviews you want covered.",
                 ],
                 [
@@ -456,15 +460,15 @@ export default function DeskPage() {
                 <span className="text-cream/70">{PREMIUM.cadence}</span>
               </p>
               <p className="text-cream/80 mt-3 text-sm leading-relaxed">
-                First month {PREMIUM.promoPrice} if you book a kickoff this
-                month. Then {PREMIUM.price}
+                First month {PREMIUM.promoPrice} if you book a kickoff in{" "}
+                {month}. Then {PREMIUM.price}
                 {PREMIUM.cadence}. {PREMIUM.position}
               </p>
               <ul className="text-cream/90 mt-6 flex-1 space-y-3 text-sm leading-relaxed">
                 {PREMIUM.includes.map((item) => (
                   <li key={item}>{item}</li>
                 ))}
-                <li>30-min kickoff, then the tools you choose to share.</li>
+                <li>15-min kickoff, then the tools you choose to share.</li>
                 {ADD_ONS.map((addon) => (
                   <li key={addon.name}>
                     {addon.name} {addon.price}
@@ -499,7 +503,7 @@ export default function DeskPage() {
               </p>
               <p className="text-muted-foreground mt-4 text-sm leading-relaxed">
                 Premium’s first month is {PREMIUM.promoPrice} when you book a
-                kickoff this month. Either tier can be canceled with 14 days’
+                kickoff in {month}. Either tier can be canceled with 14 days’
                 notice.
               </p>
               <p className="mt-6">

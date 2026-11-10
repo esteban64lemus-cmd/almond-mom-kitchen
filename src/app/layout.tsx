@@ -7,6 +7,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { CartProvider } from "@/components/cart-provider";
 import { SavedProvider } from "@/components/saved-provider";
+import { absoluteUrl, DEFAULT_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -39,15 +40,27 @@ const caveat = Caveat({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "ALMOND MOM | Organic Luxury Kitchen",
-  description:
-    "Experience the rebirth of clean eating. Advanced AI recipe rescue and high-protein gourmet essentials.",
+  description: DEFAULT_DESCRIPTION,
+  applicationName: SITE_NAME,
   openGraph: {
     title: "ALMOND MOM | Organic Luxury Kitchen",
-    description: "Convert recipes into clean versions instantly.",
-    url: "https://almondmom.online",
-    siteName: "Almond Mom Kitchen",
-    images: [{ url: "/images/hero.png" }],
+    description: DEFAULT_DESCRIPTION,
+    siteName: SITE_NAME,
+    locale: "en_US",
+    type: "website",
+    images: [{ url: "/images/hero.png", alt: "Almond Mom organic luxury kitchen" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ALMOND MOM | Organic Luxury Kitchen",
+    description: DEFAULT_DESCRIPTION,
+    images: ["/images/hero.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
 };
 
@@ -60,9 +73,14 @@ export default function RootLayout({
   const orgSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "Almond Mom Kitchen",
-    url: "https://almondmom.online",
-    logo: "https://almondmom.online/logo.png",
+    name: SITE_NAME,
+    url: SITE_URL,
+    logo: absoluteUrl("/logo.png"),
+    sameAs: [
+      "https://esteban.almondmom.online",
+      "https://github.com/esteban64lemus-cmd/almond-mom-kitchen",
+      "https://instagram.com/a_bagel_hater",
+    ],
   };
 
   return (
