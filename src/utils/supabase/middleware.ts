@@ -58,12 +58,15 @@ export const createClient = async (request: NextRequest) => {
     path === "/" ||
     path === "/login" ||
     path === "/welcome" ||
+    path === "/mission" ||
     path === "/saved" ||
     path === "/cart" ||
     path === "/desk" ||
     path.startsWith("/desk/") ||
     path.startsWith("/auth") ||
-    path.startsWith("/blog");
+    path.startsWith("/blog") ||
+    path.startsWith("/journal") ||
+    path.startsWith("/api/newsletter");
   if (!user && !kitchen) {
     return NextResponse.redirect(new URL("/login", request.url));
   }

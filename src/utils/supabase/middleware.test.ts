@@ -33,7 +33,16 @@ describe("auth middleware kitchen allowlist", () => {
   });
 
   it("still allows anonymous browsing of static kitchen routes and /desk", async () => {
-    for (const path of ["/", "/blog", "/saved", "/cart", "/desk"]) {
+    for (const path of [
+      "/",
+      "/blog",
+      "/mission",
+      "/journal",
+      "/journal/seed-oil-free-grocery-swaps",
+      "/saved",
+      "/cart",
+      "/desk",
+    ]) {
       const response = await createClient(requestFor(path));
       expect(response.status).toBe(200);
     }

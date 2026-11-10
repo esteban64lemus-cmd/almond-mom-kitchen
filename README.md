@@ -34,12 +34,17 @@ Open [http://localhost:3000](http://localhost:3000).
 
 | Route | Description |
 |-------|-------------|
-| `/` | Landing page |
+| `/` | App home (meal feed) |
+| `/welcome` | Marketing landing |
+| `/mission` | Brand mission / manifesto |
 | `/blog` | Recipe journal with search + filters |
-| `/blog/[slug]` | Recipe detail with interactive checklist |
+| `/blog/[slug]` | Recipe detail with affiliate shop CTAs |
+| `/journal` | Zaya Health Journal (SEO articles) |
+| `/journal/[slug]` | Journal article |
 | `/dashboard` | Logged-in hub |
 | `/fridge-rescue` | AI fridge scanner |
 | `/shop` | Grocery upgrader |
+| `/desk` | Desk by Seb services |
 | `/login` | Auth page |
 
 ## Environment Variables

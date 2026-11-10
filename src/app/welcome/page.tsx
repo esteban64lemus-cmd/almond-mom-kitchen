@@ -13,6 +13,7 @@ import {
   Zap,
   CheckCircle2
 } from "lucide-react";
+import { NewsletterForm } from "@/components/marketing/newsletter-form";
 
 export default function LandingPage() {
   const containerVariants: Variants = {
@@ -46,8 +47,9 @@ export default function LandingPage() {
           </div>
           <div className="hidden items-center gap-8 md:flex">
             <a href="#solutions" className="text-sm font-medium text-obsidian/60 hover:text-obsidian transition-colors">Solutions</a>
-            <a href="#manifesto" className="text-sm font-medium text-obsidian/60 hover:text-obsidian transition-colors">Manifesto</a>
+            <Link href="/mission" className="text-sm font-medium text-obsidian/60 hover:text-obsidian transition-colors">Mission</Link>
             <Link href="/blog" className="text-sm font-medium text-obsidian/60 hover:text-obsidian transition-colors">Recipes</Link>
+            <Link href="/journal" className="text-sm font-medium text-obsidian/60 hover:text-obsidian transition-colors">Journal</Link>
             <Link
               href="/login"
               className="rounded-full bg-obsidian px-6 py-2.5 text-sm font-semibold text-white transition-transform hover:scale-105 active:scale-95 shadow-lg shadow-obsidian/10"
@@ -200,6 +202,12 @@ export default function LandingPage() {
                   </li>
                 ))}
               </ul>
+              <Link
+                href="/mission"
+                className="mt-10 inline-flex items-center gap-2 text-sm font-bold text-sage hover:text-white transition-colors"
+              >
+                Read the full mission <ArrowRight className="h-4 w-4" />
+              </Link>
             </div>
             <div className="relative aspect-square overflow-hidden rounded-[40px] shadow-2xl">
               <Image 
@@ -236,19 +244,48 @@ export default function LandingPage() {
         </motion.div>
       </section>
 
+      <section className="mx-auto max-w-3xl px-6 pb-24 text-left">
+        <NewsletterForm source="welcome" />
+      </section>
+
       {/* Footer */}
       <footer className="border-t border-obsidian/5 py-12 px-6">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-8 md:flex-row">
           <span className="font-playfair text-xl font-bold text-obsidian">
             ALMOND<span className="text-sage italic">MOM</span>
           </span>
-          <div className="text-sm font-medium text-obsidian/40">
-            &copy; 2026 Almond Mom Kitchen. Organic Luxury Living.
+          <div className="text-center text-sm font-medium text-obsidian/40">
+            &copy; {new Date().getFullYear()} Almond Mom Kitchen. Organic Luxury Living.
+            <span className="mt-1 block text-[11px] tracking-wide text-obsidian/30">
+              Some recipe shop links are affiliate links.
+            </span>
           </div>
-          <div className="flex gap-6">
-            <a href="#" className="text-xs font-bold uppercase tracking-widest text-obsidian/60 hover:text-obsidian transition-colors">Instagram</a>
-            <a href="#" className="text-xs font-bold uppercase tracking-widest text-obsidian/60 hover:text-obsidian transition-colors">Manifesto</a>
-            <a href="#" className="text-xs font-bold uppercase tracking-widest text-obsidian/60 hover:text-obsidian transition-colors">Privacy</a>
+          <div className="flex flex-wrap justify-center gap-6">
+            <a
+              href="https://instagram.com/a_bagel_hater"
+              target="_blank"
+              rel="noreferrer"
+              className="text-xs font-bold uppercase tracking-widest text-obsidian/60 hover:text-obsidian transition-colors"
+            >
+              Instagram
+            </a>
+            <Link href="/mission" className="text-xs font-bold uppercase tracking-widest text-obsidian/60 hover:text-obsidian transition-colors">
+              Mission
+            </Link>
+            <Link href="/journal" className="text-xs font-bold uppercase tracking-widest text-obsidian/60 hover:text-obsidian transition-colors">
+              Journal
+            </Link>
+            <a
+              href="https://esteban.almondmom.online"
+              target="_blank"
+              rel="noreferrer"
+              className="text-xs font-bold uppercase tracking-widest text-obsidian/60 hover:text-obsidian transition-colors"
+            >
+              Esteban
+            </a>
+            <Link href="/desk" className="text-xs font-bold uppercase tracking-widest text-obsidian/60 hover:text-obsidian transition-colors">
+              Desk
+            </Link>
           </div>
         </div>
       </footer>
