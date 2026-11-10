@@ -41,19 +41,12 @@ const caveat = Caveat({
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: {
-    default: "ALMOND MOM | Organic Luxury Kitchen",
-    template: "%s | Almond Mom",
-  },
+  title: "ALMOND MOM | Organic Luxury Kitchen",
   description: DEFAULT_DESCRIPTION,
   applicationName: SITE_NAME,
-  alternates: {
-    canonical: absoluteUrl("/"),
-  },
   openGraph: {
     title: "ALMOND MOM | Organic Luxury Kitchen",
     description: DEFAULT_DESCRIPTION,
-    url: absoluteUrl("/"),
     siteName: SITE_NAME,
     locale: "en_US",
     type: "website",

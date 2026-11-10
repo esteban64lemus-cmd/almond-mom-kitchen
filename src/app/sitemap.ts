@@ -7,8 +7,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
 
   const staticRoutes: MetadataRoute.Sitemap = [
-    { url: absoluteUrl("/"), lastModified: now, changeFrequency: "weekly", priority: 1 },
-    { url: absoluteUrl("/welcome"), lastModified: now, changeFrequency: "monthly", priority: 0.9 },
+    // Anonymous `/` redirects to `/welcome`; keep welcome as the primary entry.
+    { url: absoluteUrl("/welcome"), lastModified: now, changeFrequency: "weekly", priority: 1 },
     { url: absoluteUrl("/mission"), lastModified: now, changeFrequency: "monthly", priority: 0.9 },
     { url: absoluteUrl("/blog"), lastModified: now, changeFrequency: "weekly", priority: 0.9 },
     { url: absoluteUrl("/journal"), lastModified: now, changeFrequency: "weekly", priority: 0.9 },

@@ -1,9 +1,17 @@
-import { cookies } from "next/headers";
+import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
-import { createClient } from "@/utils/supabase/server";
 
 function isValidEmail(email: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+function createServiceClient() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!url || !serviceKey) return null;
+  return createSupabaseClient(url, serviceKey, {
+    auth: { persistSession: false, autoRefreshToken: false },
+  });
 }
 
 export async function POST(request: Request) {
@@ -21,34 +29,32 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: "Enter a valid email address" }, { status: 400 });
   }
 
-  const hasSupabase =
-    Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL) &&
-    Boolean(
-      process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-    );
+  const supabase = createServiceClient();
+  if (!supabase) {
+    // Accept the signup without persistence when service role is not configured.
+    // Do not log the email address (PII).
+    console.info("[newsletter] accepted without persistence (service role unset)");
+    return NextResponse.json({ ok: true });
+  }
 
-  if (hasSupabase) {
-    try {
-      const cookieStore = await cookies();
-      const supabase = createClient(cookieStore);
-      const { error } = await supabase.from("newsletter_subscribers").upsert(
-        {
-          email,
-          source,
-          subscribed_at: new Date().toISOString(),
-        },
-        { onConflict: "email" },
-      );
+  try {
+    const { error } = await supabase.from("newsletter_subscribers").insert({
+      email,
+      source,
+      subscribed_at: new Date().toISOString(),
+    });
 
-      if (error) {
-        // Table may not exist yet — still accept the signup so marketing can ship.
-        console.info("[newsletter] supabase upsert skipped:", error.message);
+    if (error) {
+      // Duplicate signup is success for the visitor; other errors still accept so
+      // marketing CTAs stay resilient, but never log the email.
+      const duplicate =
+        error.code === "23505" || /duplicate|unique/i.test(error.message || "");
+      if (!duplicate) {
+        console.info("[newsletter] persistence skipped:", error.code || "unknown");
       }
-    } catch (error) {
-      console.info("[newsletter] supabase unavailable:", error);
     }
-  } else {
-    console.info("[newsletter] accepted without persistence", { email, source });
+  } catch {
+    console.info("[newsletter] persistence unavailable");
   }
 
   return NextResponse.json({ ok: true });

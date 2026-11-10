@@ -32,9 +32,15 @@ describe("auth middleware kitchen allowlist", () => {
     expect(response.headers.get("location")).toBe("http://localhost/login");
   });
 
+  it("sends anonymous `/` visitors to the marketing welcome funnel", async () => {
+    const response = await createClient(requestFor("/"));
+    expect(response.status).toBe(307);
+    expect(response.headers.get("location")).toBe("http://localhost/welcome");
+  });
+
   it("still allows anonymous browsing of static kitchen routes and /desk", async () => {
     for (const path of [
-      "/",
+      "/welcome",
       "/blog",
       "/mission",
       "/journal",
@@ -46,6 +52,12 @@ describe("auth middleware kitchen allowlist", () => {
       const response = await createClient(requestFor(path));
       expect(response.status).toBe(200);
     }
+  });
+
+  it("keeps signed-in users on the app home feed", async () => {
+    mockGetUser.mockResolvedValue({ data: { user: { id: "user-1" } } });
+    const response = await createClient(requestFor("/"));
+    expect(response.status).toBe(200);
   });
 
   it("allows /shop for a signed-in user", async () => {
