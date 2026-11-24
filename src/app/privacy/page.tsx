@@ -80,8 +80,8 @@ export default function PrivacyPage() {
           <strong>Vercel</strong> — hosting, Web Analytics, and Speed Insights
         </li>
         <li>
-          <strong>Vercel AI Gateway / Google Gemini</strong> — generates Fridge
-          Rescue and Shop Upgrader suggestions from the text you enter
+          <strong>Vercel AI Gateway / OpenAI</strong> — generates Fridge Rescue
+          and Shop Upgrader suggestions from the text you enter
         </li>
         <li>
           <strong>ElevenLabs</strong> — turns text into speech for the voice
