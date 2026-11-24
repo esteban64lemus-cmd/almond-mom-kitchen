@@ -94,7 +94,6 @@ export default function RootLayout({
 }>) {
   // Global entity graph: Organization + WebSite + the web app. Name/alternateName pair is what
   // ties "Almond Mom" and "Almond Mom Kitchen" together as one entity for Google.
-  // Add `logo: absoluteUrl("/logo.png")` once a square logo (>=112px) exists in /public.
   const orgId = `${SITE_URL}/#organization`;
   const siteSchema = {
     "@context": "https://schema.org",
@@ -105,6 +104,7 @@ export default function RootLayout({
         name: SITE_NAME,
         alternateName: BRAND_NAME,
         url: SITE_URL,
+        logo: absoluteUrl("/logo.png"),
         email: CONTACT_EMAIL,
         founder: { "@type": "Person", name: FOUNDER_NAME, url: SAME_AS[0] },
         sameAs: SAME_AS,
