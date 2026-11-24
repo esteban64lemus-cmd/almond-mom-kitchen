@@ -56,7 +56,7 @@ interface GroceryUpgradeItem {
 }
 
 /**
- * GEMINI API INTEGRATION with Exponential Backoff
+ * Vercel AI Gateway call (OpenAI gpt-4o) with exponential backoff
  */
 async function fetchAI(
   prompt: string,
