@@ -7,7 +7,19 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { CartProvider } from "@/components/cart-provider";
 import { SavedProvider } from "@/components/saved-provider";
-import { absoluteUrl, DEFAULT_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
+import {
+  absoluteUrl,
+  BRAND_NAME,
+  CONTACT_EMAIL,
+  DEFAULT_DESCRIPTION,
+  FOUNDER_NAME,
+  SAME_AS,
+  SITE_KEYWORDS,
+  SITE_NAME,
+  SITE_TITLE,
+  SITE_URL,
+  X_HANDLE,
+} from "@/lib/site";
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -39,29 +51,40 @@ const caveat = Caveat({
   variable: "--font-caveat",
 });
 
+// No `alternates.canonical` here on purpose: a root-layout canonical is inherited by every
+// page that doesn't set its own, which would tell Google they're all duplicates of `/`.
+// Each indexable page sets its own canonical instead.
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "ALMOND MOM | Organic Luxury Kitchen",
+  title: SITE_TITLE,
   description: DEFAULT_DESCRIPTION,
   applicationName: SITE_NAME,
+  keywords: SITE_KEYWORDS,
+  authors: [{ name: FOUNDER_NAME, url: absoluteUrl("/mission") }],
   openGraph: {
-    title: "ALMOND MOM | Organic Luxury Kitchen",
+    title: SITE_TITLE,
     description: DEFAULT_DESCRIPTION,
     siteName: SITE_NAME,
     locale: "en_US",
     type: "website",
-    images: [{ url: "/images/hero.png", alt: "Almond Mom organic luxury kitchen" }],
+    images: [{ url: "/images/hero.png", alt: "Almond Mom Kitchen" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "ALMOND MOM | Organic Luxury Kitchen",
+    title: SITE_TITLE,
     description: DEFAULT_DESCRIPTION,
     images: ["/images/hero.png"],
+    ...(X_HANDLE ? { site: X_HANDLE, creator: X_HANDLE } : {}),
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
   },
+  // Search Console → Settings → Ownership verification → HTML tag → paste the content value into Vercel env.
+  ...(process.env.NEXT_PUBLIC_GSC_VERIFICATION
+    ? { verification: { google: process.env.NEXT_PUBLIC_GSC_VERIFICATION } }
+    : {}),
 };
 
 export default function RootLayout({
@@ -69,17 +92,41 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Inject global organization Schema.org JSON-LD structured data
-  const orgSchema = {
+  // Global entity graph: Organization + WebSite + the web app. Name/alternateName pair is what
+  // ties "Almond Mom" and "Almond Mom Kitchen" together as one entity for Google.
+  // Add `logo: absoluteUrl("/logo.png")` once a square logo (>=112px) exists in /public.
+  const orgId = `${SITE_URL}/#organization`;
+  const siteSchema = {
     "@context": "https://schema.org",
-    "@type": "Organization",
-    name: SITE_NAME,
-    url: SITE_URL,
-    logo: absoluteUrl("/logo.png"),
-    sameAs: [
-      "https://esteban.almondmom.online",
-      "https://github.com/esteban64lemus-cmd/almond-mom-kitchen",
-      "https://instagram.com/a_bagel_hater",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": orgId,
+        name: SITE_NAME,
+        alternateName: BRAND_NAME,
+        url: SITE_URL,
+        email: CONTACT_EMAIL,
+        founder: { "@type": "Person", name: FOUNDER_NAME, url: SAME_AS[0] },
+        sameAs: SAME_AS,
+      },
+      {
+        "@type": "WebSite",
+        "@id": `${SITE_URL}/#website`,
+        name: SITE_NAME,
+        alternateName: BRAND_NAME,
+        url: SITE_URL,
+        publisher: { "@id": orgId },
+      },
+      {
+        "@type": "WebApplication",
+        name: SITE_NAME,
+        alternateName: BRAND_NAME,
+        url: SITE_URL,
+        applicationCategory: "HealthApplication",
+        operatingSystem: "Web",
+        description: DEFAULT_DESCRIPTION,
+        publisher: { "@id": orgId },
+      },
     ],
   };
 
@@ -99,7 +146,7 @@ export default function RootLayout({
       )}
     >
       <head>
-        <SEOHandler schemaData={orgSchema} />
+        <SEOHandler schemaData={siteSchema} />
       </head>
       <body suppressHydrationWarning className="bg-cream text-ink flex min-h-full flex-col font-sans">
         <CartProvider>

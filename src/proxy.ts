@@ -7,6 +7,8 @@ export async function proxy(request: NextRequest) {
   return await createClient(request);
 }
 
+// sitemap.xml / robots.txt are excluded so crawlers (always logged out) can read them;
+// the auth gate was redirecting them to /login. Also allow-listed in utils/supabase/middleware.ts.
 export const config = {
   matcher: [
     /*
@@ -16,6 +18,6 @@ export const config = {
      * - favicon.ico (favicon file)
      * Feel free to modify this pattern to include more paths.
      */
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+    "/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
   ],
 };

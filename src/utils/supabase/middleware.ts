@@ -61,8 +61,13 @@ export const createClient = async (request: NextRequest) => {
 
   const kitchen =
     path === "/login" ||
+    path === "/sitemap.xml" ||
+    path === "/robots.txt" ||
     path === "/welcome" ||
     path === "/mission" ||
+    path === "/privacy" ||
+    path === "/terms" ||
+    path === "/contact" ||
     path === "/saved" ||
     path === "/cart" ||
     path === "/desk" ||

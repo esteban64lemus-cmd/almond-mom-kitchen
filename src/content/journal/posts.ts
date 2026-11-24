@@ -1,3 +1,5 @@
+import { pillarGuides } from "./pillar-guides";
+
 export type JournalPost = {
   slug: string;
   title: string;
@@ -9,7 +11,7 @@ export type JournalPost = {
   sections: { heading: string; body: string[] }[];
 };
 
-export const journalPosts: JournalPost[] = [
+const corePosts: JournalPost[] = [
   {
     slug: "seed-oil-free-grocery-swaps",
     title: "Seed Oil Free Grocery Swaps That Still Taste Like Luxury",
@@ -25,7 +27,7 @@ export const journalPosts: JournalPost[] = [
         heading: "Why seed oils show up everywhere",
         body: [
           "Canola, soybean, sunflower, and “vegetable oil” blends are cheap, shelf-stable, and hidden in sauces, chips, tortillas, and takeout. If you are searching for seed oil free recipes, the first win is usually the grocery cart — not a new cookbook.",
-          "Zaya’s take: prevention starts at the label. Western nutrition guidance already pushes whole foods; the holistic layer is noticing how often industrial oils sneak into “healthy” products.",
+          "Our take: prevention starts at the label. Western nutrition guidance already pushes whole foods; the holistic layer is noticing how often industrial oils sneak into “healthy” products.",
         ],
       },
       {
@@ -96,7 +98,7 @@ export const journalPosts: JournalPost[] = [
       {
         heading: "Prevention is a repeatable kitchen system",
         body: [
-          "Zaya Health Journal exists for the questions between doctor visits: how do you eat in a way that supports energy, recovery, and long-term vitality?",
+          "The Almond Mom Journal exists for the questions between doctor visits: how do you eat in a way that supports energy, recovery, and long-term vitality?",
           "Western nutrition gives clear levers — protein, fiber, micronutrients, sleep-supporting evening meals. Holistic practice adds attention: cook more of what you can pronounce, notice how seed oils and ultra-processed snacks feel in your body.",
         ],
       },
@@ -120,6 +122,8 @@ export const journalPosts: JournalPost[] = [
     ],
   },
 ];
+
+export const journalPosts: JournalPost[] = [...corePosts, ...pillarGuides];
 
 export function getJournalPost(slug: string) {
   return journalPosts.find((post) => post.slug === slug);
