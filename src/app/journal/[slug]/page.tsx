@@ -6,6 +6,7 @@ import { MarketingFooter, MarketingNav } from "@/components/marketing/site-chrom
 import { NewsletterForm } from "@/components/marketing/newsletter-form";
 import { ConversionCta } from "@/components/marketing/conversion-cta";
 import { SEOHandler } from "@/components/global/SEO-Handler";
+import { InlineMarkdown } from "@/components/marketing/inline-markdown";
 import { getAllJournalSlugs, getJournalPost, journalPosts } from "@/content/journal/posts";
 import { absoluteUrl, SITE_NAME } from "@/lib/site";
 
@@ -22,7 +23,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const post = getJournalPost(slug);
   if (!post) return { title: "Article not found" };
 
-  const title = `${post.title} | Zaya Health Journal`;
+  const title = `${post.title} | Almond Mom Journal`;
   return {
     title,
     description: post.description,
@@ -82,7 +83,7 @@ export default async function JournalArticlePage({ params }: PageProps) {
       <article className="px-6 pt-28 pb-16">
         <div className="mx-auto max-w-3xl">
           <p className="text-xs font-bold tracking-[0.28em] text-sage uppercase">
-            Zaya · Health Journal
+            Almond Mom · Health Journal
           </p>
           <h1 className="mt-4 font-serif text-4xl leading-tight font-bold md:text-5xl">
             {post.title}
@@ -115,7 +116,7 @@ export default async function JournalArticlePage({ params }: PageProps) {
               <h2 className="font-serif text-2xl font-bold md:text-3xl">{section.heading}</h2>
               {section.body.map((paragraph) => (
                 <p key={paragraph.slice(0, 48)} className="mt-4 text-base leading-relaxed text-ink/75">
-                  {paragraph}
+                  <InlineMarkdown text={paragraph} />
                 </p>
               ))}
             </section>

@@ -13,6 +13,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: absoluteUrl("/blog"), lastModified: now, changeFrequency: "weekly", priority: 0.9 },
     { url: absoluteUrl("/journal"), lastModified: now, changeFrequency: "weekly", priority: 0.9 },
     { url: absoluteUrl("/desk"), lastModified: now, changeFrequency: "monthly", priority: 0.6 },
+    { url: absoluteUrl("/contact"), lastModified: now, changeFrequency: "yearly", priority: 0.4 },
+    { url: absoluteUrl("/privacy"), lastModified: now, changeFrequency: "yearly", priority: 0.3 },
+    { url: absoluteUrl("/terms"), lastModified: now, changeFrequency: "yearly", priority: 0.3 },
   ];
 
   const recipeRoutes: MetadataRoute.Sitemap = recipes.map((recipe) => ({

@@ -81,6 +81,19 @@ export function MarketingFooter() {
           >
             Desk by Seb
           </Link>
+          {[
+            { href: "/contact", label: "Contact" },
+            { href: "/privacy", label: "Privacy" },
+            { href: "/terms", label: "Terms" },
+          ].map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="text-xs font-bold tracking-widest text-ink/60 uppercase transition-colors hover:text-ink"
+            >
+              {link.label}
+            </Link>
+          ))}
           <a
             href="https://instagram.com/a_bagel_hater"
             target="_blank"

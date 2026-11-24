@@ -9,9 +9,9 @@ import { SEOHandler } from "@/components/global/SEO-Handler";
 import { journalPosts } from "@/content/journal/posts";
 import { absoluteUrl, SITE_NAME } from "@/lib/site";
 
-const title = "Zaya Health Journal | Preventive Kitchen Notes by Almond Mom";
+const title = "Almond Mom Journal | Preventive Kitchen Notes";
 const description =
-  "Zaya · Health Journal by Almond Mom — preventive health habits, seed oil free grocery guidance, and almond mom clean eating notes.";
+  "The Almond Mom Journal — preventive health habits, seed oil free grocery guidance, and almond mom clean eating notes.";
 
 export const metadata: Metadata = {
   title,
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
 const schema = {
   "@context": "https://schema.org",
   "@type": "Blog",
-  name: "Zaya Health Journal",
+  name: "Almond Mom Journal",
   description,
   url: absoluteUrl("/journal"),
   publisher: {
@@ -56,7 +56,7 @@ export default function JournalIndexPage() {
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(156,175,136,0.2),transparent_40%),linear-gradient(180deg,#fff8f1_0%,#f6efdc_100%)]" />
         <div className="relative mx-auto max-w-5xl">
           <p className="text-xs font-bold tracking-[0.28em] text-sage uppercase">
-            Zaya · Health Journal by Almond Mom
+            Almond Mom · Health Journal
           </p>
           <h1 className="mt-4 max-w-3xl font-serif text-5xl leading-[1.05] font-bold md:text-6xl">
             Preventive health notes that end in the kitchen.
