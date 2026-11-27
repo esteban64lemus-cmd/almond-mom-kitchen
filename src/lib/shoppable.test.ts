@@ -55,7 +55,7 @@ describe("parseIngredientLine", () => {
   });
 
   it("turns the bone broth and sushi meals into their real ingredients", () => {
-    const broth = recipes.find((recipe) => recipe.slug === "bone-broth-detox-soup")!;
+    const broth = recipes.find((recipe) => recipe.slug === "bone-broth-soup")!;
     expect(broth.ingredients.map((line) => names(line)[0].productName)).toEqual([
       "High-Quality Grass-Fed Beef Bone Broth",
       "Organic Kale",

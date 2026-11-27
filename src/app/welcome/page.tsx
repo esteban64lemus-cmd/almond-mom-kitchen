@@ -115,7 +115,7 @@ export default function LandingPage() {
               href="/login" 
               className="group flex items-center gap-2 rounded-full bg-obsidian px-8 py-4 text-lg font-bold text-white transition-all hover:bg-obsidian/90 hover:shadow-2xl hover:shadow-obsidian/20 active:scale-95"
             >
-              Start Your Detox <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+              Start Cooking <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
             </Link>
             <a 
               href="#solutions" 
