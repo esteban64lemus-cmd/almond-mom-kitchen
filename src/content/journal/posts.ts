@@ -1,4 +1,5 @@
 import { pillarGuides } from "./pillar-guides";
+import { denialGuides } from "./denial-guides";
 
 export type JournalPost = {
   slug: string;
@@ -123,7 +124,7 @@ const corePosts: JournalPost[] = [
   },
 ];
 
-export const journalPosts: JournalPost[] = [...corePosts, ...pillarGuides];
+export const journalPosts: JournalPost[] = [...denialGuides, ...corePosts, ...pillarGuides];
 
 export function getJournalPost(slug: string) {
   return journalPosts.find((post) => post.slug === slug);
