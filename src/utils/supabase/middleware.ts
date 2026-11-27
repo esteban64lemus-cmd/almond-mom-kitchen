@@ -68,6 +68,7 @@ export const createClient = async (request: NextRequest) => {
     path === "/privacy" ||
     path === "/terms" ||
     path === "/contact" ||
+    path === "/appeal" ||
     path === "/saved" ||
     path === "/cart" ||
     path === "/desk" ||
