@@ -5,6 +5,7 @@ const navLinks = [
   { href: "/mission", label: "Mission" },
   { href: "/blog", label: "Recipes" },
   { href: "/journal", label: "Journal" },
+  { href: "/appeal", label: "Appeal a Denial" },
   { href: "/desk", label: "Desk" },
 ];
 

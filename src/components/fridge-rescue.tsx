@@ -80,7 +80,7 @@ export default function FridgeRescue() {
   return (
     <div className="animate-in slide-in-bottom space-y-8 duration-500">
       <div className="space-y-2 text-center">
-        <h2 className="font-serif text-3xl italic">Fridge Detox</h2>
+        <h2 className="font-serif text-3xl italic">Fridge Rescue</h2>
         <p className="mx-auto max-w-xs text-sm text-stone-500">
           Is that safe? Let AI audit your fridge and turn the
           &apos;clearest&apos; items into a gourmet meal.
