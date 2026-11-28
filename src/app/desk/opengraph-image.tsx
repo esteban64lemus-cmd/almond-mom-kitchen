@@ -25,7 +25,7 @@ export default function OpenGraphImage() {
             width: 18,
             height: 18,
             borderRadius: 999,
-            background: "#e86a3a",
+            background: "#4b5c42",
           }}
         />
         <div style={{ display: "flex", fontSize: 28, letterSpacing: 3 }}>
@@ -49,7 +49,7 @@ export default function OpenGraphImage() {
             Entry {ENTRY.price}
             /mo
           </div>
-          <div style={{ display: "flex", color: "#e86a3a" }}>
+          <div style={{ display: "flex", color: "#4b5c42" }}>
             Premium {PREMIUM.price}
             /mo
           </div>
